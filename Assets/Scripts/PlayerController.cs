@@ -31,36 +31,39 @@ public class PlayerController : MonoBehaviour
 
     void CheckInputs()
     {
-        float h_input = Input.GetAxisRaw("Horizontal");
-        if (h_input != 0)
+        if (beatManager.GetTimingClass() != TimingClass.INVALID || actionTakenThisBeat)
         {
-            if (prevHorizInputDirection != Mathf.Sign(h_input))
+            float h_input = Input.GetAxisRaw("Horizontal");
+            if (h_input != 0)
             {
-                DoValidityCheck();
-                prevHorizInputDirection = Mathf.Sign(h_input);
-                MoveRelative(new Vector2(prevHorizInputDirection, 0));
-                actionTakenThisBeat = true;
+                if (prevHorizInputDirection != Mathf.Sign(h_input))
+                {
+                    DoValidityCheck();
+                    prevHorizInputDirection = Mathf.Sign(h_input);
+                    MoveRelative(new Vector2(prevHorizInputDirection, 0));
+                    actionTakenThisBeat = true;
+                }
             }
-        }
-        else
-        {
-            prevHorizInputDirection = 0;
-        }
+            else
+            {
+                prevHorizInputDirection = 0;
+            }
 
-        float v_input = Input.GetAxisRaw("Vertical");
-        if (v_input != 0)
-        {
-            if (prevVertInputDirection != Mathf.Sign(v_input))
+            float v_input = Input.GetAxisRaw("Vertical");
+            if (v_input != 0)
             {
-                DoValidityCheck();
-                prevVertInputDirection = Mathf.Sign(v_input);
-                MoveRelative(new Vector2(0, -prevVertInputDirection));
-                actionTakenThisBeat = true;
+                if (prevVertInputDirection != Mathf.Sign(v_input))
+                {
+                    DoValidityCheck();
+                    prevVertInputDirection = Mathf.Sign(v_input);
+                    MoveRelative(new Vector2(0, -prevVertInputDirection));
+                    actionTakenThisBeat = true;
+                }
             }
-        }
-        else
-        {
-            prevVertInputDirection = 0;
+            else
+            {
+                prevVertInputDirection = 0;
+            }
         }
     }
     void DoValidityCheck ()

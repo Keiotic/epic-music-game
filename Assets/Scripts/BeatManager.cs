@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BeatManager : MonoBehaviour
 {
@@ -10,16 +11,16 @@ public class BeatManager : MonoBehaviour
 
 
     private bool musicStarted = false;
-    private bool ignoreBeat;
+    public bool ignoreBeat;
     private float timePassed;
-    private float timeBetweenBeats = 1f;
+    private float timeBetweenBeats = 1/4f;
     private int currentBeat;
-    private float[] borders = {0.05f, 0.1f, 0.3f};
+    private float[] borders = {0.05f, 0.12f, 0.20f};
     private int pastBeat;
     private int beatHeadstart;
     private float beatIndSpeed;
 
-
+    public Text text;
 
     void Start()
     {
@@ -30,9 +31,10 @@ public class BeatManager : MonoBehaviour
         musicStarted = true;
 
         beatIndSpeed = uiManager.GetBeatMovementSpeed();
-        beatHeadstart = (int)Mathf.Ceil(uiManager.GetBeatWrapperWidth() / 2 * beatIndSpeed);
-        float diff = beatHeadstart/uiManager.GetBeatWrapperWidth() / 2 * beatIndSpeed;
+        print(beatHeadstart = (int)Mathf.Ceil((uiManager.GetBeatWrapperWidth() / 2) / beatIndSpeed));
+        float diff = beatHeadstart/((uiManager.GetBeatWrapperWidth() / 2) / beatIndSpeed);
         beatIndSpeed *= diff;
+        timePassed = -(beatHeadstart+0.5f) * timeBetweenBeats;
     }
 
 
@@ -40,22 +42,23 @@ public class BeatManager : MonoBehaviour
     {
         if(musicStarted)
         {
+            text.text = currentBeat.ToString() + " " + GetRelativeBeatTime(currentBeat) + " " + GetTimingClass();
             timePassed += Time.deltaTime;
-            currentBeat = Mathf.RoundToInt((timePassed-beatHeadstart*timeBetweenBeats) / timeBetweenBeats);
+            currentBeat = Mathf.RoundToInt((timePassed) / timeBetweenBeats);
             ignoreBeat = WillIgnoreBeat();
             if(pastBeat != currentBeat)
             {
                 pastBeat = currentBeat;
-                print(currentBeat + ": " + ignoreBeat);
                 NewBeat();
             }
+            uiManager.BeatUpdate(timePassed, timeBetweenBeats);
         }
     }
 
     public TimingClass GetTimingClass()
     {
         int beat = currentBeat;
-        if (!ignoreBeat)
+        if (ignoreBeat == false)
         {
             if (GetAbsRelativeBeatTime(beat) < timeBetweenBeats * borders[0])
                 return TimingClass.EXCELLENT;
@@ -74,7 +77,7 @@ public class BeatManager : MonoBehaviour
 
     public float GetRelativeBeatTime(int beat)
     {
-        return beat * timeBetweenBeats - timePassed;
+        return beat * timeBetweenBeats - (timePassed);
     }
 
     public int GetCurrentBeat()
@@ -90,10 +93,8 @@ public class BeatManager : MonoBehaviour
     public void NewBeat ()
     {
         uiManager.NewBeat(currentBeat);
-        if (currentBeat + beatHeadstart >= 0)
-        {
+        if(currentBeat + beatHeadstart > 0)
             uiManager.CreateBeatIndicator(currentBeat + beatHeadstart);
-        }
     }
 
     public void UpdateUI ()

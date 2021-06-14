@@ -8,8 +8,8 @@ public class UIManager : MonoBehaviour
     public Vector2 beatPos;
     public RectTransform beatWrapper;
     public float beatMoveSpeed;
-
     public List<BeatIndicatorObject> beatIndicators = new List<BeatIndicatorObject>();
+
     public class BeatIndicatorObject
     {
         public int id;
@@ -22,7 +22,6 @@ public class UIManager : MonoBehaviour
     }
     void Start()
     {
-        
     }
 
     void Update()
@@ -30,29 +29,31 @@ public class UIManager : MonoBehaviour
         
     }
 
-    public void BeatUpdate()
+    public void BeatUpdate(float passedTime, float timeBetweenBeats)
     {
        for(int i = 0; i < beatIndicators.Count; i++)
        {
             if(beatIndicators[i].gameObject)
             {
-
+                BeatIndicatorObject bo = beatIndicators[i];
+                RectTransform boTransform = bo.gameObject.GetComponent<RectTransform>();
+                Vector2 intendedPos = boTransform.anchoredPosition;
+                intendedPos.x += beatMoveSpeed*Time.deltaTime;
+                boTransform.anchoredPosition = intendedPos;
             }
        }
     }
 
     public void NewBeat (int beat)
     {
-        if (beat > 0 && beatIndicators.Count > beat)
-        {
-            Destroy(beatIndicators[beat].gameObject);
-        }
+
     }
 
     public void CreateBeatIndicator (int beat)
     {
         BeatIndicatorObject bo = new BeatIndicatorObject(beat, Instantiate(beatIndicator, beatWrapper));
-        bo.gameObject.GetComponent<RectTransform>().anchoredPosition = (Vector2)beatWrapper.position - new Vector2(beatWrapper.sizeDelta.x / 2, 0);
+        bo.gameObject.GetComponent<RectTransform>().anchoredPosition = beatWrapper.anchoredPosition - new Vector2(GetBeatWrapperWidth() / 2, 0);
+        bo.gameObject.transform.name = "Beat-" + beat;
         beatIndicators.Add(bo);
     }
 
