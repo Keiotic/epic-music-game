@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(AudioSource))]
 public class BeatManager : MonoBehaviour
 {
     public Track track;
     private UIManager uiManager;
     private List<Beat> beats = new List<Beat>();
+    public AudioSource mySource;
+    public AudioClip beatAudio;
 
 
     private bool musicStarted = false;
     public bool ignoreBeat;
     private float timePassed;
-    private float timeBetweenBeats = 1/4f;
+    private float timeBetweenBeats = 1f;
     private int currentBeat;
-    private float[] borders = {0.05f, 0.12f, 0.20f};
+    private float[] borders = {0.1f, 0.2f, 0.3f};
     private int pastBeat;
     private int beatHeadstart;
     private float beatIndSpeed;
@@ -24,6 +27,7 @@ public class BeatManager : MonoBehaviour
 
     void Start()
     {
+        mySource = GetComponent<AudioSource>();
         uiManager = GetComponent<UIManager>();
         timePassed = 0;
         currentBeat = 0;
@@ -31,13 +35,13 @@ public class BeatManager : MonoBehaviour
         musicStarted = true;
 
         beatIndSpeed = uiManager.GetBeatMovementSpeed();
-        print(beatHeadstart = (int)Mathf.Ceil((uiManager.GetBeatWrapperWidth() / 2) / beatIndSpeed));
+        print(beatHeadstart = (int)Mathf.Ceil((uiManager.GetBeatWrapperWidth() / 2) / beatIndSpeed/timeBetweenBeats));
         float diff = beatHeadstart/((uiManager.GetBeatWrapperWidth() / 2) / beatIndSpeed);
         beatIndSpeed *= diff;
         timePassed = -(beatHeadstart+0.5f) * timeBetweenBeats;
     }
 
-
+    TimingClass cls = TimingClass.INVALID;
     void Update()
     {
         if(musicStarted)
@@ -46,6 +50,16 @@ public class BeatManager : MonoBehaviour
             timePassed += Time.deltaTime;
             currentBeat = Mathf.RoundToInt((timePassed) / timeBetweenBeats);
             ignoreBeat = WillIgnoreBeat();
+
+            if(cls != TimingClass.EXCELLENT && GetTimingClass() == TimingClass.EXCELLENT)
+            {
+                mySource.PlayOneShot(beatAudio);
+                cls = TimingClass.EXCELLENT;
+            }
+            else if (cls != TimingClass.INVALID && GetTimingClass() == TimingClass.INVALID)
+            {
+                cls = TimingClass.INVALID;
+            }
             if(pastBeat != currentBeat)
             {
                 pastBeat = currentBeat;

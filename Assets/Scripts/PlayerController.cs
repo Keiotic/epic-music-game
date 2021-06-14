@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     void CheckInputs()
     {
-        if (beatManager.GetTimingClass() != TimingClass.INVALID || actionTakenThisBeat)
+        if (beatManager.GetTimingClass() != TimingClass.INVALID && !actionTakenThisBeat)
         {
             float h_input = Input.GetAxisRaw("Horizontal");
             if (h_input != 0)
