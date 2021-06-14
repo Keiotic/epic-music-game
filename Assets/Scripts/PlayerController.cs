@@ -24,10 +24,7 @@ public class PlayerController : MonoBehaviour
             actionTakenThisBeat = false;
             currentBeat = beatManager.GetCurrentBeat();
         }
-        if (!actionTakenThisBeat && beatManager.GetTimingClass(currentBeat) != TimingClass.INVALID)
-            CheckInputs();
-        else
-            InvalidInput();
+        CheckInputs();
         gridEntity.LinearilyInterpolatePosition();
 
     }
@@ -39,6 +36,7 @@ public class PlayerController : MonoBehaviour
         {
             if (prevHorizInputDirection != Mathf.Sign(h_input))
             {
+                DoValidityCheck();
                 prevHorizInputDirection = Mathf.Sign(h_input);
                 MoveRelative(new Vector2(prevHorizInputDirection, 0));
                 actionTakenThisBeat = true;
@@ -54,6 +52,7 @@ public class PlayerController : MonoBehaviour
         {
             if (prevVertInputDirection != Mathf.Sign(v_input))
             {
+                DoValidityCheck();
                 prevVertInputDirection = Mathf.Sign(v_input);
                 MoveRelative(new Vector2(0, -prevVertInputDirection));
                 actionTakenThisBeat = true;
@@ -64,10 +63,16 @@ public class PlayerController : MonoBehaviour
             prevVertInputDirection = 0;
         }
     }
-
+    void DoValidityCheck ()
+    {
+        if (actionTakenThisBeat || beatManager.GetTimingClass() == TimingClass.INVALID)
+        {
+            InvalidInput();
+        }
+    }
     void InvalidInput()
     {
-        
+        print("Whoops");
     }
 
     void MoveRelative(Vector2 movement)
