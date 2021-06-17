@@ -16,7 +16,7 @@ public class BeatManager : MonoBehaviour
     private bool musicStarted = false;
     public bool ignoreBeat;
     private float timePassed;
-    private float timeBetweenBeats = 1f;
+    private float timeBetweenBeats = 1/2f;
     private int currentBeat;
     private float[] borders = {0.1f, 0.2f, 0.3f};
     private int pastBeat;
@@ -46,10 +46,10 @@ public class BeatManager : MonoBehaviour
     {
         if(musicStarted)
         {
-            text.text = currentBeat.ToString() + " " + GetRelativeBeatTime(currentBeat) + " " + GetTimingClass();
+            text.text = currentBeat.ToString();
             timePassed += Time.deltaTime;
             currentBeat = Mathf.RoundToInt((timePassed) / timeBetweenBeats);
-            ignoreBeat = WillIgnoreBeat();
+            ignoreBeat = WillIgnoreBeat(currentBeat);
 
             if(cls != TimingClass.EXCELLENT && GetTimingClass() == TimingClass.EXCELLENT)
             {
@@ -99,16 +99,24 @@ public class BeatManager : MonoBehaviour
         return currentBeat;
     }
 
-    public bool WillIgnoreBeat()
+    public bool WillIgnoreBeat(int beat)
     {
-        return currentBeat < 0;
+        bool skip = false;
+        for(int i = 0; i < track.ignoredBeats.Length; i++)
+        {
+            if(track.ignoredBeats[i] == beat)
+            skip = true;
+        }
+        return beat < 0 || skip;
     }
 
     public void NewBeat ()
     {
-        uiManager.NewBeat(currentBeat);
-        if(currentBeat + beatHeadstart > 0)
+        if(currentBeat + beatHeadstart >= 0 && !WillIgnoreBeat(currentBeat))
             uiManager.CreateBeatIndicator(currentBeat + beatHeadstart);
+
+        if (currentBeat > 0) ;
+            //uiManager.RemoveBeat(currentBeat - 1);
     }
 
     public void UpdateUI ()

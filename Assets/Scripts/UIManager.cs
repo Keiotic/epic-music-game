@@ -13,11 +13,13 @@ public class UIManager : MonoBehaviour
     public class BeatIndicatorObject
     {
         public int id;
-        public GameObject gameObject;
-        public BeatIndicatorObject(int id, GameObject gameObject)
+        public GameObject gameObjectLeft;
+        public GameObject gameObjectRight;
+        public BeatIndicatorObject(int id, GameObject gameObjectLeft, GameObject gameObjectRight)
         {
             this.id = id;
-            this.gameObject = gameObject;
+            this.gameObjectLeft = gameObjectLeft;
+            this.gameObjectRight = gameObjectRight;
         }
     }
     void Start()
@@ -33,27 +35,49 @@ public class UIManager : MonoBehaviour
     {
        for(int i = 0; i < beatIndicators.Count; i++)
        {
-            if(beatIndicators[i].gameObject)
+            if(beatIndicators[i].gameObjectLeft && beatIndicators[i].gameObjectRight)
             {
                 BeatIndicatorObject bo = beatIndicators[i];
-                RectTransform boTransform = bo.gameObject.GetComponent<RectTransform>();
-                Vector2 intendedPos = boTransform.anchoredPosition;
-                intendedPos.x += beatMoveSpeed*Time.deltaTime;
-                boTransform.anchoredPosition = intendedPos;
+                SetBOPosition(bo.gameObjectLeft.GetComponent<RectTransform>(), bo.id, passedTime, timeBetweenBeats, 1);
+                SetBOPosition(bo.gameObjectRight.GetComponent<RectTransform>(), bo.id, passedTime, timeBetweenBeats, -1);
             }
        }
     }
 
-    public void NewBeat (int beat)
+    public void SetBOPosition (RectTransform boTransform, int id, float passedTime, float timeBetweenBeats,int directionModifier)
     {
+        Vector2 intendedPos = boTransform.anchoredPosition;
+        Vector2 border = new Vector2();
+        if(directionModifier>0)
+        {
+            border.x = -Mathf.Infinity;
+            border.y = 0;
+        }
+        else
+        {
+            border.x = 0;
+            border.y = Mathf.Infinity;
+        }
+        intendedPos.x = Mathf.Clamp((passedTime - timeBetweenBeats * id) * GetBeatWrapperWidth() / 2*directionModifier, border.x, border.y);
+        boTransform.anchoredPosition = intendedPos;
+    }
 
+    public void RemoveBeat (int beat)
+    {
+        BeatIndicatorObject b = beatIndicators[0];
+        beatIndicators.Remove(b);
+        Destroy(b.gameObjectLeft);
+        Destroy(b.gameObjectRight);
     }
 
     public void CreateBeatIndicator (int beat)
     {
-        BeatIndicatorObject bo = new BeatIndicatorObject(beat, Instantiate(beatIndicator, beatWrapper));
-        bo.gameObject.GetComponent<RectTransform>().anchoredPosition = beatWrapper.anchoredPosition - new Vector2(GetBeatWrapperWidth() / 2, 0);
-        bo.gameObject.transform.name = "Beat-" + beat;
+        BeatIndicatorObject bo = new BeatIndicatorObject(beat, Instantiate(beatIndicator, beatWrapper), Instantiate(beatIndicator, beatWrapper));
+        bo.gameObjectLeft.GetComponent<RectTransform>().anchoredPosition = beatWrapper.anchoredPosition - new Vector2(GetBeatWrapperWidth() / 2, 0);
+        bo.gameObjectLeft.transform.name = "BeatL-" + beat;
+
+        bo.gameObjectRight.GetComponent<RectTransform>().anchoredPosition = beatWrapper.anchoredPosition + new Vector2(GetBeatWrapperWidth() / 2, 0);
+        bo.gameObjectRight.transform.name = "BeatR" + beat;
         beatIndicators.Add(bo);
     }
 
