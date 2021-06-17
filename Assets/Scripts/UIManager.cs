@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -31,20 +32,29 @@ public class UIManager : MonoBehaviour
         
     }
 
-    public void BeatUpdate(float passedTime, float timeBetweenBeats)
+    public void BeatUpdate(float passedTime, float timeBetweenBeats, int currentbeat)
     {
        for(int i = 0; i < beatIndicators.Count; i++)
        {
             if(beatIndicators[i].gameObjectLeft && beatIndicators[i].gameObjectRight)
             {
                 BeatIndicatorObject bo = beatIndicators[i];
-                SetBOPosition(bo.gameObjectLeft.GetComponent<RectTransform>(), bo.id, passedTime, timeBetweenBeats, 1);
-                SetBOPosition(bo.gameObjectRight.GetComponent<RectTransform>(), bo.id, passedTime, timeBetweenBeats, -1);
+                SetBOPosition(bo.gameObjectLeft.GetComponent<RectTransform>(), bo.id, passedTime, timeBetweenBeats, 1, currentbeat);
+                SetBOPosition(bo.gameObjectRight.GetComponent<RectTransform>(), bo.id, passedTime, timeBetweenBeats, -1, currentbeat);
+                SetBOColor(bo.gameObjectLeft, passedTime, bo.id, timeBetweenBeats);
+                SetBOColor(bo.gameObjectRight, passedTime, bo.id, timeBetweenBeats);
             }
        }
     }
+    
+    public void SetBOColor (GameObject go, float passedTime, int id, float timeBetweenBeats)
+    {
+        Color c = Color.white;
+        c.a = 1-((id) * timeBetweenBeats-passedTime);
 
-    public void SetBOPosition (RectTransform boTransform, int id, float passedTime, float timeBetweenBeats,int directionModifier)
+        go.GetComponent<Image>().color = c;
+    }
+    public void SetBOPosition (RectTransform boTransform, int id, float passedTime, float timeBetweenBeats, int directionModifier, int currentbeat)
     {
         Vector2 intendedPos = boTransform.anchoredPosition;
         Vector2 border = new Vector2();
@@ -58,7 +68,7 @@ public class UIManager : MonoBehaviour
             border.x = 0;
             border.y = Mathf.Infinity;
         }
-        intendedPos.x = Mathf.Clamp((passedTime - timeBetweenBeats * id) * GetBeatWrapperWidth() / 2*directionModifier, border.x, border.y);
+        intendedPos.x = Mathf.Clamp(((passedTime - id * timeBetweenBeats)) * GetBeatWrapperWidth() / 2*directionModifier, border.x, border.y);
         boTransform.anchoredPosition = intendedPos;
     }
 
@@ -70,14 +80,14 @@ public class UIManager : MonoBehaviour
         Destroy(b.gameObjectRight);
     }
 
-    public void CreateBeatIndicator (int beat)
+    public void CreateBeatIndicator (int beat, int headstart)
     {
-        BeatIndicatorObject bo = new BeatIndicatorObject(beat, Instantiate(beatIndicator, beatWrapper), Instantiate(beatIndicator, beatWrapper));
+        BeatIndicatorObject bo = new BeatIndicatorObject(beat + headstart, Instantiate(beatIndicator, beatWrapper), Instantiate(beatIndicator, beatWrapper));
         bo.gameObjectLeft.GetComponent<RectTransform>().anchoredPosition = beatWrapper.anchoredPosition - new Vector2(GetBeatWrapperWidth() / 2, 0);
-        bo.gameObjectLeft.transform.name = "BeatL-" + beat;
+        bo.gameObjectLeft.transform.name = "BeatL-" + (beat);
 
         bo.gameObjectRight.GetComponent<RectTransform>().anchoredPosition = beatWrapper.anchoredPosition + new Vector2(GetBeatWrapperWidth() / 2, 0);
-        bo.gameObjectRight.transform.name = "BeatR" + beat;
+        bo.gameObjectRight.transform.name = "BeatR" + (beat);
         beatIndicators.Add(bo);
     }
 

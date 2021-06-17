@@ -862,7 +862,7 @@ MonoBehaviour:
     type: 3}
   beatPos: {x: 0, y: 0}
   beatWrapper: {fileID: 353239791}
-  beatMoveSpeed: 300
+  beatMoveSpeed: 500
 --- !u!82 &1941933492
 AudioSource:
   m_ObjectHideFlags: 0
