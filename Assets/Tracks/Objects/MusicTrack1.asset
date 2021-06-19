@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bpm: 180
   beatsTillStart: 4
-  ignoredBeats: 
+  ignoredBeats: 11000000
   audio: {fileID: 0}

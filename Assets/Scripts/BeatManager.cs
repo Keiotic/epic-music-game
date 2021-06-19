@@ -115,8 +115,9 @@ public class BeatManager : MonoBehaviour
         if(currentBeat + beatsToStart >= 0 && !WillIgnoreBeat(currentBeat+beatsToStart))
             uiManager.CreateBeatIndicator(currentBeat, beatsToStart);
 
-        if (currentBeat > 0) ;
+        if (currentBeat > 0)
             //uiManager.RemoveBeat(currentBeat - 1);
+        ;
     }
 
     public void UpdateUI ()

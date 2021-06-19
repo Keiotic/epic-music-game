@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour
     public void SetBOColor (GameObject go, float passedTime, int id, float timeBetweenBeats)
     {
         Color c = Color.white;
-        c.a = 1-((id) * timeBetweenBeats-passedTime);
+        c.a = Mathf.Sign(1-((id) * timeBetweenBeats - passedTime));
 
         go.GetComponent<Image>().color = c;
     }

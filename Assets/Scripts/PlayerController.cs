@@ -64,6 +64,16 @@ public class PlayerController : MonoBehaviour
             {
                 prevVertInputDirection = 0;
             }
+
+            if(Input.GetButtonDown("Fire1"))
+            {
+                
+            }
+
+            if (Input.GetButtonDown("Fire2"))
+            {
+
+            }
         }
     }
     void DoValidityCheck ()
