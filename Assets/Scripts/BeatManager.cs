@@ -94,6 +94,11 @@ public class BeatManager : MonoBehaviour
         return beat * timeBetweenBeats - (timePassed);
     }
 
+    public float GetTimeBetweenBeats()
+    {
+        return timeBetweenBeats;
+    }
+
     public int GetCurrentBeat()
     {
         return currentBeat;

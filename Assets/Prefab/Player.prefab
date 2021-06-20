@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2562100283572248903}
   - component: {fileID: 6118083754514214792}
   - component: {fileID: 1222914340263039728}
+  - component: {fileID: 1373084030619446169}
   - component: {fileID: 6291999137113507350}
   m_Layer: 0
   m_Name: player
@@ -111,6 +112,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cda7736feba058942abaabc2c7561286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  primaryAttack:
+    bullet: {fileID: 300375393567912857, guid: c0f2a8dbb159f1d4fa89c96a069974c6, type: 3}
+    gridSpeed: 5
+    damage: 2
+    audio: {fileID: 0}
+    volume: 0
+    pitch: 0
+    randomPitch: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+--- !u!114 &1373084030619446169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2562100283572248902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14732f1c43311a64d9a2afe3b62535bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customized: 0
+  customizations:
+    positionIsAbsolute: 0
+    position: {x: 0, y: 0}
+    rotationIsAbsolute: 0
+    rotation: 0
 --- !u!114 &6291999137113507350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,3 +153,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee878044d8cf32840a27413e9a85aa15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
