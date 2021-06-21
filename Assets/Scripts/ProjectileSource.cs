@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof (AudioSource))]
 public class ProjectileSource : MonoBehaviour
 {
     public bool customized;
     public Customizations customizations;
+    private AudioSource audioSource;
+
     [System.Serializable]
     public class Customizations
     {
@@ -14,11 +17,13 @@ public class ProjectileSource : MonoBehaviour
         public bool rotationIsAbsolute = false;
         public float rotation;
     }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();    
     }
+
 
     // Update is called once per frame
     void Update()
@@ -46,6 +51,16 @@ public class ProjectileSource : MonoBehaviour
         {
             Destroy(proj);
             throw new MissingComponentException("The projectile: " + proj.name + " is missing a Projectile component!");
+        }
+    }
+    public void PlayFiringSound(AudioClip audio, float volume, float pitch, float randompitch)
+    {
+        if (audio)
+        {
+            audioSource.clip = audio;
+            audioSource.volume = volume;
+            audioSource.pitch = pitch + Random.Range(-randompitch, randompitch);
+            audioSource.Play();
         }
     }
 }
