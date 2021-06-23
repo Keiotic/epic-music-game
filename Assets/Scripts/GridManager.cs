@@ -56,6 +56,10 @@ public class GridManager : MonoBehaviour
         return gridpos;
     }
 
+    public Vector2 GetGridSize()
+    {
+        return gridSize();
+    }
     public float GetGridBoxSize ()
     {
         return gridSquareSize;

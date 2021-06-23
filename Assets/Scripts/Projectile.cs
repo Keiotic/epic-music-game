@@ -52,7 +52,6 @@ public class Projectile : MonoBehaviour
                 RegisterHit(hit.collider.gameObject);
             }
         }
-
     }
 
     public void RegisterHit(GameObject hit)

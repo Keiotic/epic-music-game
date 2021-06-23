@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GridEntity : MonoBehaviour
 {
-    public Vector2 gridPosition = new Vector2();
+    private Vector2 gridPosition = new Vector2();
     private Vector2 worldPosition = new Vector2();
     private GridManager gridManager;
     private bool caged;
@@ -28,6 +28,11 @@ public class GridEntity : MonoBehaviour
     public void MoveToAbsolutePosition(Vector2 gridpos)
     {
         gridPosition = gridpos;
+    }
+
+    public void Warp()
+    {
+        transform.position = gridManager.GridToWorldCoordinates(gridPosition);
     }
 
     public void LinearilyInterpolatePosition ()
