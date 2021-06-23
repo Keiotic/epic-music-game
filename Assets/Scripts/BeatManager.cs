@@ -18,7 +18,7 @@ public class BeatManager : MonoBehaviour
     private float timePassed;
     private float timeBetweenBeats = 1/2f;
     private int currentBeat;
-    private float[] borders = {0.1f, 0.2f, 0.3f};
+    public float[] borders = {0.1f, 0.2f, 0.3f};
     private int pastBeat;
     private int beatsToStart;
     private float beatIndSpeed;

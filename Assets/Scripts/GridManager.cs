@@ -58,7 +58,7 @@ public class GridManager : MonoBehaviour
 
     public Vector2 GetGridSize()
     {
-        return gridSize();
+        return gridSize;
     }
     public float GetGridBoxSize ()
     {

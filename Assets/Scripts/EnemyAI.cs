@@ -11,14 +11,18 @@ public abstract class EnemyAI : MonoBehaviour
         
     }
 
-    public void InitializeEnemy()
+    public virtual void InitializeEnemy()
     {
 
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void CheckForPlayer()
     {
-        
+
+    }
+
+    public virtual void Update()
+    {
+
     }
 }

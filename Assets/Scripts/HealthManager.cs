@@ -5,7 +5,7 @@ using UnityEngine;
 public class HealthManager : MonoBehaviour
 {
     public int maxHealth = 100;
-    int health;
+    public int health;
     bool dead = false;
 
     // Start is called before the first frame update
@@ -22,6 +22,7 @@ public class HealthManager : MonoBehaviour
             Die();
         }
     }
+
     public void Die()
     {
         dead = true;

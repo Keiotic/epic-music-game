@@ -17,21 +17,24 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        gridManager = GetComponent<GridManager>();
+        beatManager = GetComponent<BeatManager>();
+        uiManager = GetComponent<UIManager>();
+        StartCoroutine(StartGame());
     }
 
     public IEnumerator StartGame()
     {
-
-        yield return new WaitForSeconds(4);
         SpawnPlayer();
+        print("Started Couroutine");
+        yield return new WaitForSeconds(4);
     }
 
     public void SpawnPlayer()
     {
         playerObject = Instantiate(playerPrefab, this.transform);
         GridEntity pEnt = playerObject.GetComponent<GridEntity>();
-        pEnt.MoveToAbsolutePosition();
+        pEnt.MoveToAbsolutePosition(new Vector2(Mathf.Round(gridManager.GetGridSize().x / 2), Mathf.Round(gridManager.GetGridSize().y / 2)));
     }
 
     // Update is called once per frame
