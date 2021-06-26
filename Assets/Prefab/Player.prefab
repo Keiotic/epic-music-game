@@ -100,7 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e907a42be6e191741bb0ccdc05d5bc22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridPosition: {x: 0, y: 0}
   interpolateSpeed: 300
 --- !u!114 &1222914340263039728
 MonoBehaviour:
@@ -116,8 +115,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryAttack:
     bullet: {fileID: 300375393567912857, guid: c0f2a8dbb159f1d4fa89c96a069974c6, type: 3}
-    gridSpeed: 4
-    damage: 2
+    gridSpeed: 8
+    damage: 4
     audio: {fileID: 0}
     volume: 0
     pitch: 0
@@ -155,7 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee878044d8cf32840a27413e9a85aa15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 20
+  health: 0
 --- !u!82 &141163088810626938
 AudioSource:
   m_ObjectHideFlags: 0

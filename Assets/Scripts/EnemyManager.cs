@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject SpawnEnemy(GameObject enemy, Vector2 position, float zRotation)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameObject go = Instantiate(enemy, position, Quaternion.Euler(0, 0, zRotation));
+        EnemyAI ai = go.GetComponent<EnemyAI>();
+        ai.InitializeEnemy();
+        return go;
     }
 }
