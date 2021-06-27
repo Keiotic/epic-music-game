@@ -8,7 +8,11 @@ public abstract class EnemyAI : MonoBehaviour
     protected Vector2 targetVector;
     protected GridManager gridManager;
     protected BeatManager beatManager;
+    protected GameManager gameManager;
     protected bool isInitiated;
+
+    public int speed = 1;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -20,10 +24,12 @@ public abstract class EnemyAI : MonoBehaviour
         }
     }
 
-    public virtual void InitializeEnemy(GridManager gridManager, BeatManager beatManager)
+    public virtual void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player)
     {
         this.gridManager = gridManager;
         this.beatManager = beatManager;
+        this.gameManager = gameManager;
+        this.player = player;
         isInitiated = true;
     }
 
@@ -32,9 +38,17 @@ public abstract class EnemyAI : MonoBehaviour
 
     }
 
-    public void SetPlayerAsTargetPosition()
+    public void SetTargetPosition(Vector2 targetpos)
     {
-        targetVector = gridManager.FindClampedNearestGridPos(player.transform.position);
+        this.targetVector = targetpos;
+    }
+
+    public Vector2 FindPlayerGridPosition()
+    {
+        if (player)
+            return gridManager.FindClampedNearestGridPos(player.transform.position);
+        else
+            throw new MissingReferenceException("No Player Object given");
     }
 
     public virtual void Update()
