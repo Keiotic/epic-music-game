@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class EnemyAI : MonoBehaviour
 {
@@ -10,6 +8,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected BeatManager beatManager;
     protected GameManager gameManager;
     protected bool isInitiated;
+    protected bool hasMovedThisTurn;
 
     public int speed = 1;
     
@@ -34,6 +33,16 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
     public virtual void CheckForPlayer()
+    {
+
+    }
+
+    public bool hasMovedThisBeat ()
+    {
+        return hasMovedThisTurn;
+    }
+
+    public void UpdateMovementBoolean ()
     {
 
     }
