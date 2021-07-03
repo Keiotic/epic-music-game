@@ -37,6 +37,13 @@ public class GameManager : MonoBehaviour
         pEnt.MoveToAbsolutePosition(new Vector2(Mathf.Round(gridManager.GetGridSize().x / 2), Mathf.Round(gridManager.GetGridSize().y / 2)));
     }
 
+    public GameObject GetPlayer ()
+    {
+        if(playerObject)
+            return playerObject;
+        return null;
+    }
+
     // Update is called once per frame
     void Update()
     {

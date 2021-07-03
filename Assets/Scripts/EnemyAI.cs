@@ -11,7 +11,8 @@ public abstract class EnemyAI : MonoBehaviour
     protected bool hasMovedThisTurn;
 
     public int speed = 1;
-    
+    private int currentBeat;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +21,7 @@ public abstract class EnemyAI : MonoBehaviour
             gridManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GridManager>();
             beatManager = gridManager.GetComponent<BeatManager>();
             isInitiated = true;
+            currentBeat = beatManager.GetCurrentBeat();
         }
     }
 
@@ -32,19 +34,28 @@ public abstract class EnemyAI : MonoBehaviour
         isInitiated = true;
     }
 
-    public virtual void CheckForPlayer()
-    {
+    public abstract void DoTargetlessUpdate();
 
-    }
+    public abstract void DoTargetUpdate();
 
     public bool hasMovedThisBeat ()
     {
         return hasMovedThisTurn;
     }
 
-    public void UpdateMovementBoolean ()
+    public void MovementUpdate()
     {
-
+        if (currentBeat != beatManager.GetCurrentBeat())
+        {
+            if (beatManager.GetTimingClass() == TimingClass.EXCELLENT)
+            {
+                currentBeat = beatManager.GetCurrentBeat();
+                if (player)
+                    DoTargetUpdate();
+                else
+                    DoTargetlessUpdate();
+            }
+        }
     }
 
     public void SetTargetPosition(Vector2 targetpos)
@@ -52,9 +63,16 @@ public abstract class EnemyAI : MonoBehaviour
         this.targetVector = targetpos;
     }
 
-    public Vector2 FindPlayerGridPosition()
+    public bool HasTarget()
     {
         if (player)
+            return true;
+        return false;
+    }
+
+    public Vector2 FindPlayerGridPosition()
+    {
+        if (HasTarget())
             return gridManager.FindClampedNearestGridPos(player.transform.position);
         else
             throw new MissingReferenceException("No Player Object given");
