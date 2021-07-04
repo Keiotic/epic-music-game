@@ -66,3 +66,12 @@ public class GridManager : MonoBehaviour
         return gridSquareSize;
     }
 }
+
+public class Grid
+{
+    public Vector2 inner;
+    public Vector2 outer;
+    public float gridSquareSize;
+
+}
+

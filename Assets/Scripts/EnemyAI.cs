@@ -4,7 +4,6 @@
 public abstract class EnemyAI : MonoBehaviour
 {
     protected GameObject player;
-    protected Vector2 targetVector;
     protected GridManager gridManager;
     protected BeatManager beatManager;
     protected GameManager gameManager;
@@ -12,6 +11,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected bool hasMovedThisTurn;
     protected GridEntity gridEntity;
 
+    protected Vector2 destination;
     public int speed = 1;
     private int currentBeat;
 
@@ -69,9 +69,9 @@ public abstract class EnemyAI : MonoBehaviour
     {
         return hasMovedThisTurn;
     }
-    public void SetTargetPosition(Vector2 targetpos)
+    public void SetDestination(Vector2 destination)
     {
-        this.targetVector = targetpos;
+        this.destination = destination;
     }
 
     public bool HasTarget()
@@ -89,3 +89,6 @@ public abstract class EnemyAI : MonoBehaviour
             throw new MissingReferenceException("No Player Object given");
     }
 }
+
+
+

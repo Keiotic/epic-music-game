@@ -13,7 +13,7 @@ public class EnemyAI_Grunt : EnemyAI
         base.Start();
         movementVector = transform.up.normalized;
         print(movementVector);
-        currentPoint = gridManager.FindNearestGridPos(transform.position);
+        currentPoint = transform.position;
         startPoint = currentPoint;
     }
     public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos)
@@ -33,8 +33,9 @@ public class EnemyAI_Grunt : EnemyAI
 
     public void DoMovement()
     {
-        currentPoint = currentPoint + movementVector*speed;
-        gridEntity.MoveToAbsolutePosition(currentPoint);
+        currentPoint = currentPoint + movementVector*speed*gridManager.GetGridBoxSize()/2;
+        print(currentPoint);
+        gridEntity.MoveToAbsolutePosition(gridManager.FindNearestGridPos(currentPoint));
     }
 
     public override void MovementUpdate()

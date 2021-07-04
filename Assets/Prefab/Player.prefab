@@ -116,7 +116,7 @@ MonoBehaviour:
   primaryAttack:
     bullet: {fileID: 300375393567912857, guid: c0f2a8dbb159f1d4fa89c96a069974c6, type: 3}
     gridSpeed: 8
-    damage: 4
+    damage: 20
     audio: {fileID: 0}
     volume: 0
     pitch: 0
