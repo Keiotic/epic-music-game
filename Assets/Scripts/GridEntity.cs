@@ -5,7 +5,6 @@ using UnityEngine;
 public class GridEntity : MonoBehaviour
 {
     private Vector2 gridPosition = new Vector2();
-    private Vector2 worldPosition = new Vector2();
     private GridManager gridManager;
     private bool caged;
     public float interpolateSpeed = 2;
@@ -32,6 +31,10 @@ public class GridEntity : MonoBehaviour
 
     public void Warp()
     {
+        if(!gridManager)
+        {
+            gridManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GridManager>();
+        }
         transform.position = gridManager.GridToWorldCoordinates(gridPosition);
     }
 

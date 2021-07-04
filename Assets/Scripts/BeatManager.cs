@@ -121,7 +121,7 @@ public class BeatManager : MonoBehaviour
             uiManager.CreateBeatIndicator(currentBeat, beatsToStart);
 
         if (currentBeat > 0)
-            //uiManager.RemoveBeat(currentBeat - 1);
+            return;
         ;
     }
 

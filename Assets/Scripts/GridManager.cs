@@ -47,7 +47,8 @@ public class GridManager : MonoBehaviour
 
     public Vector2 GetRelativeGridTranslation(Vector2 gridpos, Vector2 translation, bool clampedToGrid)
     {
-        gridpos += translation;
+        gridpos.x += translation.x;
+        gridpos.y -= translation.y;
         if (clampedToGrid)
         {
             gridpos.x = Mathf.Clamp(gridpos.x, 0, gridSize.x-1);

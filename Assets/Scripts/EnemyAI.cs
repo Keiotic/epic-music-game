@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(GridEntity))]
 public abstract class EnemyAI : MonoBehaviour
 {
     protected GameObject player;
@@ -9,41 +10,37 @@ public abstract class EnemyAI : MonoBehaviour
     protected GameManager gameManager;
     protected bool isInitiated;
     protected bool hasMovedThisTurn;
+    protected GridEntity gridEntity;
 
     public int speed = 1;
     private int currentBeat;
 
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
+        gridEntity = GetComponent<GridEntity>();
         if(!isInitiated)
         {
             gridManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GridManager>();
             beatManager = gridManager.GetComponent<BeatManager>();
             isInitiated = true;
             currentBeat = beatManager.GetCurrentBeat();
+            gridEntity.Warp();
         }
     }
 
-    public virtual void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player)
+    public virtual void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPosition)
     {
         this.gridManager = gridManager;
         this.beatManager = beatManager;
         this.gameManager = gameManager;
         this.player = player;
+        gridEntity.MoveToAbsolutePosition(spawnPosition);
+        gridEntity.Warp();
         isInitiated = true;
     }
 
-    public abstract void DoTargetlessUpdate();
-
-    public abstract void DoTargetUpdate();
-
-    public bool hasMovedThisBeat ()
-    {
-        return hasMovedThisTurn;
-    }
-
-    public void MovementUpdate()
+    public virtual void MovementUpdate()
     {
         if (currentBeat != beatManager.GetCurrentBeat())
         {
@@ -58,6 +55,20 @@ public abstract class EnemyAI : MonoBehaviour
         }
     }
 
+    public virtual void Update()
+    {
+        MovementUpdate();
+        gridEntity.LinearilyInterpolatePosition();
+    }
+
+    public abstract void DoTargetlessUpdate();
+
+    public abstract void DoTargetUpdate();
+
+    public bool hasMovedThisBeat ()
+    {
+        return hasMovedThisTurn;
+    }
     public void SetTargetPosition(Vector2 targetpos)
     {
         this.targetVector = targetpos;
@@ -76,10 +87,5 @@ public abstract class EnemyAI : MonoBehaviour
             return gridManager.FindClampedNearestGridPos(player.transform.position);
         else
             throw new MissingReferenceException("No Player Object given");
-    }
-
-    public virtual void Update()
-    {
-
     }
 }

@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
             {
                 DoValidityCheck();
                 prevVertInputDirection = Mathf.Sign(v_input);
-                MoveRelative(new Vector2(0, -prevVertInputDirection));
+                MoveRelative(new Vector2(0, prevVertInputDirection));
                 actionTakenThisBeat = true;
             }
         }

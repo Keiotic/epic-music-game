@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     {
         GameObject go = Instantiate(enemy, position, Quaternion.Euler(0, 0, zRotation));
         EnemyAI ai = go.GetComponent<EnemyAI>();
-        ai.InitializeEnemy(gridManager, beatManager, gameManager, gameManager.GetPlayer());
+        ai.InitializeEnemy(gridManager, beatManager, gameManager, gameManager.GetPlayer(), position);
         return go;
     }
 }
