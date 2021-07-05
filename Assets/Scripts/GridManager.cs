@@ -6,6 +6,7 @@ public class GridManager : MonoBehaviour
 {
     public float gridSquareSize = 13.5f;
     public Vector2 gridSize = new Vector2(9, 15);
+    public int cellsOutsideGrid = 14;
     private List<GameObject> gridReps = new List<GameObject>();
     public GameObject gridRep;
 
@@ -69,9 +70,7 @@ public class GridManager : MonoBehaviour
 
 public class Grid
 {
-    public Vector2 inner;
-    public Vector2 outer;
-    public float gridSquareSize;
-
+    public float squareSize = 13.5f;
+    public Vector2 innerSize = new Vector2(9, 15);
+    public Vector2 outerSize = new Vector2(20, 20);
 }
-
