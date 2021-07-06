@@ -6,19 +6,22 @@ public class GridManager : MonoBehaviour
 {
     public float gridSquareSize = 13.5f;
     public Vector2 gridSize = new Vector2(9, 15);
+    public Vector2 innerGridSize = new Vector2(9, 15);
     public int padding = 25;
     private List<GameObject> gridReps = new List<GameObject>();
     public GameObject gridRep;
     private Grid grid;
+    private Grid innerGrid;
 
     void Start()
     {
-        grid = new Grid(gridSquareSize, gridSize, new Vector2(1, 5));
-        for (int j = 0; j < gridSize.y; j++)
+        grid = new Grid(gridSquareSize, gridSize, new Vector2(0, 0));
+        innerGrid = new Grid(gridSquareSize, innerGridSize, new Vector2(0, 0));
+        for (int j = 0; j < innerGridSize.y; j++)
         {
-            for (int i = 0; i < gridSize.x; i++)
+            for (int i = 0; i < innerGridSize.x; i++)
             {
-                Vector2 gridPos = grid.GridToWorldCoordinates(new Vector2(i, j));
+                Vector2 gridPos = innerGrid.GridToWorldCoordinates(new Vector2(i, j));
                 GameObject g = Instantiate(gridRep, gridPos, Quaternion.identity);
                 gridReps.Add(g);
                 g.transform.parent = this.transform;
@@ -36,7 +39,9 @@ public class GridManager : MonoBehaviour
 
     public Vector2 FindClampedNearestGridPos (Vector2 worldpos)
     {
-        return grid.FindClampedNearestGridPos(worldpos);
+        Vector2 position = grid.FindClampedNearestGridPos(worldpos);
+
+        return ClampToInnerGrid(position);
     }
 
     public Vector2 FindNearestGridPos(Vector2 worldpos)
@@ -46,7 +51,21 @@ public class GridManager : MonoBehaviour
 
     public Vector2 GetRelativeGridTranslation(Vector2 gridpos, Vector2 translation, bool clampedToGrid)
     {
-        return grid.GetRelativeGridTranslation(gridpos, translation, clampedToGrid);
+        if (!clampedToGrid)
+            return grid.GetRelativeGridTranslation(gridpos, translation, true);
+        else
+            return ClampToInnerGrid(grid.GetRelativeGridTranslation(gridpos, translation, true));
+
+    }
+
+    public Vector2 ClampToInnerGrid(Vector2 position)
+    {
+        int xPadding = ((int)gridSize.x - (int)innerGridSize.x) / 2;
+        int yPadding = ((int)gridSize.y - (int)innerGridSize.y) / 2;
+
+        position.x = Mathf.Clamp(position.x, xPadding, gridSize.x-1-xPadding);
+        position.y = Mathf.Clamp(position.y, yPadding, gridSize.y-1-yPadding);
+        return position;
     }
 
     public Vector2 GetGridSize()
