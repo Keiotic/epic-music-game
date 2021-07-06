@@ -16,7 +16,7 @@ public class Pathfinder
         Vector2[,] coords = coordGrid.GetPositions();
         this.grid = new GridADT<PathNode>((int)coordGrid.GetSize().x, (int)coordGrid.GetSize().y);
     }
-    private List<PathNode> FindPath(int startX, int startY, int endX, int endY)
+    public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
     { 
         PathNode startNode = grid.Get(startX, startY);
         PathNode endNode = grid.Get(endX, endY);
@@ -50,7 +50,11 @@ public class Pathfinder
             foreach (PathNode neighbor in GetNeighbors(currentNode))
             {
                 if (closedList.Contains(neighbor)) continue;
-
+                if(!neighbor.isWalkable)
+                {
+                    closedList.Add(neighbor);
+                    continue;
+                }
                 int tentativeGCost = currentNode.gCost + CalculateDistanceCost(currentNode, neighbor);
                 if(tentativeGCost < neighbor.gCost)
                 {
@@ -114,9 +118,9 @@ public class Pathfinder
             path.Add(currentNode.parent);
             currentNode = currentNode.parent;
         }
-        path.Reverse();
-        return null;
+        return path;
     }
+
     private PathNode GetLowestFCostNode (List<PathNode> pathNodeList)
     {
         PathNode lowestFCostNode = pathNodeList[0];
@@ -146,7 +150,7 @@ public class PathNode
     public int fCost;
     public PathNode parent;
     public GridADT<PathNode> grid;
-
+    public bool isWalkable = true;
     public void CalculateFCost()
     {
         fCost = gCost + hCost;

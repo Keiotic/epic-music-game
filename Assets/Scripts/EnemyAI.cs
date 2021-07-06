@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(GridEntity))]
 public abstract class EnemyAI : MonoBehaviour
@@ -11,6 +13,14 @@ public abstract class EnemyAI : MonoBehaviour
     protected bool isInitiated;
     protected bool hasMovedThisTurn;
     protected GridEntity gridEntity;
+    protected Navigation nav;
+    protected class Navigation
+    {
+        public Pathfinder pather;
+        public List<PathNode> path = new List<PathNode>();
+        public Vector2 target;
+    }
+
 
     public int speed = 1;
     private int currentBeat;
@@ -25,6 +35,33 @@ public abstract class EnemyAI : MonoBehaviour
             beatManager = gridManager.GetComponent<BeatManager>();
             isInitiated = true;
             currentBeat = beatManager.GetCurrentBeat();
+            CreatePathfinder(gridManager);
+        }
+    }
+
+    public void CreatePathfinder(GridManager gridManager)
+    {
+        if(gridManager)
+            nav.pather = new Pathfinder(gridManager.GetGrid());
+    }
+
+    public void SetNavigationTarget(Vector2 gridPos)
+    {
+        nav.target = gridPos;
+    }
+
+    public void SetPath()
+    {
+        nav.path = nav.pather.FindPath((int)gridEntity.GetPosition().x, (int)gridEntity.GetPosition().y, (int) nav.target.x, (int)nav.target.y);
+    }
+
+    public void FollowPath()
+    {
+        if(nav.path.Count > 0)
+        {
+            PathNode node = nav.path[nav.path.Count];
+            gridEntity.MoveToAbsolutePosition(node.position);
+            nav.path.Remove(node);
         }
     }
 
@@ -34,6 +71,7 @@ public abstract class EnemyAI : MonoBehaviour
         this.beatManager = beatManager;
         this.gameManager = gameManager;
         this.player = player;
+        CreatePathfinder(gridManager);
         gridEntity.MoveToAbsolutePosition(spawnPosition);
         gridEntity.Warp();
         isInitiated = true;

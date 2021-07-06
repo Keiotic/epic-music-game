@@ -76,6 +76,11 @@ public class GridManager : MonoBehaviour
     {
         return gridSquareSize;
     }
+
+    public Grid GetGrid()
+    {
+        return grid;
+    }
 }
 
 public class Grid

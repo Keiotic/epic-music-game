@@ -53,4 +53,9 @@ public class GridEntity : MonoBehaviour
     {
         caged = value;
     }
+
+    public Vector2 GetPosition()
+    {
+        return gridPosition;
+    }
 }

@@ -16,6 +16,9 @@ public class EnemyAI_Grunt : EnemyAI
         gridEntity.MoveToAbsolutePosition(currentPoint);
         gridEntity.Warp();
         startPoint = currentPoint;
+
+        SetNavigationTarget(gameManager.playerPrefab.GetComponent<GridEntity>().GetPosition());
+        SetPath();
     }
     public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos)
     {
@@ -34,7 +37,7 @@ public class EnemyAI_Grunt : EnemyAI
 
     public void DoMovement()
     {
-        
+        FollowPath();
     }
 
     public override void MovementUpdate()
