@@ -16,6 +16,7 @@ public class Pathfinder
         Vector2[,] coords = coordGrid.GetPositions();
         this.grid = new GridADT<PathNode>((int)coordGrid.GetSize().x, (int)coordGrid.GetSize().y);
     }
+
     public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
     { 
         PathNode startNode = grid.Get(startX, startY);
@@ -179,6 +180,7 @@ public class GridADT<T>
 
     public T Get(int x, int y)
     {
+        Debug.Log(x + ":" + y);
         return gridArray[x, y];
     }
 

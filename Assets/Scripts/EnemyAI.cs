@@ -13,7 +13,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected bool isInitiated;
     protected bool hasMovedThisTurn;
     protected GridEntity gridEntity;
-    protected Navigation nav;
+    protected Navigation nav = new Navigation();
     protected class Navigation
     {
         public Pathfinder pather;
@@ -32,6 +32,7 @@ public abstract class EnemyAI : MonoBehaviour
         if(!isInitiated)
         {
             gridManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GridManager>();
+            gameManager = gridManager.GetComponent<GameManager>();
             beatManager = gridManager.GetComponent<BeatManager>();
             isInitiated = true;
             currentBeat = beatManager.GetCurrentBeat();
@@ -41,8 +42,7 @@ public abstract class EnemyAI : MonoBehaviour
 
     public void CreatePathfinder(GridManager gridManager)
     {
-        if(gridManager)
-            nav.pather = new Pathfinder(gridManager.GetGrid());
+        nav.pather = new Pathfinder(gridManager.GetGrid());
     }
 
     public void SetNavigationTarget(Vector2 gridPos)
@@ -52,7 +52,12 @@ public abstract class EnemyAI : MonoBehaviour
 
     public void SetPath()
     {
-        nav.path = nav.pather.FindPath((int)gridEntity.GetPosition().x, (int)gridEntity.GetPosition().y, (int) nav.target.x, (int)nav.target.y);
+        int posX = Mathf.Clamp((int)gridEntity.GetPosition().x, 0, (int)gridManager.GetGrid().GetSize().x);
+        int posY = Mathf.Clamp((int)gridEntity.GetPosition().y, 0, (int)gridManager.GetGrid().GetSize().y);
+
+        int tposX = Mathf.Clamp((int) nav.target.x, 0, (int)gridManager.GetGrid().GetSize().x);
+        int tposY = Mathf.Clamp((int)nav.target.y, 0, (int)gridManager.GetGrid().GetSize().y);
+        nav.path = nav.pather.FindPath(posX, posY, tposX, tposY);
     }
 
     public void FollowPath()

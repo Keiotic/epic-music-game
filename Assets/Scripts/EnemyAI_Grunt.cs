@@ -37,7 +37,10 @@ public class EnemyAI_Grunt : EnemyAI
 
     public void DoMovement()
     {
-        FollowPath();
+        if (player)
+        {
+            FollowPath();
+        }
     }
 
     public override void MovementUpdate()
