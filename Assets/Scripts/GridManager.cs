@@ -109,8 +109,6 @@ public class Grid
 
     public Vector2 GetWorldCoordinates(Vector2 gridpos)
     {
-        //if (gridpos.x >= 0 && gridpos.x < dimensions.x && gridpos.y >= 0 && gridpos.y < dimensions.y)
-            //return positions[(int)gridpos.x, (int)gridpos.y];
         return GridToWorldCoordinates(gridpos);
     }
 
@@ -140,5 +138,15 @@ public class Grid
             gridpos.y = Mathf.Clamp(gridpos.y, 0, dimensions.y - 1);
         }
         return gridpos;
+    }
+
+    public Vector2[,] GetPositions()
+    {
+        return positions;
+    }
+
+    public Vector2 GetSize()
+    {
+        return dimensions;
     }
 }

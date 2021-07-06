@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
     public IEnumerator StartGame()
     {
         SpawnPlayer();
-        print("Started Couroutine");
         yield return new WaitForSeconds(4);
     }
 
