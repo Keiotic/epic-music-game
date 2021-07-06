@@ -4,6 +4,7 @@
 public abstract class EnemyAI : MonoBehaviour
 {
     protected GameObject player;
+    protected Vector2 targetVector;
     protected GridManager gridManager;
     protected BeatManager beatManager;
     protected GameManager gameManager;
@@ -11,7 +12,6 @@ public abstract class EnemyAI : MonoBehaviour
     protected bool hasMovedThisTurn;
     protected GridEntity gridEntity;
 
-    protected Vector2 destination;
     public int speed = 1;
     private int currentBeat;
 
@@ -25,7 +25,6 @@ public abstract class EnemyAI : MonoBehaviour
             beatManager = gridManager.GetComponent<BeatManager>();
             isInitiated = true;
             currentBeat = beatManager.GetCurrentBeat();
-            gridEntity.Warp();
         }
     }
 
@@ -69,9 +68,9 @@ public abstract class EnemyAI : MonoBehaviour
     {
         return hasMovedThisTurn;
     }
-    public void SetDestination(Vector2 destination)
+    public void SetTargetPosition(Vector2 targetpos)
     {
-        this.destination = destination;
+        this.targetVector = targetpos;
     }
 
     public bool HasTarget()
@@ -89,6 +88,3 @@ public abstract class EnemyAI : MonoBehaviour
             throw new MissingReferenceException("No Player Object given");
     }
 }
-
-
-

@@ -6,17 +6,19 @@ public class GridManager : MonoBehaviour
 {
     public float gridSquareSize = 13.5f;
     public Vector2 gridSize = new Vector2(9, 15);
-    public int cellsOutsideGrid = 14;
+    public int padding = 25;
     private List<GameObject> gridReps = new List<GameObject>();
     public GameObject gridRep;
+    private Grid grid;
 
     void Start()
     {
+        grid = new Grid(gridSquareSize, gridSize, new Vector2(1, 5));
         for (int j = 0; j < gridSize.y; j++)
         {
             for (int i = 0; i < gridSize.x; i++)
             {
-                Vector2 gridPos = GridToWorldCoordinates(new Vector2(i, j));
+                Vector2 gridPos = grid.GridToWorldCoordinates(new Vector2(i, j));
                 GameObject g = Instantiate(gridRep, gridPos, Quaternion.identity);
                 gridReps.Add(g);
                 g.transform.parent = this.transform;
@@ -27,35 +29,24 @@ public class GridManager : MonoBehaviour
 
     public Vector2 GridToWorldCoordinates (Vector2 gridpos)
     {
-        return new Vector2((gridpos.x - (gridSize.x - 1) / 2) * gridSquareSize / 2, (gridSize.y - gridpos.y - (gridSize.y + 1) / 2) * gridSquareSize / 2);
+        if(grid != null)
+        return grid.GetWorldCoordinates(gridpos);
+        return Vector2.zero;
     }
 
     public Vector2 FindClampedNearestGridPos (Vector2 worldpos)
     {
-        Vector2 clampedPos = FindNearestGridPos(worldpos);
-        clampedPos.x = Mathf.Clamp(clampedPos.x, 0, gridSize.x-1);
-        clampedPos.y = Mathf.Clamp(clampedPos.y, 0, gridSize.y-1);
-        return clampedPos;
+        return grid.FindClampedNearestGridPos(worldpos);
     }
 
     public Vector2 FindNearestGridPos(Vector2 worldpos)
     {
-        Vector2 roundedPos = new Vector2();
-        roundedPos.x = Mathf.RoundToInt(2 * worldpos.x / gridSquareSize + (gridSize.x - 1) / 2);
-        roundedPos.y = Mathf.RoundToInt(gridSize.y - 2 * worldpos.y / gridSquareSize - (gridSize.y + 1) / 2);
-        return roundedPos;
+        return grid.FindNearestGridPos(worldpos);
     }
 
     public Vector2 GetRelativeGridTranslation(Vector2 gridpos, Vector2 translation, bool clampedToGrid)
     {
-        gridpos.x += translation.x;
-        gridpos.y -= translation.y;
-        if (clampedToGrid)
-        {
-            gridpos.x = Mathf.Clamp(gridpos.x, 0, gridSize.x-1);
-            gridpos.y = Mathf.Clamp(gridpos.y, 0, gridSize.y-1);
-        }
-        return gridpos;
+        return grid.GetRelativeGridTranslation(gridpos, translation, clampedToGrid);
     }
 
     public Vector2 GetGridSize()
@@ -70,7 +61,65 @@ public class GridManager : MonoBehaviour
 
 public class Grid
 {
-    public float squareSize = 13.5f;
-    public Vector2 innerSize = new Vector2(9, 15);
-    public Vector2 outerSize = new Vector2(20, 20);
+    private float squareSize;
+    private Vector2 dimensions;
+    private Vector2[,] positions;
+    private Vector2 offset;
+    public Grid(float squareSize, Vector2 dimensions, Vector2 offset)
+    {
+        positions = new Vector2[(int)dimensions.x, (int)dimensions.y];
+        this.dimensions = dimensions;
+        this.offset = offset;
+        this.squareSize = squareSize;
+        for (int y = 0; y < dimensions.y; y++)
+        {
+            for (int x = 0; x < dimensions.x; x++)
+            {
+                Vector2 gridPos = GridToWorldCoordinates(new Vector2(x, y));
+                positions[x, y] = gridPos;
+            }
+        }
+    }
+
+    public Vector2 GridToWorldCoordinates(Vector2 gridpos)
+    {
+        float xPos = (gridpos.x - (dimensions.x - 1) / 2) * squareSize / 2 + offset.x;
+        float yPos = (gridpos.y - (dimensions.y - 1) / 2) * squareSize / 2 + offset.y;
+        return new Vector2(xPos, yPos);
+    }
+
+    public Vector2 GetWorldCoordinates(Vector2 gridpos)
+    {
+        //if (gridpos.x >= 0 && gridpos.x < dimensions.x && gridpos.y >= 0 && gridpos.y < dimensions.y)
+            //return positions[(int)gridpos.x, (int)gridpos.y];
+        return GridToWorldCoordinates(gridpos);
+    }
+
+    public Vector2 FindNearestGridPos(Vector2 worldpos)
+    {
+        Vector2 roundedPos = new Vector2();
+        roundedPos.x = Mathf.RoundToInt(2 * worldpos.x / squareSize + (dimensions.x - 1) / 2);
+        roundedPos.y = Mathf.RoundToInt(dimensions.y - 2 * worldpos.y / squareSize - (dimensions.y + 1) / 2);
+        return roundedPos;
+    }
+
+    public Vector2 FindClampedNearestGridPos(Vector2 worldpos)
+    {
+        Vector2 clampedPos = FindNearestGridPos(worldpos);
+        clampedPos.x = Mathf.Clamp(clampedPos.x, 0, dimensions.x - 1);
+        clampedPos.y = Mathf.Clamp(clampedPos.y, 0, dimensions.y - 1);
+        return clampedPos;
+    }
+
+    public Vector2 GetRelativeGridTranslation(Vector2 gridpos, Vector2 translation, bool clampedToGrid)
+    {
+        gridpos.x += translation.x;
+        gridpos.y += translation.y;
+        if (clampedToGrid)
+        {
+            gridpos.x = Mathf.Clamp(gridpos.x, 0, dimensions.x - 1);
+            gridpos.y = Mathf.Clamp(gridpos.y, 0, dimensions.y - 1);
+        }
+        return gridpos;
+    }
 }

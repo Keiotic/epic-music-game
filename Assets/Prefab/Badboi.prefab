@@ -100,7 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e907a42be6e191741bb0ccdc05d5bc22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridPosition: {x: 0, y: 0}
   interpolateSpeed: 300
 --- !u!114 &2775891940947688147
 MonoBehaviour:
@@ -133,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  health: 0
 --- !u!82 &3782562652907068976
 AudioSource:
   m_ObjectHideFlags: 0
@@ -267,3 +267,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bafff04c26ede2a408b5a07d562f86fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 1
+  line: []

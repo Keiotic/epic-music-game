@@ -12,6 +12,7 @@ public class GridEntity : MonoBehaviour
     void Start()
     {
         gridManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GridManager>();
+        //gridPosition = gridManager.FindNearestGridPos(Vector2.zero);
     }
 
     void Update()

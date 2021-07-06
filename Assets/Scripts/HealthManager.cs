@@ -26,15 +26,6 @@ public class HealthManager : MonoBehaviour
     public void Die()
     {
         dead = true;
-        if(GetComponent<PlayerController>())
-        {
-
-        }
-        else
-        {
-            
-        }
-        Destroy(gameObject);
     }
 
     public void ApplyDamage (int damage)

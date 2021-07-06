@@ -99,4 +99,5 @@ MonoBehaviour:
   damage: 0
   mask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
+  Is2D: 1
