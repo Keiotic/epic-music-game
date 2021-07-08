@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GridEntity : MonoBehaviour
 {
-    private Vector2 gridPosition = new Vector2();
+    public Vector2 gridPosition = new Vector2();
     private GridManager gridManager;
     private bool caged;
     public float interpolateSpeed = 2;

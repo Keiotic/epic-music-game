@@ -5,7 +5,7 @@ using UnityEngine;
 public class Pathfinder
 {
     private const int MOVEMENTCOST_STRAIGHT = 10;
-    private const int MOVEMENTCOST_DIAGONAL = 9999;
+    private const int MOVEMENTCOST_DIAGONAL = 10000;
     private GridADT<PathNode> grid;
     private Grid coordGrid;
     private List<PathNode> openList;
@@ -13,27 +13,29 @@ public class Pathfinder
     public Pathfinder(Grid grid)
     {
         coordGrid = grid;
-        Vector2[,] coords = coordGrid.GetPositions();
         this.grid = new GridADT<PathNode>((int)coordGrid.GetSize().x, (int)coordGrid.GetSize().y);
+        this.grid.GetHeight();
+        this.grid.GetWidth();
     }
 
     public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
-    { 
+    {
+        for (int x = 0; x < grid.GetWidth(); x++)
+        {
+            for (int y = 0; y < grid.GetHeight(); y++)
+            {
+                PathNode node = new PathNode();
+                node.position = new Vector2(x, y);
+                node.gCost = int.MaxValue;
+                node.CalculateFCost();
+                node.parent = null;
+                grid.Set(x, y, node);
+            }
+        }
         PathNode startNode = grid.Get(startX, startY);
         PathNode endNode = grid.Get(endX, endY);
         openList = new List<PathNode> { startNode };
         closedList = new List<PathNode>();
-
-        for(int x = 0; x < grid.GetWidth(); x++)
-        {
-            for(int y = 0; y < grid.GetHeight(); y++)
-            {
-                PathNode node = grid.Get(x, y);
-                node.gCost = int.MaxValue;
-                node.CalculateFCost();
-                node.parent = null;
-            }
-        }
         startNode.gCost = 0;
         startNode.hCost = CalculateDistanceCost(startNode, endNode);
         startNode.CalculateFCost();
@@ -69,7 +71,7 @@ public class Pathfinder
                         openList.Add(neighbor);
                     }
                 }
-            };
+            }
         }
         return null;
     }
@@ -77,29 +79,30 @@ public class Pathfinder
     private List<PathNode> GetNeighbors (PathNode currentNode)
     {
         List<PathNode> neighbors = new List<PathNode>();
-
-        if(currentNode.position.x -1 >= 0)
+        int cnpX = (int)currentNode.position.x;
+        int cnpY = (int)currentNode.position.y;
+        if (currentNode.position.x - 1 >= 0)
         {
             //L
-            neighbors.Add(GetNode((int)currentNode.position.x - 1, (int)currentNode.position.y));
+            neighbors.Add(GetNode(cnpX - 1, cnpY));
             //LD
-            if (currentNode.position.y - 1 >= 0) neighbors.Add(GetNode((int)currentNode.position.x - 1, (int)currentNode.position.y - 1));
+            if (cnpY - 1 >= 0) neighbors.Add(GetNode(cnpX - 1, cnpY - 1));
             //LU
-            if (currentNode.position.y + 1 < grid.GetHeight()) neighbors.Add(GetNode((int)currentNode.position.x - 1, (int)currentNode.position.y + 1));
+            if (cnpY + 1 < grid.GetHeight()) neighbors.Add(GetNode(cnpX - 1, cnpY + 1));
         }
-        if (currentNode.position.x + 1 < grid.GetWidth())
+        if (cnpX + 1 < grid.GetWidth())
         {
             //R
-            neighbors.Add(GetNode((int)currentNode.position.x + 1, (int)currentNode.position.y));
+            neighbors.Add(GetNode(cnpX + 1, cnpY));
             //RD
-            if (currentNode.position.y - 1 >= 0) neighbors.Add(GetNode((int)currentNode.position.x + 1, (int)currentNode.position.y - 1));
+            if (cnpY - 1 >= 0) neighbors.Add(GetNode(cnpX + 1, cnpY - 1));
             //RU
-            if (currentNode.position.y + 1 < grid.GetHeight()) neighbors.Add(GetNode((int)currentNode.position.x + 1, (int)currentNode.position.y + 1));
+            if (cnpY + 1 < grid.GetHeight()) neighbors.Add(GetNode(cnpX + 1, cnpY + 1));
         }
         //D
-        if (currentNode.position.y - 1 >= 0) neighbors.Add(GetNode((int)currentNode.position.x, (int)currentNode.position.y - 1));
+        if (cnpY - 1 >= 0) neighbors.Add(GetNode(cnpX, cnpY - 1));
         //U
-        if (currentNode.position.y + 1 < grid.GetHeight()) neighbors.Add(GetNode((int)currentNode.position.x, (int)currentNode.position.y + 1));
+        if (cnpY + 1 < grid.GetHeight()) neighbors.Add(GetNode(cnpX, cnpY + 1));
 
         return neighbors;
     }
@@ -156,6 +159,15 @@ public class PathNode
     {
         fCost = gCost + hCost;
     }
+    public PathNode()
+    {
+        position = new Vector2();
+        gCost = 0;
+        hCost = 0;
+        fCost = 0;
+        parent = null;
+        grid = null;
+    }
 }
 
 public class GridADT<T>
@@ -180,13 +192,13 @@ public class GridADT<T>
 
     public T Get(int x, int y)
     {
-        Debug.Log(x + ":" + y);
         return gridArray[x, y];
     }
 
-    public void Set(int x, int y, T data)
+    public T Set(int x, int y, T data)
     {
         gridArray[x, y] = data;
+        return gridArray[x, y];
     }
 
     public int GetWidth()
@@ -197,5 +209,10 @@ public class GridADT<T>
     public int GetHeight()
     {
         return height;
+    }
+
+    public T[,] GetData()
+    {
+        return gridArray;
     }
 }

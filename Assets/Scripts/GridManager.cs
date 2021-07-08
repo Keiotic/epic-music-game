@@ -11,11 +11,23 @@ public class GridManager : MonoBehaviour
     private List<GameObject> gridReps = new List<GameObject>();
     public GameObject gridRep;
     private Grid grid;
+    private GridADT<PathNode> navGrid;
     private Grid innerGrid;
 
     void Start()
     {
         grid = new Grid(gridSquareSize, gridSize, new Vector2(0, 0));
+        PathNode[,] nodes = new PathNode[(int)gridSize.x, (int)gridSize.y];
+        for (int j = 0; j < gridSize.y; j++)
+        {
+            for (int i = 0; i < gridSize.x; i++)
+            {
+                PathNode node = new PathNode();
+                node.position = new Vector2(i, j);
+                nodes[i, j] = node;
+            }
+        }
+        navGrid = new GridADT<PathNode>((int)gridSize.x, (int)gridSize.y, nodes);
         innerGrid = new Grid(gridSquareSize, innerGridSize, new Vector2(0, 0));
         for (int j = 0; j < innerGridSize.y; j++)
         {
@@ -28,6 +40,11 @@ public class GridManager : MonoBehaviour
                 g.transform.name = "gridpos_" + i + "-" + j;
             }
         }
+    }
+
+    public GridADT<PathNode> GetNavGrid ()
+    {
+        return navGrid;
     }
 
     public Vector2 GridToWorldCoordinates (Vector2 gridpos)

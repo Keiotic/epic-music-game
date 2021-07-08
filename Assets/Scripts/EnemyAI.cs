@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(GridEntity))]
 public abstract class EnemyAI : MonoBehaviour
 {
-    protected GameObject player;
+    public GameObject player;
     protected Vector2 targetVector;
     protected GridManager gridManager;
     protected BeatManager beatManager;
@@ -18,7 +18,7 @@ public abstract class EnemyAI : MonoBehaviour
     {
         public Pathfinder pather;
         public List<PathNode> path = new List<PathNode>();
-        public Vector2 target;
+        public Vector2 target = new Vector2();
     }
 
 
@@ -55,18 +55,26 @@ public abstract class EnemyAI : MonoBehaviour
         int posX = Mathf.Clamp((int)gridEntity.GetPosition().x, 0, (int)gridManager.GetGrid().GetSize().x);
         int posY = Mathf.Clamp((int)gridEntity.GetPosition().y, 0, (int)gridManager.GetGrid().GetSize().y);
 
-        int tposX = Mathf.Clamp((int) nav.target.x, 0, (int)gridManager.GetGrid().GetSize().x);
+        int tposX = Mathf.Clamp((int)nav.target.x, 0, (int)gridManager.GetGrid().GetSize().x);
         int tposY = Mathf.Clamp((int)nav.target.y, 0, (int)gridManager.GetGrid().GetSize().y);
+
         nav.path = nav.pather.FindPath(posX, posY, tposX, tposY);
+        nav.path.RemoveAt(nav.path.Count-1);
     }
 
     public void FollowPath()
     {
-        if(nav.path.Count > 0)
+        if(nav.path != null && nav.path.Count > 0)
         {
-            PathNode node = nav.path[nav.path.Count];
+            PathNode node = nav.path[nav.path.Count-1];
+            print("Moving to " + node.position);
             gridEntity.MoveToAbsolutePosition(node.position);
+            gridEntity.Warp();
             nav.path.Remove(node);
+        }
+        else
+        {
+            print("All points done!");
         }
     }
 
