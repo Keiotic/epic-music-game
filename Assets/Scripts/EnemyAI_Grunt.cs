@@ -39,17 +39,15 @@ public class EnemyAI_Grunt : EnemyAI
     {
         if (player != null)
         {
-            if(nav.path.Count>0)
+            if(nav.path.Count > 0)
             {
                 FollowPath();
             }
-            print(gameManager.playerPrefab.GetComponent<GridEntity>().GetPosition());
             SetNavigationTarget(gameManager.playerPrefab.GetComponent<GridEntity>().GetPosition());
             SetPath();
         }
         else
         { 
-            print("No target!");
             player = gameManager.GetPlayer();
         }
     }

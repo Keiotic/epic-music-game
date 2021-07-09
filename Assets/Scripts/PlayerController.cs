@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
     }
     void InvalidInput()
     {
-        print("Whoops");
+
     }
 
     void MoveRelative(Vector2 movement)

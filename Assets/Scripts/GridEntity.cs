@@ -5,6 +5,7 @@ using UnityEngine;
 public class GridEntity : MonoBehaviour
 {
     public Vector2 gridPosition = new Vector2();
+    private Vector2 returnGrid;
     private GridManager gridManager;
     private bool caged;
     public float interpolateSpeed = 2;
@@ -12,17 +13,18 @@ public class GridEntity : MonoBehaviour
     void Start()
     {
         gridManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GridManager>();
-        //gridPosition = gridManager.FindNearestGridPos(Vector2.zero);
+        //gridPosition = gridManager.FindNearestGridPos(this.transform.position);
     }
 
     void Update()
     {
-        
+        returnGrid = gridPosition;
+        print(returnGrid);
     }
 
     public void MoveRelativeToCurrentPosition(Vector2 movement)
     {
-       gridPosition = gridManager.GetRelativeGridTranslation(gridPosition, movement, caged);  
+        gridPosition = gridManager.GetRelativeGridTranslation(gridPosition, movement, caged);  
     }
 
     public void MoveToAbsolutePosition(Vector2 gridpos)
@@ -56,6 +58,6 @@ public class GridEntity : MonoBehaviour
 
     public Vector2 GetPosition()
     {
-        return gridPosition;
+        return returnGrid;
     }
 }

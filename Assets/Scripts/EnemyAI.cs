@@ -67,7 +67,6 @@ public abstract class EnemyAI : MonoBehaviour
         if(nav.path != null && nav.path.Count > 0)
         {
             PathNode node = nav.path[nav.path.Count-1];
-            print("Moving to " + node.position);
             gridEntity.MoveToAbsolutePosition(node.position);
             gridEntity.Warp();
             nav.path.Remove(node);

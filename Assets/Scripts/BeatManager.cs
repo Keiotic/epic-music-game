@@ -35,7 +35,7 @@ public class BeatManager : MonoBehaviour
         musicStarted = true;
 
         beatIndSpeed = uiManager.GetBeatMovementSpeed();
-        print(beatsToStart = (int)Mathf.Ceil(uiManager.GetBeatWrapperWidth() / beatIndSpeed));
+        beatsToStart = (int)Mathf.Ceil(uiManager.GetBeatWrapperWidth() / beatIndSpeed);
         float diff = beatsToStart / ((uiManager.GetBeatWrapperWidth()) / beatIndSpeed);
         beatIndSpeed *= diff;
         timePassed = -(beatsToStart + 0.5f) * timeBetweenBeats;
