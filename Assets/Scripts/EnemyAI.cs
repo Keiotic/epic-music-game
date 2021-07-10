@@ -14,6 +14,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected bool hasMovedThisTurn;
     protected GridEntity gridEntity;
     protected Navigation nav = new Navigation();
+    protected bool movesDiagonally = false;
     protected class Navigation
     {
         public Pathfinder pather;
@@ -42,7 +43,7 @@ public abstract class EnemyAI : MonoBehaviour
 
     public void CreatePathfinder(GridManager gridManager)
     {
-        nav.pather = new Pathfinder(gridManager.GetGrid());
+        nav.pather = new Pathfinder(gridManager.GetGrid(), movesDiagonally);
     }
 
     public void SetNavigationTarget(Vector2 gridPos)

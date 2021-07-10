@@ -10,12 +10,23 @@ public class Pathfinder
     private Grid coordGrid;
     private List<PathNode> openList;
     private List<PathNode> closedList;
+    private bool canGoDiagonally;
     public Pathfinder(Grid grid)
     {
         coordGrid = grid;
         this.grid = new GridADT<PathNode>((int)coordGrid.GetSize().x, (int)coordGrid.GetSize().y);
         this.grid.GetHeight();
         this.grid.GetWidth();
+        canGoDiagonally = false;
+    }
+
+    public Pathfinder(Grid grid, bool diagonals)
+    {
+        coordGrid = grid;
+        this.grid = new GridADT<PathNode>((int)coordGrid.GetSize().x, (int)coordGrid.GetSize().y);
+        this.grid.GetHeight();
+        this.grid.GetWidth();
+        canGoDiagonally = diagonals;
     }
 
     public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
@@ -85,19 +96,23 @@ public class Pathfinder
         {
             //L
             neighbors.Add(GetNode(cnpX - 1, cnpY));
+            /*
             //LD
             if (cnpY - 1 >= 0) neighbors.Add(GetNode(cnpX - 1, cnpY - 1));
             //LU
             if (cnpY + 1 < grid.GetHeight()) neighbors.Add(GetNode(cnpX - 1, cnpY + 1));
+            */
         }
         if (cnpX + 1 < grid.GetWidth())
         {
             //R
             neighbors.Add(GetNode(cnpX + 1, cnpY));
+            /*
             //RD
             if (cnpY - 1 >= 0) neighbors.Add(GetNode(cnpX + 1, cnpY - 1));
             //RU
             if (cnpY + 1 < grid.GetHeight()) neighbors.Add(GetNode(cnpX + 1, cnpY + 1));
+            */
         }
         //D
         if (cnpY - 1 >= 0) neighbors.Add(GetNode(cnpX, cnpY - 1));
