@@ -5,7 +5,7 @@ using UnityEngine;
 public class Pathfinder
 {
     private const int MOVEMENTCOST_STRAIGHT = 10;
-    private const int MOVEMENTCOST_DIAGONAL = 14;
+    private const int MOVEMENTCOST_DIAGONAL = 15;
     private GridADT<PathNode> grid;
     private Grid coordGrid;
     private List<PathNode> openList;

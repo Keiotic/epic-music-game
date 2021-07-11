@@ -10,7 +10,7 @@ public class GridEntity : MonoBehaviour
     private bool caged;
     public float interpolateSpeed = 2;
 
-    void Start()
+    void Awake()
     {
         gridManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GridManager>();
         //gridPosition = gridManager.FindNearestGridPos(this.transform.position);
@@ -19,6 +19,7 @@ public class GridEntity : MonoBehaviour
     void Update()
     {
         returnGrid = gridPosition;
+        if(GetComponent<PlayerController>())
         print(returnGrid);
     }
 
