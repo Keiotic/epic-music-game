@@ -17,7 +17,7 @@ public class EnemyAI_Grunt : EnemyAI
         gridEntity.Warp();
         startPoint = currentPoint;
 
-        SetNavigationTarget(gameManager.playerPrefab.GetComponent<GridEntity>().GetPosition());
+        SetNavigationTarget(gridManager.FindNearestGridPos(transform.forward*9999));
         SetPath();
     }
     public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos)
@@ -37,8 +37,6 @@ public class EnemyAI_Grunt : EnemyAI
 
     public void DoMovement()
     {
-        if (player != null)
-        {
             if(nav.path.Count > 0)
             {
                 FollowPath();
@@ -47,17 +45,6 @@ public class EnemyAI_Grunt : EnemyAI
             {
                 print("All done!");
             }
-            SetNavigationTarget(player.GetComponent<GridEntity>().GetPosition());
-            SetPath();
-            FollowPath();
-        }
-        else
-        { 
-            player = gameManager.GetPlayer();
-            SetNavigationTarget(player.GetComponent<GridEntity>().GetPosition());
-            SetPath();
-            FollowPath();
-        }
     }
 
     public override void MovementUpdate()

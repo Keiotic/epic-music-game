@@ -29,6 +29,8 @@ public class Pathfinder
         canGoDiagonally = diagonals;
     }
 
+    
+
     public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
     {
         for (int x = 0; x < grid.GetWidth(); x++)
