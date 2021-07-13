@@ -11,14 +11,15 @@ public class EnemyAI_Grunt : EnemyAI
     public override void Start()
     {
         base.Start();
-        movementVector = transform.up.normalized;
-        currentPoint = gridManager.FindNearestGridPos(transform.position);
-        gridEntity.MoveToAbsolutePosition(currentPoint);
+        gridEntity.MoveToAbsolutePosition(gridManager.FindNearestGridPos(transform.position));
         gridEntity.Warp();
-        startPoint = currentPoint;
+        print(gridEntity.GetPosition());
 
-        SetNavigationTarget(gridManager.FindNearestGridPos(transform.forward*9999));
+
+        print(gridManager.FindNearestGridPos(transform.position).Equals(gridEntity.GetPosition()));
+        SetNavigationTarget(gridManager.FindNearestGridPos(transform.position + transform.up * 100));
         SetPath();
+        
     }
     public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos)
     {
@@ -37,14 +38,16 @@ public class EnemyAI_Grunt : EnemyAI
 
     public void DoMovement()
     {
-            if(nav.path.Count > 0)
-            {
-                FollowPath();
-            }
-            else
-            {
-                print("All done!");
-            }
+        if (nav.path.Count > 0)
+        {
+            FollowPath();
+        }
+        else
+        {
+            SetNavigationTarget(gridManager.FindNearestGridPos(transform.position + transform.up * 100));
+            SetPath();
+            FollowPath();
+        }
     }
 
     public override void MovementUpdate()

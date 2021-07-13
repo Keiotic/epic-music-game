@@ -63,7 +63,7 @@ public class GridManager : MonoBehaviour
 
     public Vector2 FindNearestGridPos(Vector2 worldpos)
     {
-        return grid.FindNearestGridPos(worldpos);
+        return grid.FindClampedNearestGridPos(worldpos);
     }
 
     public Vector2 GetRelativeGridTranslation(Vector2 gridpos, Vector2 translation, bool clampedToGrid)
@@ -138,7 +138,7 @@ public class Grid
     {
         Vector2 roundedPos = new Vector2();
         roundedPos.x = Mathf.RoundToInt(2 * worldpos.x / squareSize + (dimensions.x - 1) / 2);
-        roundedPos.y = Mathf.RoundToInt(dimensions.y - 2 * worldpos.y / squareSize - (dimensions.y + 1) / 2);
+        roundedPos.y = Mathf.RoundToInt(2 * worldpos.y / squareSize + (dimensions.y - 1) / 2);
         return roundedPos;
     }
 

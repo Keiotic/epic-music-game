@@ -5,7 +5,6 @@ using UnityEngine;
 public class GridEntity : MonoBehaviour
 {
     public Vector2 gridPosition = new Vector2();
-    private Vector2 returnGrid;
     private GridManager gridManager;
     private bool caged;
     public float interpolateSpeed = 2;
@@ -18,9 +17,6 @@ public class GridEntity : MonoBehaviour
 
     void Update()
     {
-        returnGrid = gridPosition;
-        if(GetComponent<PlayerController>())
-        print(returnGrid);
     }
 
     public void MoveRelativeToCurrentPosition(Vector2 movement)
@@ -59,6 +55,6 @@ public class GridEntity : MonoBehaviour
 
     public Vector2 GetPosition()
     {
-        return returnGrid;
+        return gridPosition;
     }
 }
