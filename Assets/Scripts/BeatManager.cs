@@ -8,9 +8,9 @@ public class BeatManager : MonoBehaviour
 {
     public Track track;
     private UIManager uiManager;
-    private List<Beat> beats = new List<Beat>();
     public AudioSource mySource;
     public AudioClip beatAudio;
+    public List<BeatEvent> beatEvents;
 
 
     private bool musicStarted = false;
@@ -24,15 +24,29 @@ public class BeatManager : MonoBehaviour
     private float beatIndSpeed;
 
     public Text text;
+    public EnemyManager enemyManager;
 
     void Start()
     {
+        enemyManager = GetComponent<EnemyManager>();
         mySource = GetComponent<AudioSource>();
         uiManager = GetComponent<UIManager>();
         timePassed = 0;
         currentBeat = 0;
         pastBeat = -100;
         musicStarted = true;
+
+        beatEvents = new List<BeatEvent>();
+        for (int i = 0; i < Mathf.Ceil(/*track.audio.length*/ 120/timeBetweenBeats); i++)
+        {
+            beatEvents.Add(new BeatEvent());
+        }
+        for (int i = 0; i < track.beatEvents.Count; i++)
+        {
+            BeatEvent be = track.beatEvents[i];
+            beatEvents[be.beat] = be;
+        }
+        Debug.Log(beatEvents.Count);
 
         beatIndSpeed = uiManager.GetBeatMovementSpeed();
         beatsToStart = (int)Mathf.Ceil(uiManager.GetBeatWrapperWidth() / beatIndSpeed);
@@ -55,6 +69,7 @@ public class BeatManager : MonoBehaviour
             {
                 mySource.PlayOneShot(beatAudio);
                 cls = TimingClass.EXCELLENT;
+                DoBeatEventCheck();
             }
             else if (cls != TimingClass.INVALID && GetTimingClass() == TimingClass.INVALID)
             {
@@ -66,6 +81,25 @@ public class BeatManager : MonoBehaviour
                 NewBeat();
             }
             uiManager.BeatUpdate(timePassed, timeBetweenBeats, currentBeat);
+        }
+    }
+
+    public void DoBeatEventCheck()
+    {
+        if (beatEvents[currentBeat] != null)
+        {
+            BeatEvent currentEvent = beatEvents[currentBeat];
+            if (!currentBeat.Equals(new BeatEvent()))
+            {
+                for (int i = 0; i < currentEvent.enemySpawns.Count; i++)
+                {
+                    EnemySpawnEvent espE = currentEvent.enemySpawns[i];
+                    if (espE.prefab)
+                    {
+                        enemyManager.SpawnEnemy(espE.prefab, espE.spawnPosition, espE.spawnRotation);
+                    }
+                }
+            }
         }
     }
 

@@ -326,7 +326,7 @@ PrefabInstance:
     - target: {fileID: 1586875687927246850, guid: d2f9437a55a1dd645921e7611206d0d4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -62.5
+      value: 62.5
       objectReference: {fileID: 0}
     - target: {fileID: 1586875687927246850, guid: d2f9437a55a1dd645921e7611206d0d4,
         type: 3}
@@ -900,12 +900,14 @@ MonoBehaviour:
   track: {fileID: 11400000, guid: 68290d46dedcb504cb662bc01f120496, type: 2}
   mySource: {fileID: 1941933492}
   beatAudio: {fileID: 8300000, guid: f5e40a68dd1f1d54781775f3f85a5f2c, type: 3}
+  beatEvents: []
   ignoreBeat: 0
   borders:
   - 0.1
   - 0.2
   - 0.3
   text: {fileID: 209810336}
+  enemyManager: {fileID: 0}
 --- !u!114 &1941933490
 MonoBehaviour:
   m_ObjectHideFlags: 0

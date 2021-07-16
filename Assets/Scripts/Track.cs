@@ -13,11 +13,5 @@ public class Track : ScriptableObject
 
     public AudioClip audio;
 
-}
-
-
-[System.Serializable]
-public class Beat
-{
-
+    public List<BeatEvent> beatEvents;
 }
