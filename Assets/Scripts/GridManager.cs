@@ -61,6 +61,13 @@ public class GridManager : MonoBehaviour
         return ClampToInnerGrid(position);
     }
 
+    public Vector2 ClampToGridSize(Vector2 gridPos)
+    {
+        gridPos.x = Mathf.Clamp(gridPos.x, 0, gridSize.x - 1);
+        gridPos.y = Mathf.Clamp(gridPos.y, 0, gridSize.y - 1);
+        return gridPos;
+    }
+
     public Vector2 FindNearestGridPos(Vector2 worldpos)
     {
         return grid.FindClampedNearestGridPos(worldpos);

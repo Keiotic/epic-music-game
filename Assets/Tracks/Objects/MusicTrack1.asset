@@ -16,3 +16,32 @@ MonoBehaviour:
   beatsTillStart: 4
   ignoredBeats: 11000000
   audio: {fileID: 0}
+  beatEvents:
+  - beat: 0
+    enemySpawns: []
+    backgroundEvent:
+      colorSwap: {r: 0, g: 0, b: 0, a: 0}
+      colorSwapSpeed: 0
+  - beat: 1
+    enemySpawns:
+    - prefab: {fileID: 1586875687927246860, guid: d2f9437a55a1dd645921e7611206d0d4,
+        type: 3}
+      spawnPosition: {x: 0, y: 0}
+      spawnRotation: 0
+    - prefab: {fileID: 1586875687927246860, guid: d2f9437a55a1dd645921e7611206d0d4,
+        type: 3}
+      spawnPosition: {x: 20, y: 12}
+      spawnRotation: 0
+    backgroundEvent:
+      colorSwap: {r: 0, g: 0, b: 0, a: 0}
+      colorSwapSpeed: 0
+  - beat: 2
+    enemySpawns: []
+    backgroundEvent:
+      colorSwap: {r: 0, g: 0, b: 0, a: 0}
+      colorSwapSpeed: 0
+  - beat: 3
+    enemySpawns: []
+    backgroundEvent:
+      colorSwap: {r: 0, g: 0, b: 0, a: 0}
+      colorSwapSpeed: 0
