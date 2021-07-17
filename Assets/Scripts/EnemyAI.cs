@@ -84,7 +84,9 @@ public abstract class EnemyAI : MonoBehaviour
         this.beatManager = beatManager;
         this.gameManager = gameManager;
         this.player = player;
+        gridEntity = GetComponent<GridEntity>();
         CreatePathfinder(gridManager);
+        spawnPosition = gridManager.FindNearestGridPos(spawnPosition);
         gridEntity.MoveToAbsolutePosition(spawnPosition);
         gridEntity.Warp();
         isInitiated = true;

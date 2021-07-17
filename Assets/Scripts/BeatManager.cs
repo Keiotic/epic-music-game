@@ -86,7 +86,7 @@ public class BeatManager : MonoBehaviour
 
     public void DoBeatEventCheck()
     {
-        if (beatEvents[currentBeat] != null)
+        if (currentBeat >= 0 && beatEvents[currentBeat] != null)
         {
             BeatEvent currentEvent = beatEvents[currentBeat];
             if (!currentBeat.Equals(new BeatEvent()))
