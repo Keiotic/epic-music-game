@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    public float gridSquareSize = 13.5f;
-    public Vector2 gridSize = new Vector2(9, 15);
-    public Vector2 innerGridSize = new Vector2(9, 15);
-    public int padding = 25;
+    [SerializeField] private float gridSquareSize = 13.5f;
+    [SerializeField] private Vector2 gridSize = new Vector2(9, 15);
+    [SerializeField] private Vector2 innerGridSize = new Vector2(9, 15);
+    [SerializeField] private int padding = 25;
     private List<GameObject> gridReps = new List<GameObject>();
-    public GameObject gridRep;
+    [SerializeField] private GameObject gridRep;
     private Grid grid;
     private GridADT<PathNode> navGrid;
     private Grid innerGrid;

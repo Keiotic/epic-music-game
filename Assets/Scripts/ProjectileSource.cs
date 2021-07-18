@@ -5,8 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof (AudioSource))]
 public class ProjectileSource : MonoBehaviour
 {
-    public bool customized;
-    public Customizations customizations;
+    [SerializeField] private bool customized;
+    [SerializeField] private Customizations customizations;
     private AudioSource audioSource;
 
     [System.Serializable]

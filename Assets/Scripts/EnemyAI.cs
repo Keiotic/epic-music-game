@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(GridEntity))]
 public abstract class EnemyAI : MonoBehaviour
 {
-    public GameObject player;
+    [SerializeField] protected GameObject player;
     protected Vector2 targetVector;
     protected GridManager gridManager;
     protected BeatManager beatManager;

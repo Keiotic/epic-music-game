@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI_Grunt : EnemyAI
+public class EnemyAI_Invader : EnemyAI
 {
+    private Vector2 forwardVector;
     public override void Start()
     {
         base.Start();
-        SetNavigationTarget(gridManager.FindNearestGridPos(transform.position + transform.up * 100));
-        SetPath();
+        forwardVector = transform.forward.normalized;
     }
     public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos)
     {
@@ -27,16 +27,7 @@ public class EnemyAI_Grunt : EnemyAI
 
     public void DoMovement()
     {
-        if (nav.path.Count > 0)
-        {
-            FollowPath();
-        }
-        else
-        {
-            SetNavigationTarget(gridManager.FindNearestGridPos(transform.position + transform.up * 100));
-            SetPath();
-            FollowPath();
-        }
+
     }
 
     public override void MovementUpdate()

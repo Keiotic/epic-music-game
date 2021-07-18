@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private BeatManager beatManager;
     private ProjectileSource projectileSource;
     private GridManager gridManager;
-    public ProjectileAttack primaryAttack;
+    [SerializeField] private ProjectileAttack primaryAttack;
 
     [System.Serializable]
     public class ProjectileAttack

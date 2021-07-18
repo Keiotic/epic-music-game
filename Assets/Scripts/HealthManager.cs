@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class HealthManager : MonoBehaviour
 {
-    public int maxHealth = 100;
-    public int health;
-    bool dead = false;
+    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int health;
+    private bool dead = false;
 
     // Start is called before the first frame update
     void Start()

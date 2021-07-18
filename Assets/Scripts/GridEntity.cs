@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class GridEntity : MonoBehaviour
 {
-    public Vector2 gridPosition = new Vector2();
+    [SerializeField] private Vector2 gridPosition = new Vector2();
     private GridManager gridManager;
     private bool caged;
-    public float interpolateSpeed = 2;
+    [SerializeField] private float interpolateSpeed = 2;
 
     void Awake()
     {

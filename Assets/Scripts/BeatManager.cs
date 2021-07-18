@@ -6,19 +6,19 @@ using UnityEngine.UI;
 [RequireComponent(typeof(AudioSource))]
 public class BeatManager : MonoBehaviour
 {
-    public Track track;
+    [SerializeField] private Track track;
     private UIManager uiManager;
-    public AudioSource mySource;
-    public AudioClip beatAudio;
-    public List<BeatEvent> beatEvents;
+    [SerializeField] private AudioSource mySource;
+    [SerializeField] private AudioClip beatAudio;
+    [SerializeField] private List<BeatEvent> beatEvents;
 
 
     private bool musicStarted = false;
-    public bool ignoreBeat;
+    [SerializeField] private bool ignoreBeat;
     private float timePassed;
     private float timeBetweenBeats = 1/2f;
     private int currentBeat;
-    public float[] borders = {0.1f, 0.2f, 0.3f};
+    [SerializeField] private float[] borders = {0.1f, 0.2f, 0.3f};
     private int pastBeat;
     private int beatsToStart;
     private float beatIndSpeed;
@@ -41,9 +41,11 @@ public class BeatManager : MonoBehaviour
         {
             beatEvents.Add(new BeatEvent());
         }
-        for (int i = 0; i < track.beatEvents.Count; i++)
+
+        List<BeatEvent> savedBeatEvents = track.GetBeatEvents();
+        for (int i = 0; i < savedBeatEvents.Count; i++)
         {
-            BeatEvent be = track.beatEvents[i];
+            BeatEvent be = savedBeatEvents[i];
             beatEvents[be.beat] = be;
         }
         Debug.Log(beatEvents.Count);
@@ -141,9 +143,10 @@ public class BeatManager : MonoBehaviour
     public bool WillIgnoreBeat(int beat)
     {
         bool skip = false;
-        for(int i = 0; i < track.ignoredBeats.Length; i++)
+        int[] ignoredBeats = track.GetIgnoredBeats();
+        for(int i = 0; i < ignoredBeats.Length; i++)
         {
-            if(track.ignoredBeats[i] == beat)
+            if(ignoredBeats[i] == beat)
             skip = true;
         }
         return skip;
