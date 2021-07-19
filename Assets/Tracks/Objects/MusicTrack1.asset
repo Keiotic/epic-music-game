@@ -18,7 +18,11 @@ MonoBehaviour:
   audio: {fileID: 0}
   beatEvents:
   - beat: 0
-    enemySpawns: []
+    enemySpawns:
+    - prefab: {fileID: 1586875687927246860, guid: 674638f2386251f4eb84f486df7bbf6e,
+        type: 3}
+      spawnPosition: {x: 19, y: 16}
+      spawnRotation: 180
     backgroundEvent:
       colorSwap: {r: 0, g: 0, b: 0, a: 0}
       colorSwapSpeed: 0

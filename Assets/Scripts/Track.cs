@@ -15,10 +15,22 @@ public class Track : ScriptableObject
 
     [SerializeField] private List<BeatEvent> beatEvents;
 
+
+    public Track(int bpm, int beatsTillStart, int[] ignoredBeats, AudioClip audio, List<BeatEvent> beatEvents)
+    {
+        this.bpm = bpm;
+        this.beatsTillStart = beatsTillStart;
+        this.ignoredBeats = ignoredBeats;
+        this.audio = audio;
+        this.beatEvents = beatEvents;
+    }
+
+
     public int GetBpm ()
     {
         return bpm;
     }
+
     public int GetBeatsTillStart ()
     {
         return beatsTillStart;

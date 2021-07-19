@@ -96,6 +96,16 @@ public class GridManager : MonoBehaviour
     {
         return gridSize;
     }
+
+    public Vector2 GetInnerGridSize()
+    {
+        return innerGridSize;
+    }
+
+    public Vector2 GetGridOffset()
+    {
+        return (gridSize - innerGridSize)/2;
+    }
     public float GetGridBoxSize ()
     {
         return gridSquareSize;

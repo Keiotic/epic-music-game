@@ -48,7 +48,7 @@ public class BeatManager : MonoBehaviour
             BeatEvent be = savedBeatEvents[i];
             beatEvents[be.beat] = be;
         }
-        Debug.Log(beatEvents.Count);
+
 
         beatIndSpeed = uiManager.GetBeatMovementSpeed();
         beatsToStart = (int)Mathf.Ceil(uiManager.GetBeatWrapperWidth() / beatIndSpeed);
