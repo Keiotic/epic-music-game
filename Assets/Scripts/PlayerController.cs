@@ -14,18 +14,6 @@ public class PlayerController : MonoBehaviour
     private GridManager gridManager;
     [SerializeField] private ProjectileAttack primaryAttack;
 
-    [System.Serializable]
-    public class ProjectileAttack
-    {
-        public GameObject bullet;
-        public float gridSpeed;
-        public int damage;
-        public AudioClip audio;
-        public float volume = 1;
-        public float pitch = 1;
-        public float randomPitch = 0.1f;
-        public LayerMask layerMask;
-    }
     void Start()
     {
         beatManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<BeatManager>();
@@ -117,7 +105,8 @@ public class PlayerController : MonoBehaviour
 
     public void FireWeapon()
     {
-        projectileSource.FireProjectile(primaryAttack.bullet, transform.position, transform.rotation.eulerAngles.z, primaryAttack.damage, (primaryAttack.gridSpeed*gridManager.GetGridBoxSize()/2)/beatManager.GetTimeBetweenBeats(), primaryAttack.layerMask);
-        projectileSource.PlayFiringSound(primaryAttack.audio, primaryAttack.volume, primaryAttack.pitch, primaryAttack.randomPitch);
+        float gridSpeedCoefficient = gridManager.GetGridBoxSize() / 2 / beatManager.GetTimeBetweenBeats();
+        projectileSource.FireSingleProjectile(primaryAttack, gridSpeedCoefficient);
+        projectileSource.PlayFiringSound(primaryAttack.audio, primaryAttack.volume, primaryAttack.pitch, primaryAttack.pitchRange);
     }
 }

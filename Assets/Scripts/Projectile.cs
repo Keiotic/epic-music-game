@@ -35,7 +35,14 @@ public class Projectile : MonoBehaviour
     void Update()
     {
         transform.Translate(transform.up * Time.deltaTime * speed);
-        
+
+        lifeTime -= Time.deltaTime;
+
+        if(Time.deltaTime<0)
+        {
+            Destroy(this.gameObject);
+        }
+
         if(Is2D)
         {
             RaycastHit2D hit2D = Physics2D.Raycast(transform.position, transform.up, rayRange, mask);

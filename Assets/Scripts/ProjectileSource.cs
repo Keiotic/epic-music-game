@@ -2,57 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof (AudioSource))]
+[RequireComponent(typeof(AudioSource))]
 public class ProjectileSource : MonoBehaviour
 {
-    [SerializeField] private bool customized;
-    [SerializeField] private Customizations customizations;
-    private AudioSource audioSource;
+    AudioSource audioSource;
 
-    [System.Serializable]
-    public class Customizations
-    {
-        public bool positionIsAbsolute = false;
-        public Vector2 position;
-        public bool rotationIsAbsolute = false;
-        public float rotation;
-    }
 
-    // Start is called before the first frame update
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();    
+        audioSource = GetComponent<AudioSource>();
     }
 
-
-    // Update is called once per frame
-    void Update()
+    public void FireSingleProjectile(GameObject prefab, Vector2 spawnPosition, float spawnRotation, bool positionIsRelativeToSelf, bool rotationIsRelativeToSelf, float speed, int damage, LayerMask layerMask, AudioClip audio, float volume, float pitch, float pitchRange)
     {
-        
+
     }
 
-    public GameObject FireProjectile (GameObject projectile, Vector3 origin, float rotation, int damage, float speed, LayerMask projectileMask)
+    public void FireSingleProjectile(ProjectileAttack attack, float gridSpeedCoefficient)
     {
-        Vector3 rot = Vector3.zero;
-        rot.z = rotation;
-        return FireProjectile(projectile, origin, rot, damage, speed, projectileMask);
-    }
-
-    public GameObject FireProjectile (GameObject projectile, Vector3 origin, Vector3 rotation, int damage, float speed, LayerMask projectileMask)
-    {
-        GameObject proj = Instantiate(projectile, origin, Quaternion.Euler(rotation));
-        if (proj.GetComponent<Projectile>())
+        GameObject bullet = Instantiate(attack.prefab);
+        if (attack.positionIsRelativeToSelf)
         {
-            Projectile pr = proj.GetComponent<Projectile>();
-            pr.InitializeProjectile(speed, damage, projectileMask);
-            return proj;
+            bullet.transform.position = (Vector2)transform.position + attack.spawnPosition;
         }
         else
         {
-            Destroy(proj);
-            throw new MissingComponentException("The projectile: " + proj.name + " is missing a Projectile component!");
+            bullet.transform.position = attack.spawnPosition;
         }
+        if (attack.rotationIsRelativeToSelf)
+        {
+            float rotation = transform.rotation.eulerAngles.z + attack.spawnRotation;
+            bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
+        }
+        else
+        {
+            float rotation = attack.spawnRotation;
+            bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
+        }
+        Projectile proj = bullet.GetComponent<Projectile>();
+        proj.InitializeProjectile(attack.speed * gridSpeedCoefficient, attack.damage, attack.layerMask);
     }
+
     public void PlayFiringSound(AudioClip audio, float volume, float pitch, float randompitch)
     {
         if (audio)
@@ -62,5 +52,92 @@ public class ProjectileSource : MonoBehaviour
             audioSource.pitch = pitch + Random.Range(-randompitch, randompitch);
             audioSource.Play();
         }
+    }
+}
+
+[System.Serializable]
+public class ProjectileAttack
+{
+    [SerializeField] internal GameObject prefab;
+    [SerializeField] internal Vector2 spawnPosition;
+    [SerializeField] internal float spawnRotation;
+    [SerializeField] internal bool positionIsRelativeToSelf = true;
+    [SerializeField] internal bool rotationIsRelativeToSelf = true;
+
+    [SerializeField] internal float speed;
+    [SerializeField] internal int damage;
+
+    [SerializeField] internal LayerMask layerMask;
+
+    [SerializeField] internal AudioClip audio;
+    [SerializeField] internal float volume = 1;
+    [SerializeField] internal float pitch = 1;
+    [SerializeField] internal float pitchRange = 0.1f;
+
+
+    public ProjectileAttack(GameObject prefab, Vector2 spawnPosition, float spawnRotation, bool positionIsRelativeToSelf, bool rotationIsRelativeToSelf, float speed, int damage, LayerMask layerMask, AudioClip audio, float volume, float pitch, float pitchRange)
+    {
+        this.prefab = prefab;
+        this.spawnPosition = spawnPosition;
+        this.spawnRotation = spawnRotation;
+        this.positionIsRelativeToSelf = positionIsRelativeToSelf;
+        this.rotationIsRelativeToSelf = rotationIsRelativeToSelf;
+        this.speed = speed;
+
+        this.damage = damage;
+        this.layerMask = layerMask;
+        this.audio = audio;
+        this.volume = volume;
+        this.pitch = pitch;
+        this.pitchRange = pitchRange;
+    }
+
+    public GameObject GetPrefab()
+    {
+        return prefab;
+    }
+    public Vector2 GetSpawnPosition()
+    {
+        return spawnPosition;
+    }
+    public float GetSpawnRotation()
+    {
+        return spawnRotation;
+    }
+    public bool GetPositionIsRelativeToSelf()
+    {
+        return positionIsRelativeToSelf;
+    }
+    public bool GetRotationIsRelativeToSelf()
+    {
+        return rotationIsRelativeToSelf;
+    }
+    public float GetSpeed()
+    {
+        return speed;
+    }
+    public int GetDamage()
+    {
+        return damage;
+    }
+    public LayerMask GetLayerMask()
+    {
+        return layerMask;
+    }
+    public AudioClip GetAudioClip()
+    {
+        return audio;
+    }
+    public float GetVolume()
+    {
+        return volume;
+    }
+    public float GetPitch()
+    {
+        return pitch;
+    }
+    public float GetPitchRange()
+    {
+        return pitchRange;
     }
 }

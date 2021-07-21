@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 141163088810626938}
   - component: {fileID: 1432672357798687255}
   m_Layer: 8
-  m_Name: player
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e907a42be6e191741bb0ccdc05d5bc22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridPosition: {x: 0, y: 0}
   interpolateSpeed: 300
 --- !u!114 &1222914340263039728
 MonoBehaviour:
@@ -114,16 +115,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   primaryAttack:
-    bullet: {fileID: 300375393567912857, guid: c0f2a8dbb159f1d4fa89c96a069974c6, type: 3}
-    gridSpeed: 8
-    damage: 4
-    audio: {fileID: 0}
-    volume: 0
-    pitch: 0
-    randomPitch: 0
+    prefab: {fileID: 300375393567912857, guid: c0f2a8dbb159f1d4fa89c96a069974c6, type: 3}
+    spawnPosition: {x: 0, y: 0}
+    spawnRotation: 0
+    positionIsRelativeToSelf: 1
+    rotationIsRelativeToSelf: 1
+    speed: 8
+    damage: 10
     layerMask:
       serializedVersion: 2
       m_Bits: 513
+    audio: {fileID: 0}
+    volume: 0
+    pitch: 0
+    pitchRange: 0
 --- !u!114 &1373084030619446169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,12 +141,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14732f1c43311a64d9a2afe3b62535bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customized: 0
-  customizations:
-    positionIsAbsolute: 0
-    position: {x: 0, y: 0}
-    rotationIsAbsolute: 0
-    rotation: 0
 --- !u!114 &6291999137113507350
 MonoBehaviour:
   m_ObjectHideFlags: 0
