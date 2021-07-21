@@ -18,29 +18,32 @@ public class ProjectileSource : MonoBehaviour
 
     }
 
-    public void FireSingleProjectile(ProjectileAttack attack, float gridSpeedCoefficient)
+    public void FireProjectileAttack(ProjectileAttack attack, float gridSpeedCoefficient)
     {
-        GameObject bullet = Instantiate(attack.prefab);
-        if (attack.positionIsRelativeToSelf)
+        for (int i = 0; i < attack.spawns.Length; i++)
         {
-            bullet.transform.position = (Vector2)transform.position + attack.spawnPosition;
+            GameObject bullet = Instantiate(attack.prefab, transform.position, transform.rotation);
+            if (attack.positionIsRelativeToSelf)
+            {
+                bullet.transform.position = (Vector2)transform.position + attack.spawns[i].spawnPosition;
+            }
+            else
+            {
+                bullet.transform.position = attack.spawns[i].spawnPosition;
+            }
+            if (attack.rotationIsRelativeToSelf)
+            {
+                float rotation = transform.rotation.eulerAngles.z + attack.spawns[i].spawnRotation;
+                bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
+            }
+            else
+            {
+                float rotation = attack.spawns[i].spawnRotation;
+                bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
+            }
+            Projectile proj = bullet.GetComponent<Projectile>();
+            proj.InitializeProjectile(attack.speed * gridSpeedCoefficient, attack.damage, attack.layerMask);
         }
-        else
-        {
-            bullet.transform.position = attack.spawnPosition;
-        }
-        if (attack.rotationIsRelativeToSelf)
-        {
-            float rotation = transform.rotation.eulerAngles.z + attack.spawnRotation;
-            bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
-        }
-        else
-        {
-            float rotation = attack.spawnRotation;
-            bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
-        }
-        Projectile proj = bullet.GetComponent<Projectile>();
-        proj.InitializeProjectile(attack.speed * gridSpeedCoefficient, attack.damage, attack.layerMask);
     }
 
     public void PlayFiringSound(AudioClip audio, float volume, float pitch, float randompitch)
@@ -59,8 +62,15 @@ public class ProjectileSource : MonoBehaviour
 public class ProjectileAttack
 {
     [SerializeField] internal GameObject prefab;
-    [SerializeField] internal Vector2 spawnPosition;
-    [SerializeField] internal float spawnRotation;
+    [SerializeField] internal SpawnInformation[] spawns;
+
+    [System.Serializable]
+    public class SpawnInformation
+    {
+        [SerializeField] internal Vector2 spawnPosition;
+        [SerializeField] internal float spawnRotation;
+    }
+
     [SerializeField] internal bool positionIsRelativeToSelf = true;
     [SerializeField] internal bool rotationIsRelativeToSelf = true;
 
@@ -75,11 +85,10 @@ public class ProjectileAttack
     [SerializeField] internal float pitchRange = 0.1f;
 
 
-    public ProjectileAttack(GameObject prefab, Vector2 spawnPosition, float spawnRotation, bool positionIsRelativeToSelf, bool rotationIsRelativeToSelf, float speed, int damage, LayerMask layerMask, AudioClip audio, float volume, float pitch, float pitchRange)
+    public ProjectileAttack(GameObject prefab, SpawnInformation[] spawns, bool positionIsRelativeToSelf, bool rotationIsRelativeToSelf, float speed, int damage, LayerMask layerMask, AudioClip audio, float volume, float pitch, float pitchRange)
     {
         this.prefab = prefab;
-        this.spawnPosition = spawnPosition;
-        this.spawnRotation = spawnRotation;
+        this.spawns = spawns;
         this.positionIsRelativeToSelf = positionIsRelativeToSelf;
         this.rotationIsRelativeToSelf = rotationIsRelativeToSelf;
         this.speed = speed;
@@ -96,13 +105,9 @@ public class ProjectileAttack
     {
         return prefab;
     }
-    public Vector2 GetSpawnPosition()
+    public SpawnInformation[] GetSpawns()
     {
-        return spawnPosition;
-    }
-    public float GetSpawnRotation()
-    {
-        return spawnRotation;
+        return spawns;
     }
     public bool GetPositionIsRelativeToSelf()
     {

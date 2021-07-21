@@ -116,8 +116,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryAttack:
     prefab: {fileID: 300375393567912857, guid: c0f2a8dbb159f1d4fa89c96a069974c6, type: 3}
-    spawnPosition: {x: 0, y: 0}
-    spawnRotation: 0
+    spawns:
+    - spawnPosition: {x: 0, y: 0}
+      spawnRotation: 0
     positionIsRelativeToSelf: 1
     rotationIsRelativeToSelf: 1
     speed: 8

@@ -15,6 +15,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected GridEntity gridEntity;
     protected Navigation nav = new Navigation();
     protected bool movesDiagonally = false;
+    protected ProjectileSource projectileSource;
     protected class Navigation
     {
         public Pathfinder pather;
@@ -29,6 +30,7 @@ public abstract class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
+        projectileSource = GetComponent<ProjectileSource>();
         gridEntity = GetComponent<GridEntity>();
         if(!isInitiated)
         {

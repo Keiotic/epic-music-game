@@ -13,9 +13,11 @@ public class GridManager : MonoBehaviour
     private Grid grid;
     private GridADT<PathNode> navGrid;
     private Grid innerGrid;
+    private BeatManager beatManager;
 
     void Start()
     {
+        beatManager = GetComponent<BeatManager>();
         grid = new Grid(gridSquareSize, gridSize, new Vector2(0, 0));
         PathNode[,] nodes = new PathNode[(int)gridSize.x, (int)gridSize.y];
         for (int j = 0; j < gridSize.y; j++)
@@ -90,6 +92,11 @@ public class GridManager : MonoBehaviour
         position.x = Mathf.Clamp(position.x, xPadding, gridSize.x-1-xPadding);
         position.y = Mathf.Clamp(position.y, yPadding, gridSize.y-1-yPadding);
         return position;
+    }
+
+    public float GetGridSpeedCoefficient ()
+    {
+        return this.GetGridBoxSize() / 2 / beatManager.GetTimeBetweenBeats();
     }
 
     public Vector2 GetGridSize()

@@ -8,13 +8,18 @@ public class EnemyAI_Invader : EnemyAI
     private Vector2 rightVector;
     private int movementSize;
     private int movesUntilDirectionSwitch;
+    [SerializeField] int firingDelay = 3;
+    private int movesUntilFire;
     private int direction;
+
+    [SerializeField] ProjectileAttack projectileAttack;
+
     public override void Start()
     {
         base.Start();
         forwardVector = transform.up.normalized;
         rightVector = transform.right.normalized;
-
+        movesUntilFire = firingDelay;
 
         //Lock movement to up/down left/right movement
         if (Mathf.Abs(forwardVector.y) == 1)
@@ -48,6 +53,7 @@ public class EnemyAI_Invader : EnemyAI
                 movesUntilDirectionSwitch = Mathf.RoundToInt(gridPos);
             }
         }
+
     }
     public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos)
     {
@@ -76,6 +82,15 @@ public class EnemyAI_Invader : EnemyAI
             gridEntity.MoveRelativeToCurrentPosition(forwardVector);
             movesUntilDirectionSwitch = movementSize;
             direction *= -1;
+        }
+        if(movesUntilFire == 0)
+        {
+            movesUntilFire = firingDelay;
+            projectileSource.FireProjectileAttack(projectileAttack, gridManager.GetGridSpeedCoefficient());
+        }
+        else
+        {
+            movesUntilFire -= 1;
         }
     }
 

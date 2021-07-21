@@ -30,11 +30,11 @@ public class Projectile : MonoBehaviour
 
     void Start()
     {
-        
+      
     }
     void Update()
     {
-        transform.Translate(transform.up * Time.deltaTime * speed);
+        transform.Translate(Vector3.up * Time.deltaTime * speed);
 
         lifeTime -= Time.deltaTime;
 
