@@ -5,11 +5,14 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject beatIndicator;
-    public Vector2 beatPos;
-    public RectTransform beatWrapper;
-    public float beatMoveSpeed;
-    public List<BeatIndicatorObject> beatIndicators = new List<BeatIndicatorObject>();
+    [SerializeField] private GameObject beatIndicator;
+    [SerializeField] private Vector2 beatPos;
+    [SerializeField] private RectTransform beatWrapper;
+    [SerializeField] private float beatMoveSpeed;
+    [SerializeField] private List<BeatIndicatorObject> beatIndicators = new List<BeatIndicatorObject>();
+
+    [SerializeField] private Image healthBar;
+    
 
     public class BeatIndicatorObject
     {
