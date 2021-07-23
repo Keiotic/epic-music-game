@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float beatMoveSpeed;
     [SerializeField] private List<BeatIndicatorObject> beatIndicators = new List<BeatIndicatorObject>();
 
-    [SerializeField] private Image healthBar;
+    [SerializeField] private UI_Healthrenderer healthIndicator;
     
 
     public class BeatIndicatorObject
@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
     }
     void Start()
     {
+        healthIndicator.Initialize(10, 20);
     }
 
     void Update()
