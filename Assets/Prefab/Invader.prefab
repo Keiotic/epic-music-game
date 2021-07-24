@@ -155,7 +155,7 @@ MonoBehaviour:
     positionIsRelativeToSelf: 1
     rotationIsRelativeToSelf: 1
     speed: 2
-    damage: 5
+    damage: 1
     layerMask:
       serializedVersion: 2
       m_Bits: 257

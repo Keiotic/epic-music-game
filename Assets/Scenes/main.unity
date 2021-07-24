@@ -367,7 +367,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
+  m_CellSize: {x: 50, y: 50}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -931,6 +931,7 @@ GameObject:
   - component: {fileID: 1941933491}
   - component: {fileID: 1941933492}
   - component: {fileID: 1941933495}
+  - component: {fileID: 1941933496}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: GameManager
@@ -1149,11 +1150,25 @@ MonoBehaviour:
   background: {fileID: 0}
   foreground: {fileID: 0}
   stateRenders:
-  - {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  healthPerUnit: 5
+  - {fileID: 4432793351920879750, guid: 7cd5d48eebbf33342a8b0a96b937ee37, type: 3}
+  - {fileID: 5642012044021194823, guid: 7cd5d48eebbf33342a8b0a96b937ee37, type: 3}
+  - {fileID: 8124259339964715380, guid: 7cd5d48eebbf33342a8b0a96b937ee37, type: 3}
+  - {fileID: 7685371531485235544, guid: 7cd5d48eebbf33342a8b0a96b937ee37, type: 3}
+  - {fileID: 4160753575623616581, guid: 7cd5d48eebbf33342a8b0a96b937ee37, type: 3}
+  healthPerUnit: 1
   padding: 0
   layoutGroupTransform: {fileID: 357678555}
   indicator: {fileID: 1849400321874965651, guid: fc221acca9762ae4cb0ca6a85babf229,
     type: 3}
+--- !u!114 &1941933496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941933487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c74382631d9f304ebac7c71db5cb82d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

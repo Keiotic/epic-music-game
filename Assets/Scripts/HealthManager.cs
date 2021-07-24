@@ -11,7 +11,8 @@ public class HealthManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        health = maxHealth;   
+        health = maxHealth;
+        OnHealthUpdate();
     }
 
     // Update is called once per frame
@@ -31,10 +32,18 @@ public class HealthManager : MonoBehaviour
     public void ApplyDamage (int damage)
     {
         health = Mathf.Clamp(health - Mathf.Abs(damage), 0, maxHealth);
+        OnHealthUpdate();
     }
 
     public void Heal(int healValue)
     {
         health = Mathf.Clamp(health + Mathf.Abs(healValue), 0, maxHealth);
+        OnHealthUpdate();
+    }
+
+    private void OnHealthUpdate()
+    {
+        if(GetComponent<PlayerController>())
+        GameEvents.current.UpdatePlayerHealth(health, maxHealth);
     }
 }

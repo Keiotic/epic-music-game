@@ -28,12 +28,17 @@ public class UIManager : MonoBehaviour
     }
     void Start()
     {
-        healthIndicator.Initialize(10, 20);
+        GameEvents.current.onUpdatePlayerHealth += UpdatePlayerHealth;
     }
 
     void Update()
     {
         
+    }
+
+    public void UpdatePlayerHealth (int health, int maxHealth)
+    {
+        healthIndicator.UpdateHealth(health, maxHealth);
     }
 
     public void BeatUpdate(float passedTime, float timeBetweenBeats, int currentbeat)

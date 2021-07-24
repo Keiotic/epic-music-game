@@ -14,27 +14,54 @@ public class UI_Healthunits : UI_Healthrenderer
     protected List<Image> renderImages = new List<Image>();
     public override void Initialize(float health, float maxHealth)
     {
-        //layoutGroupTransform.GetComponent<GridLayoutGroup>().
-        int imageIndex = 0;
-        int units = (int)Mathf.Ceil(maxHealth / (stateRenders.Length * healthPerUnit));
-        int fullUnits = (int)Mathf.Floor(health / (stateRenders.Length * healthPerUnit));
-        print(units);
-        int semiFullUnits = (int)Mathf.Floor(health / (healthPerUnit));
+        int renderLength = stateRenders.Length-1;
+        int units = (int)Mathf.Ceil(maxHealth / (renderLength * healthPerUnit));
+        int fullUnits = (int)Mathf.Floor(health / (renderLength * healthPerUnit));
         for (int i = 0; i < units; i++)
         {
             renderImages.Add(CreateNewUnit());
+            if(i<fullUnits)
+            {
+                renderImages[i].sprite = stateRenders[renderLength];
+            }
+            else
+            {
+                renderImages[i].sprite = stateRenders[0];
+            }
         }
-        for(int i = 0; i < fullUnits; i++)
+        int finalUnitHealth = (int)health - (int)fullUnits*healthPerUnit*renderLength;
+        if (finalUnitHealth > 0)
         {
-            renderImages[i].sprite = stateRenders[stateRenders.Length-1];
+            int finalUnitState = (int)Mathf.Round(finalUnitHealth / healthPerUnit);
+            renderImages[renderImages.Count - 1].sprite = stateRenders[finalUnitState];
         }
-        
     }
     public override void UpdateHealth(float health, float maxHealth)
     {
-        int imageIndex = 0;
+        int renderLength = stateRenders.Length - 1;
+        int units = (int)Mathf.Ceil(maxHealth / (renderLength * healthPerUnit));
+        int fullUnits = (int)Mathf.Floor(health / (renderLength * healthPerUnit));
 
+        for (int i = 0; i < units; i++)
+        {
+            if(renderImages.Count-1 < i)
+                renderImages.Add(CreateNewUnit());
+            if (i < fullUnits)
+            {
+                renderImages[i].sprite = stateRenders[renderLength];
+            }
+            else
+            {
+                renderImages[i].sprite = stateRenders[0];
+            }
+        }
 
+        int finalUnitHealth = (int)health - (int)fullUnits * healthPerUnit * renderLength;
+        if (finalUnitHealth > 0)
+        {
+            int finalUnitState = (int)Mathf.Round(finalUnitHealth / healthPerUnit);
+            renderImages[fullUnits].sprite = stateRenders[finalUnitState];
+        }
     }
 
     public Image CreateNewUnit()

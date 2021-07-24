@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject playerPrefab;
+    [SerializeField] private GameObject playerPrefab;
     private GameObject playerObject;
 
     private int score;
@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     private BeatManager beatManager;
     private UIManager uiManager;
 
+    private int playerHealth;
+    private int playerMaxHealth;
     
     // Start is called before the first frame update
     void Start()
@@ -41,11 +43,5 @@ public class GameManager : MonoBehaviour
         if(playerObject)
             return playerObject;
         return null;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
