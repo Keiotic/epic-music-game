@@ -6,11 +6,18 @@ public class HealthManager : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int health;
+    [SerializeField] private int destructionScore = 10;
     private bool dead = false;
+    private bool isPlayer = false;
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        if (GetComponent<PlayerController>())
+        {
+            isPlayer = true;
+        }
         health = maxHealth;
         OnHealthUpdate();
     }
@@ -26,7 +33,15 @@ public class HealthManager : MonoBehaviour
 
     public void Die()
     {
-        dead = true;
+        if(isPlayer)
+        {
+            GameEvents.current.DestroyPlayer();
+        }
+        else
+        {
+            GameEvents.current.DestroyEnemy(destructionScore);
+        }
+        Destroy(gameObject);
     }
 
     public void ApplyDamage (int damage)
@@ -43,7 +58,7 @@ public class HealthManager : MonoBehaviour
 
     private void OnHealthUpdate()
     {
-        if(GetComponent<PlayerController>())
+        if(isPlayer)
         GameEvents.current.UpdatePlayerHealth(health, maxHealth);
     }
 }

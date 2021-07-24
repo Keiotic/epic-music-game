@@ -18,4 +18,22 @@ public class GameEvents : MonoBehaviour
             onUpdatePlayerHealth(health, maxHealth);
         }
     }
+
+    public event Action<int> onDestroyEnemy;
+    public void DestroyEnemy(int score)
+    {
+        if (onDestroyEnemy != null)
+        {
+            onDestroyEnemy(score);
+        }
+    }
+
+    public event Action onDestroyPlayer;
+    public void DestroyPlayer()
+    {
+        if (onDestroyPlayer != null)
+        {
+            onDestroyPlayer();
+        }
+    }
 }

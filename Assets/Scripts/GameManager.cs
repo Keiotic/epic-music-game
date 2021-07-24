@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     private GameObject playerObject;
 
-    private int score;
+    [SerializeField] private int score;
 
     private GridManager gridManager;
     private BeatManager beatManager;
@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
         beatManager = GetComponent<BeatManager>();
         uiManager = GetComponent<UIManager>();
         StartCoroutine(StartGame());
+        GameEvents.current.onDestroyEnemy += DestroyEnemy;
+        GameEvents.current.onDestroyPlayer += DestroyPlayer;
     }
 
     public IEnumerator StartGame()
@@ -31,11 +33,21 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(4);
     }
 
+    private void DestroyPlayer()
+    {
+        
+    }
+
     public void SpawnPlayer()
     {
         playerObject = Instantiate(playerPrefab, this.transform);
         GridEntity pEnt = playerObject.GetComponent<GridEntity>();
         pEnt.MoveToAbsolutePosition(new Vector2(Mathf.Round(gridManager.GetGridSize().x / 2), Mathf.Round(gridManager.GetGridSize().y / 2)));
+    }
+
+    public void DestroyEnemy(int score)
+    {
+        this.score += score;
     }
 
     public GameObject GetPlayer ()
