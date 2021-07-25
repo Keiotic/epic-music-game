@@ -39,9 +39,9 @@ public class EnemyAI_Grunt : EnemyAI
         }
     }
 
-    public override void MovementUpdate()
+    public override void MovementUpdate(int beat)
     {
-        base.MovementUpdate();
+        base.MovementUpdate(beat);
     }
 
     public override void Update()

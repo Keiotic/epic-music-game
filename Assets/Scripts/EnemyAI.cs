@@ -32,7 +32,7 @@ public abstract class EnemyAI : MonoBehaviour
     {
         projectileSource = GetComponent<ProjectileSource>();
         gridEntity = GetComponent<GridEntity>();
-        if(!isInitiated)
+        if (!isInitiated)
         {
             gridManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GridManager>();
             gameManager = gridManager.GetComponent<GameManager>();
@@ -41,6 +41,12 @@ public abstract class EnemyAI : MonoBehaviour
             currentBeat = beatManager.GetCurrentBeat();
             CreatePathfinder(gridManager);
         }
+        GameEvents.current.onBeat += MovementUpdate;
+    }
+
+    private void OnDestroy()
+    {
+        GameEvents.current.onBeat -= MovementUpdate;
     }
 
     public void CreatePathfinder(GridManager gridManager)
@@ -62,14 +68,14 @@ public abstract class EnemyAI : MonoBehaviour
         int tposY = Mathf.Clamp((int)nav.target.y, 0, (int)gridManager.GetGrid().GetSize().y);
 
         nav.path = nav.pather.FindPath(posX, posY, tposX, tposY);
-        nav.path.RemoveAt(nav.path.Count-1);
+        nav.path.RemoveAt(nav.path.Count - 1);
     }
 
     public void FollowPath()
     {
-        if(nav.path != null && nav.path.Count > 0)
+        if (nav.path != null && nav.path.Count > 0)
         {
-            PathNode node = nav.path[nav.path.Count-1];
+            PathNode node = nav.path[nav.path.Count - 1];
             gridEntity.MoveToAbsolutePosition(node.position);
             gridEntity.Warp();
             nav.path.Remove(node);
@@ -94,24 +100,17 @@ public abstract class EnemyAI : MonoBehaviour
         isInitiated = true;
     }
 
-    public virtual void MovementUpdate()
+    public virtual void MovementUpdate(int beat)
     {
-        if (currentBeat != beatManager.GetCurrentBeat())
-        {
-            if (beatManager.GetTimingClass() == TimingClass.EXCELLENT)
-            {
-                currentBeat = beatManager.GetCurrentBeat();
-                if (player)
-                    DoTargetUpdate();
-                else
-                    DoTargetlessUpdate();
-            }
-        }
+        currentBeat = beat;
+        if (player)
+            DoTargetUpdate();
+        else
+            DoTargetlessUpdate();
     }
 
     public virtual void Update()
     {
-        MovementUpdate();
         gridEntity.LinearilyInterpolatePosition();
     }
 
@@ -119,7 +118,7 @@ public abstract class EnemyAI : MonoBehaviour
 
     public abstract void DoTargetUpdate();
 
-    public bool hasMovedThisBeat ()
+    public bool hasMovedThisBeat()
     {
         return hasMovedThisTurn;
     }

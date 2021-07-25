@@ -36,4 +36,13 @@ public class GameEvents : MonoBehaviour
             onDestroyPlayer();
         }
     }
+
+    public event Action<int> onBeat;
+    public void Beat(int beat)
+    {
+        if(onBeat != null)
+        {
+            onBeat(beat);
+        }
+    }
 }

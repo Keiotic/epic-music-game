@@ -16,7 +16,7 @@ public class BeatManager : MonoBehaviour
     private bool musicStarted = false;
     [SerializeField] private bool ignoreBeat;
     private float timePassed;
-    private float timeBetweenBeats;
+    private float timeBetweenBeats = 1/2f;
     private int currentBeat;
     [SerializeField] private float[] borders = {0.1f, 0.2f, 0.3f};
     private int pastBeat;
@@ -25,6 +25,7 @@ public class BeatManager : MonoBehaviour
 
     public Text text;
     public EnemyManager enemyManager;
+    private int nextBeat;
 
     void Start()
     {
@@ -36,9 +37,9 @@ public class BeatManager : MonoBehaviour
         pastBeat = -100;
         musicStarted = true;
 
-        //float bpm = Mathf.Clamp(track.GetBpm(), 1, Mathf.Infinity);
-        //timeBetweenBeats = 60/bpm;
-        
+        float bpm = track.GetBpm();
+        timeBetweenBeats = (float)60 / bpm;
+
         beatEvents = new List<BeatEvent>();
         for (int i = 0; i < Mathf.Ceil(/*track.audio.length*/ 120/timeBetweenBeats); i++)
         {
@@ -60,33 +61,30 @@ public class BeatManager : MonoBehaviour
         timePassed = -(beatsToStart + 0.5f) * timeBetweenBeats;
     }
 
+
     TimingClass cls = TimingClass.INVALID;
     void Update()
     {
         if(musicStarted)
         {
-            text.text = currentBeat.ToString();
+            text.text = (nextBeat-1).ToString();
             timePassed += Time.deltaTime;
             currentBeat = Mathf.RoundToInt((timePassed) / timeBetweenBeats);
             ignoreBeat = WillIgnoreBeat(currentBeat);
 
-            if(cls != TimingClass.EXCELLENT && GetTimingClass() == TimingClass.EXCELLENT)
+            if (currentBeat >= 0 && nextBeat * timeBetweenBeats < timePassed)
             {
-                mySource.PlayOneShot(beatAudio);
-                cls = TimingClass.EXCELLENT;
-                DoBeatEventCheck();
-            }
-            else if (cls != TimingClass.INVALID && GetTimingClass() == TimingClass.INVALID)
-            {
-                cls = TimingClass.INVALID;
-            }
-            /*
-            if (currentBeat >= 0 && currentBeat * timeBetweenBeats < timePassed)
-            {
+                if(currentBeat == 0)
+                {
+                    mySource.clip = track.GetAudio();
+                    mySource.Play();
+                }
                 mySource.PlayOneShot(beatAudio);
                 DoBeatEventCheck();
+                GameEvents.current.Beat(currentBeat);
+                nextBeat += 1;
             }
-            */
+
             if (pastBeat != currentBeat)
             {
                 pastBeat = currentBeat;

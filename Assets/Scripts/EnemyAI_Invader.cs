@@ -94,9 +94,9 @@ public class EnemyAI_Invader : EnemyAI
         }
     }
 
-    public override void MovementUpdate()
+    public override void MovementUpdate(int beat)
     {
-        base.MovementUpdate();
+        base.MovementUpdate(beat);
     }
 
     public override void Update()

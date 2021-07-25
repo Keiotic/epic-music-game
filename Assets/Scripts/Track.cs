@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MusicTrack", menuName = "Music/Track")]
 public class Track : ScriptableObject
 {
-    [SerializeField] private int bpm = 180;
+    [SerializeField] private float bpm = 180;
 
     [SerializeField] private int beatsTillStart = 4;
 
@@ -16,7 +16,7 @@ public class Track : ScriptableObject
     [SerializeField] private List<BeatEvent> beatEvents;
 
 
-    public Track(int bpm, int beatsTillStart, int[] ignoredBeats, AudioClip audio, List<BeatEvent> beatEvents)
+    public Track(float bpm, int beatsTillStart, int[] ignoredBeats, AudioClip audio, List<BeatEvent> beatEvents)
     {
         this.bpm = bpm;
         this.beatsTillStart = beatsTillStart;
@@ -26,7 +26,7 @@ public class Track : ScriptableObject
     }
 
 
-    public int GetBpm ()
+    public float GetBpm ()
     {
         return bpm;
     }
