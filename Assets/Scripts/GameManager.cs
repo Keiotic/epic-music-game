@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameManager main;
     [SerializeField] private GameObject playerPrefab;
     private GameObject playerObject;
 
@@ -19,12 +20,14 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        main = this;
         gridManager = GetComponent<GridManager>();
         beatManager = GetComponent<BeatManager>();
         uiManager = GetComponent<UIManager>();
         StartCoroutine(StartGame());
         GameEvents.current.onDestroyEnemy += DestroyEnemy;
         GameEvents.current.onDestroyPlayer += DestroyPlayer;
+        uiManager.UpdateScore(score);
     }
 
     public IEnumerator StartGame()
@@ -48,6 +51,12 @@ public class GameManager : MonoBehaviour
     public void DestroyEnemy(int score)
     {
         this.score += score;
+        UpdateUIScore();
+    }
+
+    public void UpdateUIScore()
+    {
+        uiManager.UpdateScore(score);
     }
 
     public GameObject GetPlayer ()

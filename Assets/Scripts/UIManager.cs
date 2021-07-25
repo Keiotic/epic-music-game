@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<BeatIndicatorObject> beatIndicators = new List<BeatIndicatorObject>();
 
     [SerializeField] private UI_Healthrenderer healthIndicator;
+    [SerializeField] private Text uiScore;
     
 
     public class BeatIndicatorObject
@@ -39,6 +40,11 @@ public class UIManager : MonoBehaviour
     public void UpdatePlayerHealth (int health, int maxHealth)
     {
         healthIndicator.UpdateHealth(health, maxHealth);
+    }
+
+    public void UpdateScore (int score)
+    {
+        uiScore.text = score.ToString();
     }
 
     public void BeatUpdate(float passedTime, float timeBetweenBeats, int currentbeat)

@@ -128,6 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   health: 0
+  destructionScore: 10
 --- !u!114 &-3147335305609584334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,7 +155,7 @@ MonoBehaviour:
       spawnRotation: -90
     positionIsRelativeToSelf: 1
     rotationIsRelativeToSelf: 1
-    speed: 2
+    speed: 4
     damage: 1
     layerMask:
       serializedVersion: 2
