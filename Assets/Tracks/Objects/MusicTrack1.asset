@@ -15,7 +15,7 @@ MonoBehaviour:
   bpm: 180
   beatsTillStart: 4
   ignoredBeats: 11000000
-  audio: {fileID: 0}
+  audio: {fileID: 8300000, guid: 5ca85968811dc034db1026678dbd788d, type: 3}
   beatEvents:
   - beat: 0
     enemySpawns:

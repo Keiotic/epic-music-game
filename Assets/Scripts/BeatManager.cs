@@ -16,7 +16,7 @@ public class BeatManager : MonoBehaviour
     private bool musicStarted = false;
     [SerializeField] private bool ignoreBeat;
     private float timePassed;
-    private float timeBetweenBeats = 1/2f;
+    private float timeBetweenBeats;
     private int currentBeat;
     [SerializeField] private float[] borders = {0.1f, 0.2f, 0.3f};
     private int pastBeat;
@@ -36,6 +36,9 @@ public class BeatManager : MonoBehaviour
         pastBeat = -100;
         musicStarted = true;
 
+        //float bpm = Mathf.Clamp(track.GetBpm(), 1, Mathf.Infinity);
+        //timeBetweenBeats = 60/bpm;
+        
         beatEvents = new List<BeatEvent>();
         for (int i = 0; i < Mathf.Ceil(/*track.audio.length*/ 120/timeBetweenBeats); i++)
         {
@@ -77,7 +80,14 @@ public class BeatManager : MonoBehaviour
             {
                 cls = TimingClass.INVALID;
             }
-            if(pastBeat != currentBeat)
+            /*
+            if (currentBeat >= 0 && currentBeat * timeBetweenBeats < timePassed)
+            {
+                mySource.PlayOneShot(beatAudio);
+                DoBeatEventCheck();
+            }
+            */
+            if (pastBeat != currentBeat)
             {
                 pastBeat = currentBeat;
                 NewBeat();
