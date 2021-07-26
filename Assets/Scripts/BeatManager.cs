@@ -45,7 +45,7 @@ public class BeatManager : MonoBehaviour
         print(totalBeats);
 
         beatEvents = new List<BeatEvent>();
-        for (int i = 0; i < Mathf.Ceil(/*track.audio.length*/ 120/timeBetweenBeats); i++)
+        for (int i = 0; i < Mathf.Ceil(totalBeats); i++)
         {
             beatEvents.Add(new BeatEvent());
         }
