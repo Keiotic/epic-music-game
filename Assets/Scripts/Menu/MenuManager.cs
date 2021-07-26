@@ -1,22 +1,39 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 namespace MenuManagement
 {
     public class MenuManager : MonoBehaviour
     {
+        public static MenuManager current;
         [SerializeField] private List<MenuTab> menuTabs = new List<MenuTab>();
+        [SerializeField] private MenuTab confirmationTab;
         private int selectedMenu = -1;
-        private MenuEvent queuedEvent;
+        private MenuEventCarrier queuedEvent;
 
         private void Start()
         {
+            current = this;
             selectedMenu = -1;
         }
 
-        public void CallEvent(MenuEvent ev)
+        private void Update()
+        {
+
+        }
+
+        public void CallEvent(MenuEventCarrier ev)
         {
             queuedEvent = ev;
+            if(ev.RequiresConfirmation())
+            {
+                LoadConfirmationTab();
+            }
+            else
+            {
+                ev.DoEvent();
+            }
         }
 
         public void SwitchTab(int menuIndex)
@@ -35,8 +52,12 @@ namespace MenuManagement
         {
             for (int i = 0; i < menuTabs.Count; i++)
             {
-                LoadTab(i);
-                return;
+                MenuTab tab = menuTabs[i];
+                if (menuName == tab.name)
+                {
+                    LoadTab(i);
+                    return;
+                }
             }
         }
 
@@ -54,12 +75,34 @@ namespace MenuManagement
             }
         }
 
+        public void LoadConfirmationTab()
+        {
+            confirmationTab.EnableTabs();
+        }
+
+        public void UnloadConfirmationTab()
+        {
+            confirmationTab.DisableTabs();
+        }
+
         public void UnloadAllTabs()
         {
             for(int i = 0; i < menuTabs.Count; i++)
             {
                 MenuTab tab = menuTabs[i];
+                tab.DisableTabs();
             }
+        }
+
+        public void Confirm ()
+        {
+            queuedEvent.DoEvent();
+            UnloadConfirmationTab();
+        }
+
+        public void Decline ()
+        {
+            UnloadConfirmationTab();
         }
 
     }

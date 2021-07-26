@@ -5,25 +5,20 @@ using UnityEngine;
 namespace MenuManagement
 {
     [System.Serializable]
-    public abstract class MenuEvent
+    public abstract class MenuEventCarrier : MonoBehaviour
     {
-        [SerializeField] private bool requireConfirmation;
+        [SerializeField] protected bool requireConfirmation;
         [Header("Confirmation")]
-        [SerializeField] private string actionName;
+        [SerializeField] protected string actionName;
 
         public abstract void DoEvent();
         public bool RequiresConfirmation()
         {
             return requireConfirmation;
         }
-    }
-
-    [System.Serializable]
-    public class SwitchSceneEvent : MenuEvent
-    {
-        public override void DoEvent()
+        public void ForwardEvent()
         {
-
+            MenuManager.current.CallEvent(this);
         }
     }
 }
