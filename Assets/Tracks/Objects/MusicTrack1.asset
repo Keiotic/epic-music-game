@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 644bcbf785e4f5b4789b5d32d2d0e1cc, type: 3}
   m_Name: MusicTrack1
   m_EditorClassIdentifier: 
-  bpm: 180
+  bpm: 130
   beatsTillStart: 4
   ignoredBeats: 11000000
   audio: {fileID: 8300000, guid: 5ca85968811dc034db1026678dbd788d, type: 3}

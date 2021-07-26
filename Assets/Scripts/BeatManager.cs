@@ -26,6 +26,7 @@ public class BeatManager : MonoBehaviour
     public Text text;
     public EnemyManager enemyManager;
     private int nextBeat;
+    private int totalBeats;
 
     void Start()
     {
@@ -39,6 +40,9 @@ public class BeatManager : MonoBehaviour
 
         float bpm = track.GetBpm();
         timeBetweenBeats = (float)60 / bpm;
+
+        totalBeats = Mathf.RoundToInt(track.GetAudio().length/timeBetweenBeats);
+        print(totalBeats);
 
         beatEvents = new List<BeatEvent>();
         for (int i = 0; i < Mathf.Ceil(/*track.audio.length*/ 120/timeBetweenBeats); i++)
@@ -67,28 +71,31 @@ public class BeatManager : MonoBehaviour
     {
         if(musicStarted)
         {
-            text.text = (nextBeat-1).ToString();
-            timePassed += Time.deltaTime;
-            currentBeat = Mathf.RoundToInt((timePassed) / timeBetweenBeats);
-            ignoreBeat = WillIgnoreBeat(currentBeat);
-
-            if (currentBeat >= 0 && nextBeat * timeBetweenBeats < timePassed)
+            if (timePassed < track.GetAudio().length)
             {
-                if(currentBeat == 0)
+                text.text = (nextBeat - 1).ToString();
+                timePassed += Time.deltaTime;
+                currentBeat = Mathf.RoundToInt((timePassed) / timeBetweenBeats);
+                ignoreBeat = WillIgnoreBeat(currentBeat);
+
+                if (currentBeat >= 0 && nextBeat * timeBetweenBeats < timePassed)
                 {
-                    mySource.clip = track.GetAudio();
-                    mySource.Play();
+                    if (currentBeat == 0)
+                    {
+                        mySource.clip = track.GetAudio();
+                        mySource.Play();
+                    }
+                    mySource.PlayOneShot(beatAudio);
+                    DoBeatEventCheck();
+                    GameEvents.current.Beat(currentBeat);
+                    nextBeat += 1;
                 }
-                mySource.PlayOneShot(beatAudio);
-                DoBeatEventCheck();
-                GameEvents.current.Beat(currentBeat);
-                nextBeat += 1;
-            }
 
-            if (pastBeat != currentBeat)
-            {
-                pastBeat = currentBeat;
-                NewBeat();
+                if (pastBeat != currentBeat)
+                {
+                    pastBeat = currentBeat;
+                    NewBeat();
+                }
             }
             uiManager.BeatUpdate(timePassed, timeBetweenBeats, currentBeat);
         }
@@ -162,7 +169,7 @@ public class BeatManager : MonoBehaviour
 
     public void NewBeat ()
     {
-        if(currentBeat + beatsToStart >= 0 && !WillIgnoreBeat(currentBeat+beatsToStart))
+        if(currentBeat + beatsToStart >= 0 && !WillIgnoreBeat(currentBeat+beatsToStart)&& currentBeat+beatsToStart<=totalBeats)
             uiManager.CreateBeatIndicator(currentBeat, beatsToStart);
 
         if (currentBeat > 0)

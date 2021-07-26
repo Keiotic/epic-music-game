@@ -39,7 +39,6 @@ public class EnemyAI_Invader : EnemyAI
         }
         else
         {
-            print(forwardVector);
             rightVector = Vector2.up;
             movementSize = (int)gridManager.GetInnerGridSize().y-1;
             direction = -(int)Mathf.Sign(gridEntity.GetPosition().y - gridManager.GetGridSize().y / 2);
