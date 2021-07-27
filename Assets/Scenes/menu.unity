@@ -133,6 +133,8 @@ GameObject:
   - component: {fileID: 116808730}
   - component: {fileID: 116808729}
   - component: {fileID: 116808731}
+  - component: {fileID: 116808732}
+  - component: {fileID: 116808733}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -238,7 +240,46 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 116808729}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: DoEventCall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &116808732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116808727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c186a293b9ccc90408cfd86e204c593b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events: []
+--- !u!114 &116808733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116808727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 767b99852c8f47e4ca982d1d044352b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requireConfirmation: 0
+  actionName: 
+  sceneName: main
 --- !u!1 &129605781
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,6 +292,7 @@ GameObject:
   - component: {fileID: 129605784}
   - component: {fileID: 129605783}
   - component: {fileID: 129605785}
+  - component: {fileID: 129605786}
   m_Layer: 5
   m_Name: Image (1)
   m_TagString: Untagged
@@ -356,7 +398,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 129605783}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: DoEventCall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &129605786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129605781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c186a293b9ccc90408cfd86e204c593b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events: []
 --- !u!1 &235715310
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,6 +435,7 @@ GameObject:
   - component: {fileID: 235715313}
   - component: {fileID: 235715312}
   - component: {fileID: 235715314}
+  - component: {fileID: 235715315}
   m_Layer: 5
   m_Name: Image (2)
   m_TagString: Untagged
@@ -474,7 +541,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 235715312}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: DoEventCall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &235715315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235715310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c186a293b9ccc90408cfd86e204c593b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events: []
 --- !u!1 &239487992
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,6 +980,7 @@ GameObject:
   - component: {fileID: 1592944026}
   - component: {fileID: 1592944025}
   - component: {fileID: 1592944027}
+  - component: {fileID: 1592944028}
   m_Layer: 5
   m_Name: Image (3)
   m_TagString: Untagged
@@ -994,7 +1086,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1592944025}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: DoEventCall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1592944028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592944023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c186a293b9ccc90408cfd86e204c593b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events: []
 --- !u!1 &1766464220
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,8 +1141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuTabs:
-  - name: 
-    tabElements: []
+  - name: main
+    tabElements:
+    - {fileID: 239487992}
   - name: 
     tabElements: []
   - name: 

@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using MenuManagement.Events;
 namespace MenuManagement
 {
     public class MenuManager : MonoBehaviour
@@ -9,13 +11,16 @@ namespace MenuManagement
         public static MenuManager current;
         [SerializeField] private List<MenuTab> menuTabs = new List<MenuTab>();
         [SerializeField] private MenuTab confirmationTab;
-        private int selectedMenu = -1;
-        private MenuEventCarrier queuedEvent;
+        [SerializeField] private Text confirmationText;
+        private int selectedMenu = 0;
+        private List<MenuEvent> queuedEvents = new List<MenuEvent>();
+        private bool confirmNextAction;
+        private Stack<int> visitedMenus;
 
         private void Start()
         {
             current = this;
-            selectedMenu = -1;
+            selectedMenu = 0;
         }
 
         private void Update()
@@ -23,20 +28,73 @@ namespace MenuManagement
 
         }
 
-        public void CallEvent(MenuEventCarrier ev)
+        public void CallEvents()
         {
-            queuedEvent = ev;
-            if(ev.RequiresConfirmation())
-            {
-                LoadConfirmationTab();
-            }
-            else
-            {
-                ev.DoEvent();
-            }
+
         }
 
-        public void SwitchTab(int menuIndex)
+        public void QueueEvent(MenuEvent ev)
+        {
+            queuedEvents.Add(ev);
+        }
+
+
+        public MenuEvent CreateTabSwitchEvent(int menuIndex, bool confirm = false)
+        {
+            MenuEvent tabEvent = new SwitchTabEvent(confirm, "switch menus", menuIndex);
+            return tabEvent;
+        }
+
+        public MenuEvent CreateTabSwitchEvent(string menuname, bool confirm = false)
+        {
+            MenuEvent tabEvent = new SwitchTabEvent(confirm, "switch menus", menuname);
+            return tabEvent;
+        }
+
+        public MenuEvent CreateSceneSwitchEvent(string sceneName, bool confirm = false)
+        {
+            MenuEvent sceneEvent = new SwitchSceneEvent(confirm, "proceed", sceneName);
+            return sceneEvent;
+        }
+
+        public MenuEvent CreateQuitEvent(bool confirm = true)
+        {
+            MenuEvent quitEvent = new QuitEvent(confirm, "quit");
+            return quitEvent;
+        }
+
+        public MenuEvent CreateEraseDataEvent(bool confirm = false)
+        {
+            MenuEvent eraseEvent = new EraseEvent(confirm, "erase your data", "");
+            return eraseEvent;
+        }
+
+        public void DoNewGame(string sceneName)
+        {
+            queuedEvents.Add(CreateEraseDataEvent(false));
+            queuedEvents.Add(CreateSceneSwitchEvent(sceneName));
+            ForceConfirmation("erase your data and start over?");
+
+        }
+
+        public void ForceConfirmation(string actionDescription)
+        {
+            if (confirmationText)
+            {
+                confirmationText.text = "Are you sure you wish to " + actionDescription;
+            }
+            LoadConfirmationTab();
+        }
+
+
+        private void CallQueuedEvents()
+        {
+        }
+
+
+
+
+        private void SwitchTab(int menuIndex)
         {
             if (menuIndex < menuTabs.Count)
             {
@@ -48,7 +106,8 @@ namespace MenuManagement
                 throw new System.IndexOutOfRangeException();
             }
         }
-        public void SwitchTab(string menuName)
+
+        private void SwitchTab(string menuName)
         {
             for (int i = 0; i < menuTabs.Count; i++)
             {
@@ -61,47 +120,54 @@ namespace MenuManagement
             }
         }
 
-        public void LoadTab(int index)
+
+        private void LoadTab(int index)
         {
             UnloadAllTabs();
-            if(index == selectedMenu)
+            if (index == selectedMenu)
             {
-                selectedMenu = -1;
+                selectedMenu = 0;
             }
-            else
-            {
-                selectedMenu = index;
-                menuTabs[index].DisableTabs();
-            }
+            selectedMenu = index;
+            menuTabs[index].DisableTabs();
+
         }
 
-        public void LoadConfirmationTab()
+
+        private void LoadConfirmationTab()
         {
             confirmationTab.EnableTabs();
         }
 
-        public void UnloadConfirmationTab()
+
+        private void UnloadConfirmationTab()
         {
             confirmationTab.DisableTabs();
         }
 
-        public void UnloadAllTabs()
+
+        private void UnloadAllTabs()
         {
-            for(int i = 0; i < menuTabs.Count; i++)
+            for (int i = 0; i < menuTabs.Count; i++)
             {
                 MenuTab tab = menuTabs[i];
                 tab.DisableTabs();
             }
         }
 
-        public void Confirm ()
+
+
+        private void Confirm()
         {
-            queuedEvent.DoEvent();
+            confirmNextAction = false;
             UnloadConfirmationTab();
         }
 
-        public void Decline ()
+
+
+        private void Decline()
         {
+            queuedEvents.Clear();
             UnloadConfirmationTab();
         }
 
