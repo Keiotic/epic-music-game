@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +16,8 @@ namespace MenuManagement
         private List<MenuEvent> queuedEvents = new List<MenuEvent>();
         private bool confirmNextAction;
         private Stack<int> visitedMenus;
+        private string SAVEPATH = "";
+        private string GAMESCENE_NAME = "main";
 
         private void Start()
         {
@@ -76,21 +77,32 @@ namespace MenuManagement
 
 
         //specific button calls
-        public void DoNewGame(string sceneName, string path)
+        public void DoNewGameBySceneName(string sceneName)
         {
-            DoConfirmation("Erase your data and start over?");
-            queuedEvents.Add(CreateEraseDataEvent(path, false));
+            DoNewGame(sceneName, SAVEPATH);
+        }
+        
+        public void DoNewGameBySavePath(string savepath)
+        {
+            DoNewGame(GAMESCENE_NAME, savepath);
+        }
+
+        public void DoNewGame (string sceneName, string savepath)
+        {
+            DoConfirmation("Are you sure you wish to erase your data and start over?");
+            DoConfirmation("Really?");
+            queuedEvents.Add(CreateEraseDataEvent(savepath, false));
             queuedEvents.Add(CreateSceneSwitchEvent(sceneName));
         }
 
-        public void DoLoadGame()
+        public void DoLoadGame(string sceneName)
         {
-            
+            queuedEvents.Add(CreateSceneSwitchEvent(sceneName));
         }
 
         public void DoQuit()
         {
-            DoConfirmation("suffer");
+            DoConfirmation("Are you sure you wish to exit to desktop?");
             queuedEvents.Add(CreateQuitEvent());
         }
 
@@ -103,12 +115,11 @@ namespace MenuManagement
         {
             if (confirmationText)
             {
-                confirmationText.text = "Are you sure you wish to " + actionDescription;
+                confirmationText.text = actionDescription;
             }
             confirmNextAction = true;
             LoadConfirmationTab();
         }
-
 
         private void CallQueuedEvents()
         {
@@ -166,7 +177,7 @@ namespace MenuManagement
 
         public void EraseData(string path)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Quit()

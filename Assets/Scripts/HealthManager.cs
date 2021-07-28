@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthManager : MonoBehaviour
-{
+public class HealthManager : MonoBehaviour {
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int health;
     [SerializeField] private int destructionScore = 10;
@@ -12,10 +11,8 @@ public class HealthManager : MonoBehaviour
     
 
     // Start is called before the first frame update
-    void Start()
-    {
-        if (GetComponent<PlayerController>())
-        {
+    void Start() {
+        if (GetComponent<PlayerController>()) {
             isPlayer = true;
         }
         health = maxHealth;
@@ -23,22 +20,18 @@ public class HealthManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if(health == 0 && !dead)
-        {
+    void Update() {
+        if(health == 0 && !dead) {
             Die();
         }
     }
 
     public void Die()
     {
-        if(isPlayer)
-        {
+        if(isPlayer) {
             GameEvents.current.DestroyPlayer();
         }
-        else
-        {
+        else {
             GameEvents.current.DestroyEnemy(destructionScore);
         }
         Destroy(gameObject);
@@ -59,6 +52,6 @@ public class HealthManager : MonoBehaviour
     private void OnHealthUpdate()
     {
         if(isPlayer)
-        GameEvents.current.UpdatePlayerHealth(health, maxHealth);
+            GameEvents.current.UpdatePlayerHealth(health, maxHealth);
     }
 }
