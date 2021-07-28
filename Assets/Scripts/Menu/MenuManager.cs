@@ -28,13 +28,9 @@ namespace MenuManagement
 
         private void Update()
         {
-
+            CallQueuedEvents();
         }
 
-        public void CallEvents()
-        {
-
-        }
 
         public void QueueEvent(MenuEvent ev)
         {
@@ -71,9 +67,9 @@ namespace MenuManagement
             return eraseEvent;
         }
 
-        public MenuEvent CreateConfirmationEvent(string name, bool confirm = false)
+        public MenuEvent CreateConfirmationEvent(string description, bool confirm = false)
         {
-            MenuEvent confirmEvent = new ConfirmationEvent(confirm, "erase your data");
+            MenuEvent confirmEvent = new ConfirmationEvent(confirm, description);
             return confirmEvent;
         }
 
@@ -82,9 +78,9 @@ namespace MenuManagement
         //specific button calls
         public void DoNewGame(string sceneName, string path)
         {
+            DoConfirmation("Erase your data and start over?");
             queuedEvents.Add(CreateEraseDataEvent(path, false));
             queuedEvents.Add(CreateSceneSwitchEvent(sceneName));
-            ActivateConfirmation("erase your data and start over?");
         }
 
         public void DoLoadGame()
@@ -92,9 +88,15 @@ namespace MenuManagement
             
         }
 
+        public void DoQuit()
+        {
+            DoConfirmation("suffer");
+            queuedEvents.Add(CreateQuitEvent());
+        }
+
         public void DoConfirmation(string actionDescription)
         {
-            queuedEvents.Add(CreateConfirmationEvent(actionDescription))
+            queuedEvents.Add(CreateConfirmationEvent(actionDescription));
         }
 
         public void ActivateConfirmation(string actionDescription)
@@ -110,7 +112,7 @@ namespace MenuManagement
 
         private void CallQueuedEvents()
         {
-            if(!confirmNextAction)
+            if(!confirmNextAction && queuedEvents.Count > 0)
             {
                 queuedEvents[0].DoEvent();
                 queuedEvents.RemoveAt(0);
@@ -146,7 +148,6 @@ namespace MenuManagement
             }
         }
 
-
         public void LoadTab(int index)
         {
             UnloadAllTabs();
@@ -162,7 +163,6 @@ namespace MenuManagement
         {
             SceneManager.LoadScene(name);
         }
-
 
         public void EraseData(string path)
         {
@@ -187,6 +187,9 @@ namespace MenuManagement
             confirmNextAction = false;
             UnloadConfirmationTab();
         }
+
+
+
 
         //internal tab management
         private void LoadConfirmationTab()
