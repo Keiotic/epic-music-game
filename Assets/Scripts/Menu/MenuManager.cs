@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using MenuManagement.Events;
+using UnityEngine.SceneManagement;
 namespace MenuManagement
 {
     public class MenuManager : MonoBehaviour
@@ -21,6 +22,8 @@ namespace MenuManagement
         {
             current = this;
             selectedMenu = 0;
+            UnloadConfirmationTab();
+            LoadTab(0);
         }
 
         private void Update()
@@ -37,7 +40,6 @@ namespace MenuManagement
         {
             queuedEvents.Add(ev);
         }
-
 
         public MenuEvent CreateTabSwitchEvent(int menuIndex, bool confirm = false)
         {
@@ -63,38 +65,62 @@ namespace MenuManagement
             return quitEvent;
         }
 
-        public MenuEvent CreateEraseDataEvent(bool confirm = false)
+        public MenuEvent CreateEraseDataEvent(string path, bool confirm = false)
         {
             MenuEvent eraseEvent = new EraseEvent(confirm, "erase your data", "");
             return eraseEvent;
         }
 
-        public void DoNewGame(string sceneName)
+        public MenuEvent CreateConfirmationEvent(string name, bool confirm = false)
         {
-            queuedEvents.Add(CreateEraseDataEvent(false));
-            queuedEvents.Add(CreateSceneSwitchEvent(sceneName));
-            ForceConfirmation("erase your data and start over?");
-
+            MenuEvent confirmEvent = new ConfirmationEvent(confirm, "erase your data");
+            return confirmEvent;
         }
 
-        public void ForceConfirmation(string actionDescription)
+
+
+        //specific button calls
+        public void DoNewGame(string sceneName, string path)
+        {
+            queuedEvents.Add(CreateEraseDataEvent(path, false));
+            queuedEvents.Add(CreateSceneSwitchEvent(sceneName));
+            ActivateConfirmation("erase your data and start over?");
+        }
+
+        public void DoLoadGame()
+        {
+            
+        }
+
+        public void DoConfirmation(string actionDescription)
+        {
+            queuedEvents.Add(CreateConfirmationEvent(actionDescription))
+        }
+
+        public void ActivateConfirmation(string actionDescription)
         {
             if (confirmationText)
             {
                 confirmationText.text = "Are you sure you wish to " + actionDescription;
             }
+            confirmNextAction = true;
             LoadConfirmationTab();
         }
 
 
         private void CallQueuedEvents()
         {
+            if(!confirmNextAction)
+            {
+                queuedEvents[0].DoEvent();
+                queuedEvents.RemoveAt(0);
+            }
         }
 
 
 
-
-        private void SwitchTab(int menuIndex)
+        //eventfunctions
+        public void SwitchTab(int menuIndex)
         {
             if (menuIndex < menuTabs.Count)
             {
@@ -107,7 +133,7 @@ namespace MenuManagement
             }
         }
 
-        private void SwitchTab(string menuName)
+        public void SwitchTab(string menuName)
         {
             for (int i = 0; i < menuTabs.Count; i++)
             {
@@ -121,7 +147,7 @@ namespace MenuManagement
         }
 
 
-        private void LoadTab(int index)
+        public void LoadTab(int index)
         {
             UnloadAllTabs();
             if (index == selectedMenu)
@@ -129,23 +155,48 @@ namespace MenuManagement
                 selectedMenu = 0;
             }
             selectedMenu = index;
-            menuTabs[index].DisableTabs();
+            menuTabs[index].EnableTabs();
+        }
 
+        public void LoadScene(string name)
+        {
+            SceneManager.LoadScene(name);
         }
 
 
+        public void EraseData(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Quit()
+        {
+            Application.Quit();
+            print("Quit");
+        }
+
+        public void Confirm()
+        {
+            confirmNextAction = false;
+            UnloadConfirmationTab();
+        }
+
+        public void Decline()
+        {
+            queuedEvents.Clear();
+            confirmNextAction = false;
+            UnloadConfirmationTab();
+        }
+
+        //internal tab management
         private void LoadConfirmationTab()
         {
             confirmationTab.EnableTabs();
         }
-
-
         private void UnloadConfirmationTab()
         {
             confirmationTab.DisableTabs();
         }
-
-
         private void UnloadAllTabs()
         {
             for (int i = 0; i < menuTabs.Count; i++)
@@ -153,22 +204,6 @@ namespace MenuManagement
                 MenuTab tab = menuTabs[i];
                 tab.DisableTabs();
             }
-        }
-
-
-
-        private void Confirm()
-        {
-            confirmNextAction = false;
-            UnloadConfirmationTab();
-        }
-
-
-
-        private void Decline()
-        {
-            queuedEvents.Clear();
-            UnloadConfirmationTab();
         }
 
     }

@@ -56,7 +56,7 @@ namespace MenuManagement.Events
         private string path;
         public override void DoEvent()
         {
-
+            MenuManager.current.EraseData(path);
         }
 
         public EraseEvent(bool requireConfirmation, string actionName, string path) : base(requireConfirmation, actionName)
@@ -77,7 +77,10 @@ namespace MenuManagement.Events
         [SerializeField] private int tabIndex;
         public override void DoEvent()
         {
-
+            if(tabName != null)
+                MenuManager.current.SwitchTab(tabName);
+            else
+                MenuManager.current.SwitchTab(tabIndex);
         }
 
         public SwitchTabEvent(bool requireConfirmation, string actionName, int tabIndex) : base(requireConfirmation, actionName)
@@ -96,7 +99,7 @@ namespace MenuManagement.Events
         [SerializeField] private string sceneName;
         public override void DoEvent()
         {
-
+            MenuManager.current.LoadScene(sceneName);
         }
         public SwitchSceneEvent(bool requireConfirmation, string actionName, string sceneName) : base(requireConfirmation, actionName)
         {
@@ -109,7 +112,7 @@ namespace MenuManagement.Events
     {
         public override void DoEvent()
         {
-
+            MenuManager.current.Quit();
         }
 
         public QuitEvent(bool requireConfirmation, string actionName) : base(requireConfirmation, actionName)
@@ -123,7 +126,7 @@ namespace MenuManagement.Events
     {
         public override void DoEvent()
         {
-
+            MenuManager.current.ActivateConfirmation(actionDescription);
         }
 
         public ConfirmationEvent(bool requireConfirmation, string actionName) : base(requireConfirmation, actionName)
