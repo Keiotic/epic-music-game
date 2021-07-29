@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using MenuManagement.Events;
 using UnityEngine.SceneManagement;
+
 namespace MenuManagement
 {
     public class MenuManager : MonoBehaviour
@@ -38,39 +39,39 @@ namespace MenuManagement
             queuedEvents.Add(ev);
         }
 
-        public MenuEvent CreateTabSwitchEvent(int menuIndex, bool confirm = false)
+        public MenuEvent CreateTabSwitchEvent(int menuIndex)
         {
-            MenuEvent tabEvent = new SwitchTabEvent(confirm, "switch menus", menuIndex);
+            MenuEvent tabEvent = new SwitchTabEvent(menuIndex);
             return tabEvent;
         }
 
-        public MenuEvent CreateTabSwitchEvent(string menuname, bool confirm = false)
+        public MenuEvent CreateTabSwitchEvent(string menuname)
         {
-            MenuEvent tabEvent = new SwitchTabEvent(confirm, "switch menus", menuname);
+            MenuEvent tabEvent = new SwitchTabEvent(menuname);
             return tabEvent;
         }
 
-        public MenuEvent CreateSceneSwitchEvent(string sceneName, bool confirm = false)
+        public MenuEvent CreateSceneSwitchEvent(string sceneName)
         {
-            MenuEvent sceneEvent = new SwitchSceneEvent(confirm, "proceed", sceneName);
+            MenuEvent sceneEvent = new SwitchSceneEvent(sceneName);
             return sceneEvent;
         }
 
-        public MenuEvent CreateQuitEvent(bool confirm = true)
+        public MenuEvent CreateQuitEvent()
         {
-            MenuEvent quitEvent = new QuitEvent(confirm, "quit");
+            MenuEvent quitEvent = new QuitEvent();
             return quitEvent;
         }
 
-        public MenuEvent CreateEraseDataEvent(string path, bool confirm = false)
+        public MenuEvent CreateEraseDataEvent(string path)
         {
-            MenuEvent eraseEvent = new EraseEvent(confirm, "erase your data", "");
+            MenuEvent eraseEvent = new EraseEvent(path);
             return eraseEvent;
         }
 
-        public MenuEvent CreateConfirmationEvent(string description, bool confirm = false)
+        public MenuEvent CreateConfirmationEvent(string description)
         {
-            MenuEvent confirmEvent = new ConfirmationEvent(confirm, description);
+            MenuEvent confirmEvent = new ConfirmationEvent(description);
             return confirmEvent;
         }
 
@@ -81,17 +82,17 @@ namespace MenuManagement
         {
             DoNewGame(sceneName, SAVEPATH);
         }
-        
+
         public void DoNewGameBySavePath(string savepath)
         {
             DoNewGame(GAMESCENE_NAME, savepath);
         }
 
-        public void DoNewGame (string sceneName, string savepath)
+        public void DoNewGame(string sceneName, string savepath)
         {
             DoConfirmation("Are you sure you wish to erase your data and start over?");
             DoConfirmation("Really?");
-            queuedEvents.Add(CreateEraseDataEvent(savepath, false));
+            queuedEvents.Add(CreateEraseDataEvent(savepath));
             queuedEvents.Add(CreateSceneSwitchEvent(sceneName));
         }
 
@@ -123,13 +124,12 @@ namespace MenuManagement
 
         private void CallQueuedEvents()
         {
-            if(!confirmNextAction && queuedEvents.Count > 0)
+            if (!confirmNextAction && queuedEvents.Count > 0)
             {
                 queuedEvents[0].DoEvent();
                 queuedEvents.RemoveAt(0);
             }
         }
-
 
 
         //eventfunctions
@@ -219,7 +219,6 @@ namespace MenuManagement
                 tab.DisableTabs();
             }
         }
-
     }
 }
 

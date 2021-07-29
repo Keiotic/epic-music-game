@@ -21,7 +21,7 @@ public class GridEntity : MonoBehaviour
 
     public void MoveRelativeToCurrentPosition(Vector2 movement)
     {
-        gridPosition = gridManager.GetRelativeGridTranslation(gridPosition, movement, caged);  
+        gridPosition = gridManager.GetRelativeGridTranslation(gridPosition, movement, caged);
     }
 
     public void MoveToAbsolutePosition(Vector2 gridpos)
@@ -31,16 +31,16 @@ public class GridEntity : MonoBehaviour
 
     public void Warp()
     {
-        if(!gridManager)
+        if (!gridManager)
         {
             gridManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GridManager>();
         }
         transform.position = gridManager.GridToWorldCoordinates(gridPosition);
     }
 
-    public void LinearilyInterpolatePosition ()
+    public void LinearilyInterpolatePosition()
     {
-        transform.position = Vector2.MoveTowards(transform.position, gridManager.GridToWorldCoordinates(gridPosition), Time.deltaTime*interpolateSpeed);
+        transform.position = Vector2.MoveTowards(transform.position, gridManager.GridToWorldCoordinates(gridPosition), Time.deltaTime * interpolateSpeed);
     }
 
     public void SmoothInterpolatePosition()
@@ -48,7 +48,7 @@ public class GridEntity : MonoBehaviour
 
     }
 
-    public void SetCaged (bool value)
+    public void SetCaged(bool value)
     {
         caged = value;
     }

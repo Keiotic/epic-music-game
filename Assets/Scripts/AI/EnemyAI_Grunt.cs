@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI_Grunt : EnemyAI {
+public class EnemyAI_Grunt : EnemyAI
+{
     public override void Start()
     {
         base.Start();

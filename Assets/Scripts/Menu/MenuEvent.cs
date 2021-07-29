@@ -7,45 +7,14 @@ namespace MenuManagement.Events
     [System.Serializable]
     public abstract class MenuEvent
     {
-        [Header("Confirmation")]
-        [SerializeField] protected string actionDescription;
-        [SerializeField] protected bool requireConfirmation;
 
         public abstract void DoEvent();
-        public bool RequiresConfirmation()
+
+        public MenuEvent()
         {
-            return requireConfirmation;
-        }
-        public void ForwardEvent()
-        {
-            
+
         }
 
-        public MenuEvent(bool requireConfirmation, string actionDescription)
-        {
-            this.actionDescription = actionDescription;
-            this.requireConfirmation = requireConfirmation;
-        }
-
-        public void SetConfirmation (bool value)
-        {
-            requireConfirmation = value;
-        }
-
-        public bool GetConfirmation ()
-        {
-            return requireConfirmation;
-        }
-
-        public void SetActionDescription(string actionDescription)
-        {
-            this.actionDescription = actionDescription;
-        }
-
-        public string GetActionDescription ()
-        {
-            return actionDescription;
-        }
     }
 
 
@@ -59,7 +28,7 @@ namespace MenuManagement.Events
             MenuManager.current.EraseData(path);
         }
 
-        public EraseEvent(bool requireConfirmation, string actionName, string path) : base(requireConfirmation, actionName)
+        public EraseEvent(string path) : base()
         {
             this.path = path;
         }
@@ -77,17 +46,17 @@ namespace MenuManagement.Events
         [SerializeField] private int tabIndex;
         public override void DoEvent()
         {
-            if(tabName != null)
+            if (tabName != null)
                 MenuManager.current.SwitchTab(tabName);
             else
                 MenuManager.current.SwitchTab(tabIndex);
         }
 
-        public SwitchTabEvent(bool requireConfirmation, string actionName, int tabIndex) : base(requireConfirmation, actionName)
+        public SwitchTabEvent(int tabIndex) : base()
         {
             this.tabIndex = tabIndex;
         }
-        public SwitchTabEvent(bool requireConfirmation, string actionName, string tabName) : base(requireConfirmation, actionName)
+        public SwitchTabEvent(string tabName) : base()
         {
             this.tabName = tabName;
         }
@@ -101,7 +70,7 @@ namespace MenuManagement.Events
         {
             MenuManager.current.LoadScene(sceneName);
         }
-        public SwitchSceneEvent(bool requireConfirmation, string actionName, string sceneName) : base(requireConfirmation, actionName)
+        public SwitchSceneEvent(string sceneName) : base()
         {
             this.sceneName = sceneName;
         }
@@ -115,7 +84,7 @@ namespace MenuManagement.Events
             MenuManager.current.Quit();
         }
 
-        public QuitEvent(bool requireConfirmation, string actionName) : base(requireConfirmation, actionName)
+        public QuitEvent() : base()
         {
 
         }
@@ -124,14 +93,15 @@ namespace MenuManagement.Events
     [System.Serializable]
     public class ConfirmationEvent : MenuEvent
     {
+        [SerializeField] string actionDescription;
         public override void DoEvent()
         {
             MenuManager.current.ActivateConfirmation(actionDescription);
         }
 
-        public ConfirmationEvent(bool requireConfirmation, string actionName) : base(requireConfirmation, actionName)
+        public ConfirmationEvent(string actionDescription) : base()
         {
-
+            this.actionDescription = actionDescription;
         }
     }
 }

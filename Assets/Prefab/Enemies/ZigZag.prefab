@@ -13,11 +13,11 @@ GameObject:
   - component: {fileID: 7020007254635282114}
   - component: {fileID: 2775891940947688147}
   - component: {fileID: 7123133600449173340}
-  - component: {fileID: -3147335305609584334}
   - component: {fileID: 3782562652907068976}
   - component: {fileID: 3798389252365816472}
+  - component: {fileID: -5249735557957632752}
   m_Layer: 9
-  m_Name: Invader
+  m_Name: ZigZag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 4773600122041589604, guid: 41176be160509d740bf316bad6b7939b,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.4669811, b: 0.4669811, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -129,41 +129,6 @@ MonoBehaviour:
   maxHealth: 100
   health: 0
   destructionScore: 10
---- !u!114 &-3147335305609584334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586875687927246860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edec83072d6e01047a76be953d1f871c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  speed: 8
-  firingDelay: 3
-  projectileAttack:
-    prefab: {fileID: 300375393567912857, guid: c0f2a8dbb159f1d4fa89c96a069974c6, type: 3}
-    spawns:
-    - spawnPosition: {x: 0, y: 0}
-      spawnRotation: 0
-    - spawnPosition: {x: 0, y: 0}
-      spawnRotation: 90
-    - spawnPosition: {x: 0, y: 0}
-      spawnRotation: -90
-    positionIsRelativeToSelf: 1
-    rotationIsRelativeToSelf: 1
-    speed: 4
-    damage: 1
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 257
-    audio: {fileID: 0}
-    volume: 0
-    pitch: 0
-    pitchRange: 0
 --- !u!82 &3782562652907068976
 AudioSource:
   m_ObjectHideFlags: 0
@@ -286,3 +251,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.7189728, y: 1.5595703}
   m_EdgeRadius: 0
+--- !u!114 &-5249735557957632752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586875687927246860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 594048b520548db4086aff6c572816f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  speed: 1
+  firingDelay: 2
+  direction: -1
+  leftLimit: 3
+  rightLimit: 3
+  forwardMoves: 3
+  projectileAttack:
+    prefab: {fileID: 300375393567912857, guid: c0f2a8dbb159f1d4fa89c96a069974c6, type: 3}
+    spawns:
+    - spawnPosition: {x: 0, y: 0}
+      spawnRotation: 0
+    positionIsRelativeToSelf: 1
+    rotationIsRelativeToSelf: 1
+    speed: 4
+    damage: 2
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 257
+    audio: {fileID: 0}
+    volume: 0
+    pitch: 0
+    pitchRange: 0

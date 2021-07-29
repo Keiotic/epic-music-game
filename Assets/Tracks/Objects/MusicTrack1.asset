@@ -23,6 +23,14 @@ MonoBehaviour:
         type: 3}
       spawnPosition: {x: 9, y: 16}
       spawnRotation: 180
+    - prefab: {fileID: 1586875687927246860, guid: 50076b5455f8c92469b19c46dc8ec082,
+        type: 3}
+      spawnPosition: {x: 12, y: 16}
+      spawnRotation: 180
+    - prefab: {fileID: 1586875687927246860, guid: 50076b5455f8c92469b19c46dc8ec082,
+        type: 3}
+      spawnPosition: {x: 15, y: 16}
+      spawnRotation: 180
     backgroundEvent:
       colorSwap: {r: 0, g: 0, b: 0, a: 0}
       colorSwapSpeed: 0

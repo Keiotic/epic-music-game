@@ -10,7 +10,7 @@ public class EnemyAI_Invader : EnemyAI
     private int movesUntilDirectionSwitch;
     [SerializeField] int firingDelay = 3;
     private int movesUntilFire;
-    private int direction;
+    private int direction = -1;
 
     [SerializeField] ProjectileAttack projectileAttack;
 
