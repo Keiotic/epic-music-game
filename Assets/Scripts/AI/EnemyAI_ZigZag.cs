@@ -9,13 +9,20 @@ public class EnemyAI_ZigZag : EnemyAI
     private int movesUntilDirectionSwitch;
     private int forwardMoveAmount;
     [SerializeField] int firingDelay = 3;
+   
     private int movesUntilFire;
+
     [SerializeField] private int direction = -1;
 
     [SerializeField] int leftLimit = 5;
     [SerializeField] int rightLimit = 5;
     [SerializeField] int forwardMoves = 3;
     [SerializeField] ProjectileAttack projectileAttack;
+    [SerializeField] int waitDuration;
+    private int waitAmount;
+
+    [SerializeField] bool fireWhileMoving;
+    [SerializeField] bool fireWhileWaiting;
 
     public override void Start()
     {
@@ -23,7 +30,6 @@ public class EnemyAI_ZigZag : EnemyAI
         forwardVector = transform.up.normalized;
         rightVector = transform.right.normalized;
         movesUntilFire = firingDelay;
-
         //Lock movement to up/down left/right movement
         if (Mathf.Abs(forwardVector.y) == 1)
         {
@@ -68,36 +74,68 @@ public class EnemyAI_ZigZag : EnemyAI
 
     public void DoMovement()
     {
-        if (movesUntilDirectionSwitch != 0)
+        if (waitAmount > 0)
         {
-            movesUntilDirectionSwitch -= 1;
-            gridEntity.MoveRelativeToCurrentPosition(rightVector*direction);
-            forwardMoveAmount = forwardMoves;
+            if (fireWhileWaiting&&waitAmount==waitDuration)
+            {
+                Attack();
+            }
+            waitAmount -= 1;
         }
         else
         {
-            forwardMoveAmount -= 1;
-            if (forwardMoveAmount <= 0)
+            if (movesUntilDirectionSwitch != 0)
             {
-                if (direction > 0)
-                    movesUntilDirectionSwitch = leftLimit;
-                else
-                    movesUntilDirectionSwitch = rightLimit;
-                direction *= -1;
+                DoSideMovement();
             }
-            gridEntity.MoveRelativeToCurrentPosition(forwardVector);
+            else
+            {
+                DoForwardMovement();
+            }
         }
+    }
 
+    public void DoSideMovement ()
+    {
+        movesUntilDirectionSwitch -= 1;
+        gridEntity.MoveRelativeToCurrentPosition(rightVector * direction);
+        forwardMoveAmount = forwardMoves;
+        if(movesUntilDirectionSwitch == 0)
+        {
+            waitAmount = waitDuration;
+        }
+    }
 
-        if(movesUntilFire == 0)
+    public void DoForwardMovement ()
+    {
+        forwardMoveAmount -= 1;
+        if (forwardMoveAmount <= 0)
+        {
+            if (direction > 0)
+                movesUntilDirectionSwitch = leftLimit;
+            else
+                movesUntilDirectionSwitch = rightLimit;
+            direction *= -1;
+        }
+        gridEntity.MoveRelativeToCurrentPosition(forwardVector);
+    }
+
+    public void DoFireCheck()
+    {
+        if (movesUntilFire == 0)
         {
             movesUntilFire = firingDelay;
-            projectileSource.FireProjectileAttack(projectileAttack, gridManager.GetGridSpeedCoefficient());
+            Attack();
         }
         else
         {
             movesUntilFire -= 1;
         }
+    }
+
+    public void Attack()
+    {
+        projectileSource.FireProjectileAttack(projectileAttack, gridManager.GetGridSpeedCoefficient());
     }
 
     public override void MovementUpdate(int beat)

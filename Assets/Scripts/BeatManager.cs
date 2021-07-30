@@ -6,6 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(AudioSource))]
 public class BeatManager : MonoBehaviour
 {
+    public static BeatManager current;
     [SerializeField] private Track track;
     private UIManager uiManager;
     [SerializeField] private AudioSource mySource;
@@ -30,6 +31,7 @@ public class BeatManager : MonoBehaviour
 
     void Start()
     {
+        current = this;
         enemyManager = GetComponent<EnemyManager>();
         mySource = GetComponent<AudioSource>();
         uiManager = GetComponent<UIManager>();
@@ -42,7 +44,6 @@ public class BeatManager : MonoBehaviour
         timeBetweenBeats = (float)60 / bpm;
 
         totalBeats = Mathf.RoundToInt(track.GetAudio().length/timeBetweenBeats);
-        print(totalBeats);
 
         beatEvents = new List<BeatEvent>();
         for (int i = 0; i < Mathf.Ceil(totalBeats); i++)
@@ -103,7 +104,7 @@ public class BeatManager : MonoBehaviour
 
     public void DoBeatEventCheck()
     {
-        if (currentBeat >= 0 && beatEvents[currentBeat] != null)
+        if (currentBeat >= 0 && currentBeat < totalBeats && beatEvents[currentBeat] != null)
         {
             BeatEvent currentEvent = beatEvents[currentBeat];
             if (!currentBeat.Equals(new BeatEvent()))

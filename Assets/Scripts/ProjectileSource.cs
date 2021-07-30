@@ -6,19 +6,38 @@ using UnityEngine;
 public class ProjectileSource : MonoBehaviour
 {
     AudioSource audioSource;
+    BeatManager bm;
 
 
     void Start()
     {
+        bm = BeatManager.current;
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void FireSingleProjectile(GameObject prefab, Vector2 spawnPosition, float spawnRotation, bool positionIsRelativeToSelf, bool rotationIsRelativeToSelf, float speed, int damage, LayerMask layerMask, AudioClip audio, float volume, float pitch, float pitchRange)
+    public void FireProjectileAttack(ProjectileAttack attack, float gridSpeedCoefficient)
     {
-
+        if (attack.burstInfo.isBurst)
+        {
+            StartCoroutine(FireBurst(attack, gridSpeedCoefficient));
+        }
+        else
+        {
+            FireAttack(attack, gridSpeedCoefficient);
+        }
     }
 
-    public void FireProjectileAttack(ProjectileAttack attack, float gridSpeedCoefficient)
+    private IEnumerator FireBurst(ProjectileAttack attack, float gridSpeedCoefficient)
+    {
+        for (int i = 0; i < attack.burstInfo.burstAmount; i++)
+        {
+
+            FireAttack(attack, gridSpeedCoefficient);
+            yield return new WaitForSeconds(bm.GetTimeBetweenBeats() * attack.burstInfo.beatsBetweenShots);
+        }
+    }
+
+    private void FireAttack(ProjectileAttack attack, float gridSpeedCoefficient)
     {
         for (int i = 0; i < attack.spawns.Length; i++)
         {
@@ -63,13 +82,7 @@ public class ProjectileAttack
 {
     [SerializeField] internal GameObject prefab;
     [SerializeField] internal SpawnInformation[] spawns;
-
-    [System.Serializable]
-    public class SpawnInformation
-    {
-        [SerializeField] internal Vector2 spawnPosition;
-        [SerializeField] internal float spawnRotation;
-    }
+    [SerializeField] internal BurstInformation burstInfo;
 
     [SerializeField] internal bool positionIsRelativeToSelf = true;
     [SerializeField] internal bool rotationIsRelativeToSelf = true;
@@ -83,6 +96,21 @@ public class ProjectileAttack
     [SerializeField] internal float volume = 1;
     [SerializeField] internal float pitch = 1;
     [SerializeField] internal float pitchRange = 0.1f;
+
+    [System.Serializable]
+    public class SpawnInformation
+    {
+        [SerializeField] internal Vector2 spawnPosition;
+        [SerializeField] internal float spawnRotation;
+    }
+
+    [System.Serializable]
+    public class BurstInformation
+    {
+        [SerializeField] internal bool isBurst = false;
+        [SerializeField] internal int burstAmount = 3;
+        [SerializeField] internal float beatsBetweenShots = 1;
+    }
 
 
     public ProjectileAttack(GameObject prefab, SpawnInformation[] spawns, bool positionIsRelativeToSelf, bool rotationIsRelativeToSelf, float speed, int damage, LayerMask layerMask, AudioClip audio, float volume, float pitch, float pitchRange)
