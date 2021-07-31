@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4773600122041589604, guid: 41176be160509d740bf316bad6b7939b,
+  m_Sprite: {fileID: -6877657737085974523, guid: 018ef63e7a735b040a96dbccf8bb3698,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e907a42be6e191741bb0ccdc05d5bc22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridPosition: {x: 0, y: 0}
   interpolateSpeed: 300
 --- !u!114 &2775891940947688147
 MonoBehaviour:
@@ -113,12 +114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14732f1c43311a64d9a2afe3b62535bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customized: 0
-  customizations:
-    positionIsAbsolute: 0
-    position: {x: 0, y: 0}
-    rotationIsAbsolute: 0
-    rotation: 0
 --- !u!114 &7123133600449173340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   health: 0
+  destructionScore: 10
 --- !u!82 &3782562652907068976
 AudioSource:
   m_ObjectHideFlags: 0
@@ -246,7 +242,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.7189728, y: 1.5595703}
+    oldSize: {x: 0.3, y: 0.31}
     newSize: {x: 17.2, y: 15.44}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -267,5 +263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bafff04c26ede2a408b5a07d562f86fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   speed: 1
-  line: []
+  attackType: 0

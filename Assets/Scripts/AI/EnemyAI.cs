@@ -24,8 +24,16 @@ public abstract class EnemyAI : MonoBehaviour
     }
 
 
-    public int speed = 1;
+    [SerializeField] protected int speed = 1;
     private int currentBeat;
+    [SerializeField] protected AttackType attackType;
+
+    public enum AttackType
+    {
+        ON_WAIT,
+        ON_MOVE,
+        UNBOUND
+    }
 
     // Start is called before the first frame update
     public virtual void Start()

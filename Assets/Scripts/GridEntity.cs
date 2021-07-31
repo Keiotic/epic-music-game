@@ -17,6 +17,7 @@ public class GridEntity : MonoBehaviour
 
     void Update()
     {
+
     }
 
     public void MoveRelativeToCurrentPosition(Vector2 movement)
@@ -36,6 +37,11 @@ public class GridEntity : MonoBehaviour
             gridManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GridManager>();
         }
         transform.position = gridManager.GridToWorldCoordinates(gridPosition);
+    }
+
+    public void SetInterpolationSpeed(float interpolationSpeed)
+    {
+        interpolateSpeed = interpolationSpeed;
     }
 
     public void LinearilyInterpolatePosition()

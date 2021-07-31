@@ -1284,6 +1284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82361f5e723789747b179cb844c22bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  main: {fileID: 0}
   playerPrefab: {fileID: 2562100283572248902, guid: 98ccb00bfe0c9b749833d7a56e7183c0,
     type: 3}
   score: 0
