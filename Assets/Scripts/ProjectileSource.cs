@@ -44,7 +44,7 @@ public class ProjectileSource : MonoBehaviour
             GameObject bullet = Instantiate(attack.prefab, transform.position, transform.rotation);
             if (attack.positionIsRelativeToSelf)
             {
-                bullet.transform.position = (Vector2)transform.position + attack.spawns[i].spawnPosition;
+                bullet.transform.position = (Vector2)transform.position + attack.spawns[i].spawnPosition.x * (Vector2)transform.right + attack.spawns[i].spawnPosition.y * (Vector2)transform.up;
             }
             else
             {

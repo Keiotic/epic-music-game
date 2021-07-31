@@ -242,7 +242,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.28, y: 0.63}
+    oldSize: {x: 1.75, y: 5.9375}
     newSize: {x: 17.2, y: 15.44}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -264,7 +264,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  speed: 1
-  attackType: 0
-  movesUntilWait: 5
+  speed: 2
+  attackType: 1
+  movesUntilWait: 1111
   waitDuration: 3
+  attacks:
+  - prefab: {fileID: 300375393567912857, guid: c0f2a8dbb159f1d4fa89c96a069974c6, type: 3}
+    spawns:
+    - spawnPosition: {x: 10, y: -13}
+      spawnRotation: 90
+    burstInfo:
+      isBurst: 0
+      burstAmount: 0
+      beatsBetweenShots: 0
+    positionIsRelativeToSelf: 1
+    rotationIsRelativeToSelf: 1
+    speed: 4
+    damage: 1
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 257
+    audio: {fileID: 0}
+    volume: 0
+    pitch: 0
+    pitchRange: 0
+  - prefab: {fileID: 300375393567912857, guid: c0f2a8dbb159f1d4fa89c96a069974c6, type: 3}
+    spawns:
+    - spawnPosition: {x: 10, y: 0}
+      spawnRotation: 90
+    burstInfo:
+      isBurst: 0
+      burstAmount: 0
+      beatsBetweenShots: 0
+    positionIsRelativeToSelf: 1
+    rotationIsRelativeToSelf: 1
+    speed: 4
+    damage: 1
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 257
+    audio: {fileID: 0}
+    volume: 0
+    pitch: 0
+    pitchRange: 0
+  - prefab: {fileID: 300375393567912857, guid: c0f2a8dbb159f1d4fa89c96a069974c6, type: 3}
+    spawns:
+    - spawnPosition: {x: 10, y: 13}
+      spawnRotation: 90
+    burstInfo:
+      isBurst: 0
+      burstAmount: 0
+      beatsBetweenShots: 0
+    positionIsRelativeToSelf: 1
+    rotationIsRelativeToSelf: 1
+    speed: 4
+    damage: 1
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 257
+    audio: {fileID: 0}
+    volume: 0
+    pitch: 0
+    pitchRange: 0
+  fireOneByOne: 1
+  timeBetweenFirings: 3
