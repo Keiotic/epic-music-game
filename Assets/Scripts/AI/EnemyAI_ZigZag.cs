@@ -133,9 +133,14 @@ public class EnemyAI_ZigZag : EnemyAI
         }
     }
 
+    public override void TelegraphAttack()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void Attack()
     {
-        projectileSource.FireProjectileAttack(projectileAttack, gridManager.GetGridSpeedCoefficient());
+        projectileSource.FireProjectileAttack(projectileAttack);
     }
 
     public override void MovementUpdate(int beat)

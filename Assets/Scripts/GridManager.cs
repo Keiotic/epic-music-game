@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    public static GridManager current;
     [SerializeField] private float gridSquareSize = 13.5f;
     [SerializeField] private Vector2 gridSize = new Vector2(9, 15);
     [SerializeField] private Vector2 innerGridSize = new Vector2(9, 15);
@@ -17,6 +18,7 @@ public class GridManager : MonoBehaviour
 
     void Start()
     {
+        current = this;
         beatManager = GetComponent<BeatManager>();
         grid = new Grid(gridSquareSize, gridSize, new Vector2(0, 0));
         PathNode[,] nodes = new PathNode[(int)gridSize.x, (int)gridSize.y];

@@ -1,67 +1,72 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[RequireComponent(typeof(AudioSource))]
 public class ProjectileSource : MonoBehaviour
 {
     AudioSource audioSource;
     BeatManager bm;
-
-
     void Start()
     {
         bm = BeatManager.current;
-        audioSource = GetComponent<AudioSource>();
+        if (!audioSource)
+            audioSource = gameObject.AddComponent<AudioSource>();
     }
 
-    public void FireProjectileAttack(ProjectileAttack attack, float gridSpeedCoefficient)
+    public void FireProjectileAttack(ProjectileAttack attack)
     {
         if (attack.burstInfo.isBurst)
         {
-            StartCoroutine(FireBurst(attack, gridSpeedCoefficient));
+            StartCoroutine(FireBurst(attack));
         }
         else
         {
-            FireAttack(attack, gridSpeedCoefficient);
+            FireAttack(attack);
         }
     }
 
-    private IEnumerator FireBurst(ProjectileAttack attack, float gridSpeedCoefficient)
+    private IEnumerator FireBurst(ProjectileAttack attack)
     {
         for (int i = 0; i < attack.burstInfo.burstAmount; i++)
         {
 
-            FireAttack(attack, gridSpeedCoefficient);
+            FireAttack(attack);
             yield return new WaitForSeconds(bm.GetTimeBetweenBeats() * attack.burstInfo.beatsBetweenShots);
         }
     }
 
-    private void FireAttack(ProjectileAttack attack, float gridSpeedCoefficient)
+    private void FireAttack(ProjectileAttack attack)
     {
         for (int i = 0; i < attack.spawns.Length; i++)
         {
+            ProjectileAttack.SpawnInformation spawnInfo = attack.spawns[i];
             GameObject bullet = Instantiate(attack.prefab, transform.position, transform.rotation);
+            Vector2 spawnPos = Vector2.zero;
             if (attack.positionIsRelativeToSelf)
             {
-                bullet.transform.position = (Vector2)transform.position + attack.spawns[i].spawnPosition.x * (Vector2)transform.right + attack.spawns[i].spawnPosition.y * (Vector2)transform.up;
+                spawnPos = (Vector2)transform.position
+                    + spawnInfo.spawnPosition.x * (Vector2)transform.right
+                    + spawnInfo.spawnPosition.y * (Vector2)transform.up;
             }
             else
             {
-                bullet.transform.position = attack.spawns[i].spawnPosition;
+                bullet.transform.position = spawnInfo.spawnPosition;
             }
+
             if (attack.rotationIsRelativeToSelf)
             {
-                float rotation = transform.rotation.eulerAngles.z + attack.spawns[i].spawnRotation;
+                float rotation = transform.rotation.eulerAngles.z + spawnInfo.spawnRotation;
                 bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
             }
             else
             {
-                float rotation = attack.spawns[i].spawnRotation;
+                float rotation = spawnInfo.spawnRotation;
                 bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
             }
+
+            bullet.transform.position = spawnPos;
+
             Projectile proj = bullet.GetComponent<Projectile>();
-            proj.InitializeProjectile(attack.speed * gridSpeedCoefficient, attack.damage, attack.layerMask);
+            proj.InitializeProjectile(attack.speed * GridManager.current.GetGridSpeedCoefficient(), attack.damage, attack.layerMask);
         }
     }
 

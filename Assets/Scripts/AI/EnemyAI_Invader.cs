@@ -82,15 +82,28 @@ public class EnemyAI_Invader : EnemyAI
             movesUntilDirectionSwitch = movementSize;
             direction *= -1;
         }
-        if(movesUntilFire == 0)
+    }
+
+    public void DoAttackCheck()
+    {
+        if (movesUntilFire == 0)
         {
             movesUntilFire = firingDelay;
-            projectileSource.FireProjectileAttack(projectileAttack, gridManager.GetGridSpeedCoefficient());
+            projectileSource.FireProjectileAttack(projectileAttack);
         }
         else
         {
             movesUntilFire -= 1;
+            if (movesUntilFire == 0)
+            {
+                TelegraphAttack();
+            }
         }
+    }
+
+    public override void TelegraphAttack()
+    {
+        throw new System.NotImplementedException();
     }
 
     public override void MovementUpdate(int beat)

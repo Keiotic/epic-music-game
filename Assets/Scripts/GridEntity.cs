@@ -8,6 +8,7 @@ public class GridEntity : MonoBehaviour
     private GridManager gridManager;
     private bool caged;
     [SerializeField] private float interpolateSpeed = 2;
+    [SerializeField] private bool interpolateEntity = true;
 
     void Awake()
     {
@@ -23,6 +24,11 @@ public class GridEntity : MonoBehaviour
     public void MoveRelativeToCurrentPosition(Vector2 movement)
     {
         gridPosition = gridManager.GetRelativeGridTranslation(gridPosition, movement, caged);
+    }
+
+    public void SetAutomaticInterpolation(bool value)
+    {
+        interpolateEntity = value;
     }
 
     public void MoveToAbsolutePosition(Vector2 gridpos)
@@ -46,7 +52,8 @@ public class GridEntity : MonoBehaviour
 
     public void LinearilyInterpolatePosition()
     {
-        transform.position = Vector2.MoveTowards(transform.position, gridManager.GridToWorldCoordinates(gridPosition), Time.deltaTime * interpolateSpeed);
+        if(interpolateEntity)
+            transform.position = Vector2.MoveTowards(transform.position, gridManager.GridToWorldCoordinates(gridPosition), Time.deltaTime * interpolateSpeed);
     }
 
     public void SmoothInterpolatePosition()

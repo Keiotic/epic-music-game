@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
 
     public void FireWeapon()
     {
-        projectileSource.FireProjectileAttack(primaryAttack, gridManager.GetGridSpeedCoefficient());
+        projectileSource.FireProjectileAttack(primaryAttack);
         projectileSource.PlayFiringSound(primaryAttack.audio, primaryAttack.volume, primaryAttack.pitch, primaryAttack.pitchRange);
     }
 }

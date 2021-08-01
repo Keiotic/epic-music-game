@@ -16,14 +16,19 @@ public abstract class EnemyAI : MonoBehaviour
     protected Navigation nav = new Navigation();
     protected bool movesDiagonally = false;
     protected ProjectileSource projectileSource;
+    [SerializeField] protected Telegraphing telegraphingSettings;
+    [SerializeField] protected AudioSource audioSource;
+    public class Telegraphing
+    {
+        [SerializeField] protected int telegraphDuration;
+        [SerializeField] protected AudioClip telegraphAudio;
+    }
     protected class Navigation
     {
         public Pathfinder pather;
         public List<PathNode> path = new List<PathNode>();
         public Vector2 target = new Vector2();
     }
-
-
     [SerializeField] protected int speed = 1;
     private int currentBeat;
     [SerializeField] protected AttackType attackType;
@@ -38,6 +43,7 @@ public abstract class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
+        audioSource = gameObject.AddComponent<AudioSource>();
         projectileSource = GetComponent<ProjectileSource>();
         gridEntity = GetComponent<GridEntity>();
         if (!isInitiated)
@@ -125,6 +131,8 @@ public abstract class EnemyAI : MonoBehaviour
     public abstract void DoTargetlessUpdate();
 
     public abstract void DoTargetUpdate();
+
+    public abstract void TelegraphAttack();
 
     public bool hasMovedThisBeat()
     {

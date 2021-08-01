@@ -24,6 +24,10 @@ public class EnemyAI_Grunt : EnemyAI
     {
         DoMovement();
     }
+    public override void TelegraphAttack()
+    {
+        throw new System.NotImplementedException();
+    }
 
     public void DoMovement()
     {

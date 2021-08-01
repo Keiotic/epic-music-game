@@ -19,23 +19,18 @@ MonoBehaviour:
   beatEvents:
   - beat: 0
     enemySpawns:
-    - prefab: {fileID: 1586875687927246860, guid: 50076b5455f8c92469b19c46dc8ec082,
+    - prefab: {fileID: 1586875687927246860, guid: d1a3b1af44d2f334690216e93705b642,
         type: 3}
-      spawnPosition: {x: 12, y: 16}
-      spawnRotation: 180
-    - prefab: {fileID: 1586875687927246860, guid: 50076b5455f8c92469b19c46dc8ec082,
+      spawnPosition: {x: 34, y: 19}
+      spawnRotation: 90
+    - prefab: {fileID: 1586875687927246860, guid: d1a3b1af44d2f334690216e93705b642,
         type: 3}
-      spawnPosition: {x: 15, y: 16}
-      spawnRotation: 180
-    backgroundEvent:
-      colorSwap: {r: 0, g: 0, b: 0, a: 0}
-      colorSwapSpeed: 0
-  - beat: 1
-    enemySpawns:
-    - prefab: {fileID: 1586875687927246860, guid: d2f9437a55a1dd645921e7611206d0d4,
+      spawnPosition: {x: 34, y: 10}
+      spawnRotation: 90
+    - prefab: {fileID: 1586875687927246860, guid: d1a3b1af44d2f334690216e93705b642,
         type: 3}
-      spawnPosition: {x: 9, y: 19}
-      spawnRotation: 180
+      spawnPosition: {x: 0, y: 10}
+      spawnRotation: -90
     backgroundEvent:
       colorSwap: {r: 0, g: 0, b: 0, a: 0}
       colorSwapSpeed: 0

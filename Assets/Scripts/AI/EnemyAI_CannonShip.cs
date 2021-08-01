@@ -6,13 +6,15 @@ public class EnemyAI_CannonShip : EnemyAI
 {
     [SerializeField] private int movesUntilWait = 10;
     [SerializeField] private int waitDuration = 3;
-    [SerializeField] private ProjectileAttack[] attacks;
+    [SerializeField] private Turret[] turrets;
     [SerializeField] private bool fireOneByOne = false;
+    [SerializeField] private int timeBetweenOneByOne = 1;
     private int fireOneByOneIndex = 0;
     [SerializeField] private int timeBetweenFirings = 1;
     private int waitTime;
     private int movesTillWait;
     private int fireTime;
+    [SerializeField] private float shipSpeedCoefficient = 0.5f;
 
     public override void Start()
     {
@@ -24,9 +26,7 @@ public class EnemyAI_CannonShip : EnemyAI
     public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos)
     {
         base.InitializeEnemy(gridManager, beatManager, gameManager, player, spawnPos);
-
-        float interpolationSpeed = (float)speed/beatManager.GetTimeBetweenBeats();
-        gridEntity.SetInterpolationSpeed(interpolationSpeed);
+        gridEntity.SetAutomaticInterpolation(false);
     }
 
     public override void DoTargetlessUpdate()
@@ -45,7 +45,6 @@ public class EnemyAI_CannonShip : EnemyAI
         if (movesTillWait > 0)
         {
             movesTillWait -= 1;
-            gridEntity.MoveRelativeToCurrentPosition(transform.up * (float)speed);
             if (movesTillWait == 0)
             {
                 waitTime = waitDuration;
@@ -53,10 +52,10 @@ public class EnemyAI_CannonShip : EnemyAI
         }
         else
         {
-            if(waitTime > 0)
+            if (waitTime > 0)
             {
                 waitTime -= 1;
-                if(waitTime == 0)
+                if (waitTime == 0)
                 {
                     movesTillWait = movesUntilWait;
                 }
@@ -88,49 +87,36 @@ public class EnemyAI_CannonShip : EnemyAI
 
     public void DoFireCheck()
     {
-        fireTime = (int)Mathf.Clamp(fireTime-1, 0, timeBetweenFirings);
-        if(fireTime == 0 || fireOneByOne && fireOneByOneIndex != attacks.Length)
+        fireTime = (int)Mathf.Clamp(fireTime - 1, 0, Mathf.Infinity);
+        if (fireTime == 1)
+            TelegraphAttack();
+        if (fireTime == 0)
         {
-            fireTime = timeBetweenFirings;
             Attack();
         }
     }
 
     public void Attack()
     {
-        int xOrientation = 0;
-        if (player != null)
-        {
-            Vector2 targetDirectionLocal = transform.InverseTransformPoint(player.transform.position);
-            xOrientation = -(int)Mathf.Sign(targetDirectionLocal.x);
-        }
+
         if (fireOneByOne)
         {
-            if (fireOneByOneIndex == attacks.Length)
-                fireOneByOneIndex = 0;
-            if(xOrientation != 0)
-                for (int j = 0; j < attacks[fireOneByOneIndex].spawns.Length; j++)
-                {
-                    Vector2 spawnpos = attacks[fireOneByOneIndex].spawns[j].spawnPosition;
-                    attacks[fireOneByOneIndex].spawns[j].spawnRotation = Mathf.Abs(attacks[fireOneByOneIndex].spawns[j].spawnRotation) * xOrientation;
-                    spawnpos.x = Mathf.Abs(spawnpos.x) * Mathf.Sign(xOrientation);
-                }
-            projectileSource.FireProjectileAttack(attacks[fireOneByOneIndex], gridManager.GetGridSpeedCoefficient());
+            turrets[fireOneByOneIndex].Attack();
             fireOneByOneIndex += 1;
+            fireTime = timeBetweenOneByOne;
+            if (fireOneByOneIndex == turrets.Length)
+            {
+                fireTime = timeBetweenFirings+1;
+                fireOneByOneIndex = 0;
+            }
         }
         else
         {
-            for(int i = 0; i < attacks.Length; i++)
+            for (int i = 0; i < turrets.Length; i++)
             {
-                if (xOrientation != 0)
-                    for (int j = 0; j < attacks[i].spawns.Length; j++)
-                    {
-                        Vector2 spawnpos = attacks[i].spawns[j].spawnPosition;
-                        attacks[i].spawns[j].spawnRotation = Mathf.Abs(attacks[i].spawns[j].spawnRotation)*xOrientation;
-                        spawnpos.x = Mathf.Abs(spawnpos.x) * xOrientation;
-                    }
-                projectileSource.FireProjectileAttack(attacks[i], gridManager.GetGridSpeedCoefficient());
+                turrets[i].Attack();
             }
+            fireTime = timeBetweenFirings+1;
         }
     }
 
@@ -142,6 +128,30 @@ public class EnemyAI_CannonShip : EnemyAI
     public override void Update()
     {
         base.Update();
+        if (player)
+        {
+            int xOrientation = 0;
+            int yOrientation = 0;
+            Vector2 targetDirectionLocal = transform.InverseTransformPoint(player.transform.position);
+            xOrientation = (int)Mathf.Sign(targetDirectionLocal.x);
+            yOrientation = (int)Mathf.Sign(targetDirectionLocal.y);
+            
+            for (int i = 0; i < turrets.Length; i++)
+            {
+                if (turrets[i] != null)
+                {
+                    turrets[i].RotateTowardsAngle(-90 * xOrientation);
+                }
+            }
+        }
+        if(movesTillWait>0)
+        {
+            transform.Translate(Vector3.up * speed * shipSpeedCoefficient * gridManager.GetGridBoxSize() / 2 / beatManager.GetTimeBetweenBeats() * Time.deltaTime);
+        }
+    }
+
+    public override void TelegraphAttack()
+    {
 
     }
 
