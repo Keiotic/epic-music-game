@@ -31,7 +31,6 @@ public class Turret : MonoBehaviour
         }
         Quaternion targetRotation = Quaternion.Euler(euler);
         Quaternion interpolatedRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        print(angle + ":" + interpolatedRotation.eulerAngles.z);
         transform.rotation = interpolatedRotation;
     }
 

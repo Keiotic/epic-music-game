@@ -16,12 +16,21 @@ public class EnemyAI_CannonShip : EnemyAI
     private int fireTime;
     [SerializeField] private float shipSpeedCoefficient = 0.5f;
 
+    private float movementSpeed;
     public override void Start()
     {
         base.Start();
         movesTillWait = movesUntilWait;
         waitTime = waitDuration;
         fireTime = timeBetweenFirings;
+        movementSpeed = gridManager.GetGridBoxSize() / 2 / beatManager.GetTimeBetweenBeats();
+        gridEntity.SetAutomaticInterpolation(false);
+        print(transform.position);
+        if(turrets.Length%2 == 0)
+        {
+            transform.Translate(Vector3.up * gridManager.GetGridBoxSize() / 2);
+            print(transform.position);
+        }
     }
     public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos)
     {
@@ -42,6 +51,7 @@ public class EnemyAI_CannonShip : EnemyAI
 
     public void DoMovement()
     {
+        print(transform.position);
         if (movesTillWait > 0)
         {
             movesTillWait -= 1;
@@ -135,7 +145,6 @@ public class EnemyAI_CannonShip : EnemyAI
             Vector2 targetDirectionLocal = transform.InverseTransformPoint(player.transform.position);
             xOrientation = (int)Mathf.Sign(targetDirectionLocal.x);
             yOrientation = (int)Mathf.Sign(targetDirectionLocal.y);
-            
             for (int i = 0; i < turrets.Length; i++)
             {
                 if (turrets[i] != null)
@@ -146,7 +155,7 @@ public class EnemyAI_CannonShip : EnemyAI
         }
         if(movesTillWait>0)
         {
-            transform.Translate(Vector3.up * speed * shipSpeedCoefficient * gridManager.GetGridBoxSize() / 2 / beatManager.GetTimeBetweenBeats() * Time.deltaTime);
+            transform.Translate(Vector3.up * speed * shipSpeedCoefficient * movementSpeed * Time.deltaTime);
         }
     }
 
