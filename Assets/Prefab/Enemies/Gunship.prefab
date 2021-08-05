@@ -313,9 +313,9 @@ MonoBehaviour:
   - {fileID: 3379869029629356073}
   - {fileID: 389577706911105397}
   fireOneByOne: 1
-  timeBetweenOneByOne: 0
-  timeBetweenFirings: 3
-  shipSpeedCoefficient: 1
+  timeBetweenOneByOne: 1
+  timeBetweenFirings: 1
+  shipSpeedCoefficient: 0.5
 --- !u!1 &5575049128430453031
 GameObject:
   m_ObjectHideFlags: 0

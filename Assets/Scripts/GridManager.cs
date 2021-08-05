@@ -76,6 +76,13 @@ public class GridManager : MonoBehaviour
         return gridPos;
     }
 
+    public float DistanceToNearestGridPos(Vector2 worldPos)
+    {
+        Vector2 gridPos = FindNearestGridPos(worldPos);
+        gridPos = GridToWorldCoordinates(gridPos);
+        return Vector2.Distance(gridPos, worldPos);
+    }
+
     public Vector2 FindNearestGridPos(Vector2 worldpos)
     {
         return grid.FindClampedNearestGridPos(worldpos);

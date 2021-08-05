@@ -16,19 +16,25 @@ public class EnemyAI_CannonShip : EnemyAI
     private int fireTime;
     [SerializeField] private float shipSpeedCoefficient = 0.5f;
 
-    private float movementSpeed;
+    private float gridSpeed;
     public override void Start()
     {
         base.Start();
         movesTillWait = movesUntilWait;
         waitTime = waitDuration;
         fireTime = timeBetweenFirings;
-        movementSpeed = gridManager.GetGridBoxSize() / 2 / beatManager.GetTimeBetweenBeats();
+        gridSpeed = gridManager.GetGridBoxSize() / 2 / beatManager.GetTimeBetweenBeats();
         gridEntity.SetAutomaticInterpolation(false);
-        print(transform.position);
-        if(turrets.Length%2 == 0)
+        if(shipSpeedCoefficient < 1)
         {
-            transform.Translate(Vector3.up * gridManager.GetGridBoxSize() / 2);
+            timeBetweenFirings *= Mathf.RoundToInt(1 / shipSpeedCoefficient);
+            timeBetweenOneByOne *= Mathf.RoundToInt(1 / shipSpeedCoefficient);
+            fireTime = timeBetweenFirings;
+            timeBetweenFirings += 1;
+        }
+        if (turrets.Length % 2 == 0)
+        {
+            transform.Translate(Vector3.up * gridManager.GetGridBoxSize() / 4);
             print(transform.position);
         }
     }
@@ -51,7 +57,6 @@ public class EnemyAI_CannonShip : EnemyAI
 
     public void DoMovement()
     {
-        print(transform.position);
         if (movesTillWait > 0)
         {
             movesTillWait -= 1;
@@ -99,10 +104,10 @@ public class EnemyAI_CannonShip : EnemyAI
     {
         fireTime = (int)Mathf.Clamp(fireTime - 1, 0, Mathf.Infinity);
         if (fireTime == 1)
-            TelegraphAttack();
+           TelegraphAttack();
         if (fireTime == 0)
         {
-            Attack();
+                Attack();
         }
     }
 
@@ -155,7 +160,7 @@ public class EnemyAI_CannonShip : EnemyAI
         }
         if(movesTillWait>0)
         {
-            transform.Translate(Vector3.up * speed * shipSpeedCoefficient * movementSpeed * Time.deltaTime);
+            transform.Translate(Vector3.up * speed * shipSpeedCoefficient * gridSpeed * Time.deltaTime);
         }
     }
 
