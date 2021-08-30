@@ -3,24 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 public class ProjectileSource : MonoBehaviour
 {
-    AudioSource audioSource;
-    BeatManager bm;
+    private AudioSource audioSource;
+    private BeatManager bm;
+    private bool isFiring;
     void Start()
     {
         bm = BeatManager.current;
         if (!audioSource)
             audioSource = gameObject.AddComponent<AudioSource>();
+        isFiring = false;
     }
 
     public void FireProjectileAttack(ProjectileAttack attack)
     {
         if (attack.burstInfo.isBurst)
         {
+            isFiring = true;
             StartCoroutine(FireBurst(attack));
         }
         else
         {
+            isFiring = true;
             FireAttack(attack);
+            isFiring = false;
         }
     }
 
@@ -32,6 +37,12 @@ public class ProjectileSource : MonoBehaviour
             FireAttack(attack);
             yield return new WaitForSeconds(bm.GetTimeBetweenBeats() * attack.burstInfo.beatsBetweenShots);
         }
+        isFiring = false;
+    }
+
+    public bool IsFiring ()
+    {
+        return isFiring;
     }
 
     private void FireAttack(ProjectileAttack attack)

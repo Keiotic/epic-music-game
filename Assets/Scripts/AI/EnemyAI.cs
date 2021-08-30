@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public abstract class EnemyAI : MonoBehaviour
 {
     [SerializeField] protected GameObject player;
-    protected Vector2 targetVector;
     protected GridManager gridManager;
     protected BeatManager beatManager;
     protected GameManager gameManager;
@@ -137,10 +136,6 @@ public abstract class EnemyAI : MonoBehaviour
     public bool hasMovedThisBeat()
     {
         return hasMovedThisTurn;
-    }
-    public void SetTargetPosition(Vector2 targetpos)
-    {
-        this.targetVector = targetpos;
     }
 
     public bool HasTarget()

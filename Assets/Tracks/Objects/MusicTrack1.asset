@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bpm: 130
   beatsTillStart: 4
-  ignoredBeats: 11000000
+  ignoredBeats: 
   audio: {fileID: 8300000, guid: 5ca85968811dc034db1026678dbd788d, type: 3}
   beatEvents:
   - beat: 0
@@ -25,12 +25,30 @@ MonoBehaviour:
       spawnRotation: 90
     - prefab: {fileID: 1586875687927246860, guid: d1a3b1af44d2f334690216e93705b642,
         type: 3}
-      spawnPosition: {x: 34, y: 10}
+      spawnPosition: {x: 20, y: 10}
       spawnRotation: 90
     - prefab: {fileID: 1586875687927246860, guid: d1a3b1af44d2f334690216e93705b642,
         type: 3}
       spawnPosition: {x: 0, y: 10}
       spawnRotation: -90
+    backgroundEvent:
+      colorSwap: {r: 0, g: 0, b: 0, a: 0}
+      colorSwapSpeed: 0
+  - beat: 1
+    enemySpawns:
+    - prefab: {fileID: 1586875687927246860, guid: f2830967fe1ae3f48a56bbe85ac20396,
+        type: 3}
+      spawnPosition: {x: 34, y: 16}
+      spawnRotation: 90
+    backgroundEvent:
+      colorSwap: {r: 0, g: 0, b: 0, a: 0}
+      colorSwapSpeed: 0
+  - beat: 2
+    enemySpawns:
+    - prefab: {fileID: 1586875687927246860, guid: f2830967fe1ae3f48a56bbe85ac20396,
+        type: 3}
+      spawnPosition: {x: 34, y: 16}
+      spawnRotation: 90
     backgroundEvent:
       colorSwap: {r: 0, g: 0, b: 0, a: 0}
       colorSwapSpeed: 0

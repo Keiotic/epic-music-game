@@ -35,7 +35,6 @@ public class EnemyAI_CannonShip : EnemyAI
         if (turrets.Length % 2 == 0)
         {
             transform.Translate(Vector3.up * gridManager.GetGridBoxSize() / 4);
-            print(transform.position);
         }
     }
     public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos)
