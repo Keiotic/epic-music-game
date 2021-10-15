@@ -42,10 +42,12 @@ public class PlayerController : MonoBehaviour
         {
             if (prevHorizInputDirection != Mathf.Sign(h_input))
             {
-                DoValidityCheck();
-                prevHorizInputDirection = Mathf.Sign(h_input);
-                MoveRelative(new Vector2(prevHorizInputDirection, 0));
-                actionTakenThisBeat = true;
+                if (ActionIsValid())
+                {
+                    prevHorizInputDirection = Mathf.Sign(h_input);
+                    MoveRelative(new Vector2(prevHorizInputDirection, 0));
+                    actionTakenThisBeat = true;
+                }
             }
         }
         else
@@ -58,10 +60,12 @@ public class PlayerController : MonoBehaviour
         {
             if (prevVertInputDirection != Mathf.Sign(v_input))
             {
-                DoValidityCheck();
-                prevVertInputDirection = Mathf.Sign(v_input);
-                MoveRelative(new Vector2(0, prevVertInputDirection));
-                actionTakenThisBeat = true;
+                if (ActionIsValid())
+                {
+                    prevVertInputDirection = Mathf.Sign(v_input);
+                    MoveRelative(new Vector2(0, prevVertInputDirection));
+                    actionTakenThisBeat = true;
+                }
             }
         }
         else
@@ -71,25 +75,29 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1"))
         {
-            DoValidityCheck();
+            if(ActionIsValid())
             FireWeapon();
+            actionTakenThisBeat = true;
         }
 
         if (Input.GetButtonDown("Fire2"))
         {
-            DoValidityCheck();
+            if (ActionIsValid())
+                actionTakenThisBeat = true;
         }
     }
-    void DoValidityCheck()
+    bool ActionIsValid()
     {
         if (actionTakenThisBeat || beatManager.GetTimingClass() == TimingClass.INVALID)
         {
             InvalidInput();
+            return false;
         }
+        return true;
     }
     void InvalidInput()
     {
-
+        
     }
 
     void MoveRelative(Vector2 movement)

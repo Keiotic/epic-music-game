@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyAI_Yousei : EnemyAI
 {
-    [SerializeField] private Vector2 firePosition;
-    [SerializeField] private Vector2 exitPosition;
+    [SerializeField] private Vector2 firePosition; //FirePosition in grid coordinates
+    [SerializeField] private Vector2 exitPosition; //ExitPosition in grid coordinates
     [SerializeField] YouseiState youseiState;
 
     public enum YouseiState
@@ -39,7 +39,18 @@ public class EnemyAI_Yousei : EnemyAI
 
     public void DoMovement()
     {
+        switch (youseiState)
+        {
+            case YouseiState.ENTERING:
 
+                break;
+            case YouseiState.EXITING:
+                
+                break;
+            case YouseiState.FIRING:
+
+                break;
+        }
     }
 
     public override void MovementUpdate(int beat)

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1462902692081100772}
   - component: {fileID: 8481785121712124455}
   m_Layer: 5
-  m_Name: Image (3)
+  m_Name: BeatMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,8 +58,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.47058824, g: 0.21176472, b: 0.45942286, a: 1}
+  m_Color: {r: 0.47058824, g: 0.21176472, b: 0.45942286, a: 0}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

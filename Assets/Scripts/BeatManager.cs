@@ -19,6 +19,7 @@ public class BeatManager : MonoBehaviour
     private float timePassed;
     private float timeBetweenBeats = 1/2f;
     private int currentBeat;
+    [SerializeField] private float beatWindowOfOpportunity = 0.4f;
     [SerializeField] private float[] borders = {0.1f, 0.2f, 0.3f};
     private int pastBeat;
     private int beatsToStart;
@@ -58,12 +59,16 @@ public class BeatManager : MonoBehaviour
             beatEvents[be.beat] = be;
         }
 
-
+        /*
         beatIndSpeed = uiManager.GetBeatMovementSpeed();
         beatsToStart = (int)Mathf.Ceil(uiManager.GetBeatWrapperWidth() / beatIndSpeed);
         float diff = beatsToStart / ((uiManager.GetBeatWrapperWidth()) / beatIndSpeed);
         beatIndSpeed *= diff;
         timePassed = -(beatsToStart + 0.5f) * timeBetweenBeats;
+        */
+        beatIndSpeed = uiManager.GetBeatWrapperWidth() / timeBetweenBeats;
+        beatsToStart = 4;
+        timePassed = -(beatsToStart + (1-beatWindowOfOpportunity)) * timeBetweenBeats;
     }
 
 
@@ -74,6 +79,7 @@ public class BeatManager : MonoBehaviour
         {
             if (timePassed < track.GetAudio().length)
             {
+                uiManager.UpdateCenterPiece(GetTimingClass());
                 text.text = (nextBeat - 1).ToString();
                 timePassed += Time.deltaTime;
                 currentBeat = Mathf.RoundToInt((timePassed) / timeBetweenBeats);
@@ -126,12 +132,27 @@ public class BeatManager : MonoBehaviour
         int beat = currentBeat;
         if (ignoreBeat == false)
         {
-            if (GetAbsRelativeBeatTime(beat) < timeBetweenBeats * borders[0])
-                return TimingClass.EXCELLENT;
-            else if (GetAbsRelativeBeatTime(beat) < timeBetweenBeats * borders[1])
-                return TimingClass.GOOD;
-            else if (GetAbsRelativeBeatTime(beat) < timeBetweenBeats * borders[2])
-                return TimingClass.OK;
+            float relativeBeatTimeAbs = GetAbsRelativeBeatTime(beat);
+            if (GetRelativeBeatTime(beat) >= 0)
+            {
+                float windowOp = beatWindowOfOpportunity * timeBetweenBeats;
+                if (relativeBeatTimeAbs < windowOp * borders[0])
+                    return TimingClass.EXCELLENT;
+                else if (relativeBeatTimeAbs < windowOp * borders[1])
+                    return TimingClass.GOOD;
+                else if (relativeBeatTimeAbs < windowOp * borders[2])
+                    return TimingClass.OK;
+            }
+            else
+            {
+                float backTime = (1 - beatWindowOfOpportunity) * timeBetweenBeats;
+                if (relativeBeatTimeAbs < backTime * (borders[0]))
+                    return TimingClass.EXCELLENT;
+                else if (relativeBeatTimeAbs < backTime*(borders[1]))
+                    return TimingClass.GOOD;
+                else if (relativeBeatTimeAbs < backTime)
+                    return TimingClass.OK;
+            }
         }
         return TimingClass.INVALID;
     }
@@ -170,7 +191,7 @@ public class BeatManager : MonoBehaviour
 
     public void NewBeat ()
     {
-        if(currentBeat + beatsToStart >= 0 && !WillIgnoreBeat(currentBeat+beatsToStart)&& currentBeat+beatsToStart<=totalBeats)
+        if(currentBeat + beatsToStart >= 0 && !WillIgnoreBeat(currentBeat+beatsToStart) && currentBeat+beatsToStart<=totalBeats)
             uiManager.CreateBeatIndicator(currentBeat, beatsToStart);
 
         if (currentBeat > 0)

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject beatIndicator;
+    [SerializeField] private Image beatCenter;
+    [SerializeField] private Color[] beatCenterColors = new Color[4];
     [SerializeField] private Vector2 beatPos;
     [SerializeField] private RectTransform beatWrapper;
     [SerializeField] private float beatMoveSpeed;
@@ -40,6 +42,25 @@ public class UIManager : MonoBehaviour
     public void UpdatePlayerHealth (int health, int maxHealth)
     {
         healthIndicator.UpdateHealth(health, maxHealth);
+    }
+
+    public void UpdateCenterPiece(TimingClass timingClass)
+    {
+        switch (timingClass)
+        {
+            case TimingClass.INVALID:
+                beatCenter.color = beatCenterColors[0];
+                break;
+            case TimingClass.OK:
+                beatCenter.color = beatCenterColors[1];
+                break;
+            case TimingClass.GOOD:
+                beatCenter.color = beatCenterColors[2];
+                break;
+            case TimingClass.EXCELLENT:
+                beatCenter.color = beatCenterColors[3];
+                break;
+        }
     }
 
     public void UpdateScore (int score)
