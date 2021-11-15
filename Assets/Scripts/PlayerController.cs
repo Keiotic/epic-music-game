@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
         }
         CheckInputs();
         gridEntity.LinearilyInterpolatePosition();
-
     }
 
     void CheckInputs()

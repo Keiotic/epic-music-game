@@ -19,8 +19,8 @@ public class BeatManager : MonoBehaviour
     private float timePassed;
     private float timeBetweenBeats = 1/2f;
     private int currentBeat;
-    [SerializeField] private float beatWindowOfOpportunity = 0.4f;
-    [SerializeField] private float[] borders = {0.1f, 0.2f, 0.3f};
+    [SerializeField] private float beatWindowOfOpportunity = 0.05f;
+    [SerializeField] private float[] borders = {0.2f, 0.25f, 0.3f};
     private int pastBeat;
     private int beatsToStart;
     private float beatIndSpeed;
@@ -120,7 +120,7 @@ public class BeatManager : MonoBehaviour
                     EnemySpawnEvent espE = currentEvent.enemySpawns[i];
                     if (espE.prefab)
                     {
-                        enemyManager.SpawnEnemy(espE.prefab, espE.spawnPosition, espE.spawnRotation);
+                        enemyManager.SpawnEnemy(espE.prefab, espE.spawnPosition, espE.spawnRotation, espE.pathingArguments);
                     }
                 }
             }

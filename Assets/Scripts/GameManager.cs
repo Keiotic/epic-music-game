@@ -16,10 +16,17 @@ public class GameManager : MonoBehaviour
 
     private int playerHealth;
     private int playerMaxHealth;
-    
+
+    private int playerLives;
+    private int playerMaxLives = 3;
+
+    private Vector2 playerRespawnPosition;
+    private GridEntity pEnt;
+
     // Start is called before the first frame update
     void Start()
     {
+        playerLives = playerMaxLives;
         main = this;
         gridManager = GetComponent<GridManager>();
         beatManager = GetComponent<BeatManager>();
@@ -32,20 +39,50 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator StartGame()
     {
-        SpawnPlayer();
+        yield return new WaitForEndOfFrame(); //Crude code to ascertain we do not do this before the initialization process
+        SpawnPlayer(gridManager.GetMiddle());
         yield return new WaitForSeconds(4);
     }
 
-    private void DestroyPlayer()
+    public void Update()
     {
-        
+
     }
 
-    public void SpawnPlayer()
+    public void DestroyPlayer()
+    {
+        if (pEnt)
+            playerRespawnPosition = pEnt.GetPosition();
+        else
+            playerRespawnPosition = gridManager.GetMiddle();
+        if (playerLives > 0)
+        {
+            playerLives--;
+            StartCoroutine(ReInitializePlayer());
+        }
+        else
+        {
+            Death();
+        }
+    }
+
+    public void Death()
+    {
+        Debug.Log("Death comes for all");
+    }
+
+    public IEnumerator ReInitializePlayer ()
+    {
+        yield return new WaitForSeconds(3);
+        SpawnPlayer(playerRespawnPosition);
+    }
+
+    public void SpawnPlayer(Vector2 spawnPos)
     {
         playerObject = Instantiate(playerPrefab, this.transform);
-        GridEntity pEnt = playerObject.GetComponent<GridEntity>();
-        pEnt.MoveToAbsolutePosition(new Vector2(Mathf.Round(gridManager.GetGridSize().x / 2), Mathf.Round(gridManager.GetGridSize().y / 2)));
+        pEnt = playerObject.GetComponent<GridEntity>();
+        pEnt.MoveToAbsolutePosition(spawnPos);
+        pEnt.Warp();
     }
 
     public void DestroyEnemy(int score)

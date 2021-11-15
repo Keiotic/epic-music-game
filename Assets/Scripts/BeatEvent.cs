@@ -27,12 +27,14 @@ public class EnemySpawnEvent
     public GameObject prefab;
     public Vector2 spawnPosition;
     public float spawnRotation;
+    public Vector2[] pathingArguments;
 
     public EnemySpawnEvent ()
     {
         prefab = null;
         spawnPosition = Vector2.zero;
         spawnRotation = 0;
+        pathingArguments = new Vector2[0];
     }
 }
 

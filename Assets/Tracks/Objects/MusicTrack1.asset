@@ -17,38 +17,20 @@ MonoBehaviour:
   ignoredBeats: 
   audio: {fileID: 8300000, guid: 5ca85968811dc034db1026678dbd788d, type: 3}
   beatEvents:
-  - beat: 0
-    enemySpawns:
-    - prefab: {fileID: 1586875687927246860, guid: d1a3b1af44d2f334690216e93705b642,
-        type: 3}
-      spawnPosition: {x: 34, y: 19}
-      spawnRotation: 90
-    - prefab: {fileID: 1586875687927246860, guid: d1a3b1af44d2f334690216e93705b642,
-        type: 3}
-      spawnPosition: {x: 20, y: 10}
-      spawnRotation: 90
-    - prefab: {fileID: 1586875687927246860, guid: d1a3b1af44d2f334690216e93705b642,
-        type: 3}
-      spawnPosition: {x: 0, y: 10}
-      spawnRotation: -90
-    backgroundEvent:
-      colorSwap: {r: 0, g: 0, b: 0, a: 0}
-      colorSwapSpeed: 0
   - beat: 1
     enemySpawns:
     - prefab: {fileID: 1586875687927246860, guid: f2830967fe1ae3f48a56bbe85ac20396,
         type: 3}
       spawnPosition: {x: 34, y: 16}
       spawnRotation: 90
-    backgroundEvent:
-      colorSwap: {r: 0, g: 0, b: 0, a: 0}
-      colorSwapSpeed: 0
-  - beat: 2
-    enemySpawns:
-    - prefab: {fileID: 1586875687927246860, guid: f2830967fe1ae3f48a56bbe85ac20396,
+      pathingArguments: []
+    - prefab: {fileID: 1586875687927246860, guid: 50bc25a4ecd5bf148b092d017f35de6a,
         type: 3}
-      spawnPosition: {x: 34, y: 16}
-      spawnRotation: 90
+      spawnPosition: {x: 14, y: 30}
+      spawnRotation: 180
+      pathingArguments:
+      - {x: 26, y: 10}
+      - {x: 29, y: 40}
     backgroundEvent:
       colorSwap: {r: 0, g: 0, b: 0, a: 0}
       colorSwapSpeed: 0

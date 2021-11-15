@@ -135,6 +135,14 @@ public class GridManager : MonoBehaviour
     {
         return grid;
     }
+
+    public Vector2 GetMiddle()
+    {
+        Vector2 midpoint = new Vector2();
+        midpoint.x = (grid.GetSize().x-1) / 2;
+        midpoint.y = (grid.GetSize().y-1) / 2;
+        return midpoint;
+    }
 }
 
 public class Grid

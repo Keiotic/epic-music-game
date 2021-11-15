@@ -57,9 +57,9 @@ public class EnemyAI_ZigZag : EnemyAI
         }
 
     }
-    public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos)
+    public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos, Vector2[] pathingArguments)
     {
-        base.InitializeEnemy(gridManager, beatManager, gameManager, player, spawnPos);
+        base.InitializeEnemy(gridManager, beatManager, gameManager, player, spawnPos, pathingArguments);
     }
 
     public override void DoTargetlessUpdate()

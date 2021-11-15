@@ -39,6 +39,8 @@ public abstract class EnemyAI : MonoBehaviour
         UNBOUND
     }
 
+    private Vector2[] gridpath;
+
     // Start is called before the first frame update
     public virtual void Start()
     {
@@ -99,12 +101,13 @@ public abstract class EnemyAI : MonoBehaviour
         }
     }
 
-    public virtual void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPosition)
+    public virtual void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPosition, Vector2[] pathing)
     {
         this.gridManager = gridManager;
         this.beatManager = beatManager;
         this.gameManager = gameManager;
         this.player = player;
+        this.gridpath = pathing;
         gridEntity = GetComponent<GridEntity>();
         CreatePathfinder(gridManager);
         spawnPosition = gridManager.ClampToGridSize(spawnPosition);

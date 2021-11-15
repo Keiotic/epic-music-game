@@ -18,9 +18,19 @@ public class EnemyAI_Yousei : EnemyAI
     {
         base.Start();
     }
-    public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos)
+    public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos, Vector2[] pathingArguments)
     {
-        base.InitializeEnemy(gridManager, beatManager, gameManager, player, spawnPos);
+        base.InitializeEnemy(gridManager, beatManager, gameManager, player, spawnPos, pathingArguments);
+        if(pathingArguments.Length>1)
+        {
+            firePosition = pathingArguments[0];
+            exitPosition = pathingArguments[1];
+        }
+        else
+        {
+            firePosition = Vector2.zero;
+            exitPosition = Vector2.zero;
+        }
     }
 
     public override void DoTargetlessUpdate()
@@ -42,13 +52,13 @@ public class EnemyAI_Yousei : EnemyAI
         switch (youseiState)
         {
             case YouseiState.ENTERING:
-
-                break;
-            case YouseiState.EXITING:
-                
+                gridEntity.MoveToAbsolutePosition(firePosition);
                 break;
             case YouseiState.FIRING:
 
+                break;
+            case YouseiState.EXITING:
+                gridEntity.MoveToAbsolutePosition(exitPosition);
                 break;
         }
     }
