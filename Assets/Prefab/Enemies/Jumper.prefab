@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 2775891940947688147}
   - component: {fileID: 7123133600449173340}
   - component: {fileID: 3798389252365816472}
-  - component: {fileID: 2719897462041552465}
+  - component: {fileID: -6278413813571604556}
   m_Layer: 9
-  m_Name: Yousei
+  m_Name: Jumper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
-  interpolateSpeed: 6.75
+  interpolateSpeed: 300
   interpolateEntity: 1
 --- !u!114 &2775891940947688147
 MonoBehaviour:
@@ -156,7 +156,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.7189728, y: 1.5595703}
   m_EdgeRadius: 0
---- !u!114 &2719897462041552465
+--- !u!114 &-6278413813571604556
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,13 +165,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1586875687927246860}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c89a7bc703f7ce348b34662450ad24c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 9aaefd1740997ed4caf910bbde088854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  audioSource: {fileID: 0}
-  speed: 1
-  attackType: 0
-  firePosition: {x: 0, y: 0}
-  exitPosition: {x: 0, y: 0}
-  youseiState: 0

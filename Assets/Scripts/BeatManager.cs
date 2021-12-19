@@ -167,6 +167,26 @@ public class BeatManager : MonoBehaviour
         return beat * timeBetweenBeats - (timePassed);
     }
 
+    public float GetRelativeBeatTimePerc(int beat)
+    {
+        return GetRelativeBeatTime(beat) / timeBetweenBeats;
+    }
+
+    public float GetAbsRelativeBeatTime()
+    {
+        return Mathf.Abs(GetRelativeBeatTime(currentBeat));
+    }
+
+    public float GetRelativeBeatTime()
+    {
+        return currentBeat * timeBetweenBeats - (timePassed);
+    }
+
+    public float GetRelativeBeatTimePerc()
+    {
+        return GetRelativeBeatTime(currentBeat) / timeBetweenBeats;
+    }
+
     public float GetTimeBetweenBeats()
     {
         return timeBetweenBeats;

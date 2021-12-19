@@ -6,13 +6,15 @@ public class GridEntity : MonoBehaviour
 {
     [SerializeField] private Vector2 gridPosition = new Vector2();
     private GridManager gridManager;
+    private BeatManager beatManager;
     private bool caged;
     [SerializeField] private float interpolateSpeed = 2;
     [SerializeField] private bool interpolateEntity = true;
 
     void Awake()
     {
-        gridManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GridManager>();
+        gridManager = GridManager.current;
+        beatManager = BeatManager.current;
         //gridPosition = gridManager.FindNearestGridPos(this.transform.position);
     }
 
@@ -49,6 +51,10 @@ public class GridEntity : MonoBehaviour
     {
         interpolateSpeed = interpolationSpeed;
     }
+    public float GetInterpolationSpeed()
+    {
+        return interpolateSpeed;
+    }
 
     public void LinearilyInterpolatePosition()
     {
@@ -56,9 +62,22 @@ public class GridEntity : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, gridManager.GridToWorldCoordinates(gridPosition), Time.deltaTime * interpolateSpeed);
     }
 
-    public void SmoothInterpolatePosition()
+    public void LinearilyInterpolateToPosition(Vector2 targetPosition)
     {
+        if (interpolateEntity)
+            transform.position = Vector2.MoveTowards(transform.position, gridManager.GridToWorldCoordinates(targetPosition), Time.deltaTime * interpolateSpeed);
+    }
 
+    public void SmoothInterpolateToPosition(Vector2 startPos, Vector2 endPos)
+    {
+        /*
+        float t = 1-(beatManager.GetRelativeBeatTimePerc()-0.5f)-1;
+        float p = -1.9638279604492f * Mathf.Pow(t, 3) + 2.98159355255391f * Mathf.Pow(t, 2) - 0.0177655920898f * Mathf.Pow(t, 1);
+        Debug.Log(t + "-" + p);
+
+        if (interpolateEntity)
+            transform.position = Vector2.Lerp(startPos, endPos, p);
+       */
     }
 
     public void SetCaged(bool value)
@@ -69,5 +88,10 @@ public class GridEntity : MonoBehaviour
     public Vector2 GetPosition()
     {
         return gridPosition;
+    }
+
+    public void OnDestroy()
+    {
+        
     }
 }

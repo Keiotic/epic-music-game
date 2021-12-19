@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public abstract class EnemyAI : MonoBehaviour
 {
     [SerializeField] protected GameObject player;
+    protected Vector2 targetPos;
     protected GridManager gridManager;
     protected BeatManager beatManager;
     protected GameManager gameManager;

@@ -16,6 +16,7 @@ public class EnemyAI_Yousei : EnemyAI
     }
     public override void Start()
     {
+ 
         base.Start();
     }
     public override void InitializeEnemy(GridManager gridManager, BeatManager beatManager, GameManager gameManager, GameObject player, Vector2 spawnPos, Vector2[] pathingArguments)
@@ -47,30 +48,31 @@ public class EnemyAI_Yousei : EnemyAI
 
     }
 
-    public void DoMovement()
-    {
-        switch (youseiState)
-        {
-            case YouseiState.ENTERING:
-                gridEntity.MoveToAbsolutePosition(firePosition);
-                break;
-            case YouseiState.FIRING:
-
-                break;
-            case YouseiState.EXITING:
-                gridEntity.MoveToAbsolutePosition(exitPosition);
-                break;
-        }
-    }
-
+    private Vector2 startPosition;
     public override void MovementUpdate(int beat)
     {
         base.MovementUpdate(beat);
     }
 
-    public override void Update()
+    public override void Update ()
     {
-        base.Update();
-
+        gridEntity.LinearilyInterpolateToPosition(firePosition);
     }
+
+    public void DoMovement()
+    {
+        switch (youseiState)
+        {
+            case YouseiState.ENTERING:
+                targetPos = firePosition;
+                break;
+            case YouseiState.FIRING:
+                targetPos = gridManager.FindNearestGridPos(transform.position);
+                break;
+            case YouseiState.EXITING:
+                targetPos = exitPosition;
+                break;
+        }
+    }
+
 }

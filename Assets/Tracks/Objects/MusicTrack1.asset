@@ -24,9 +24,16 @@ MonoBehaviour:
       spawnPosition: {x: 34, y: 16}
       spawnRotation: 90
       pathingArguments: []
-    - prefab: {fileID: 1586875687927246860, guid: 50bc25a4ecd5bf148b092d017f35de6a,
+    - prefab: {fileID: 1586875687927246860, guid: 674638f2386251f4eb84f486df7bbf6e,
         type: 3}
-      spawnPosition: {x: 14, y: 30}
+      spawnPosition: {x: 14, y: 20}
+      spawnRotation: 180
+      pathingArguments:
+      - {x: 26, y: 10}
+      - {x: 29, y: 40}
+    - prefab: {fileID: 1586875687927246860, guid: d2f9437a55a1dd645921e7611206d0d4,
+        type: 3}
+      spawnPosition: {x: 14, y: 20}
       spawnRotation: 180
       pathingArguments:
       - {x: 26, y: 10}
