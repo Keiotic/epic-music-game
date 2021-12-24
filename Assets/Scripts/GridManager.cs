@@ -8,7 +8,6 @@ public class GridManager : MonoBehaviour
     [SerializeField] private float gridSquareSize = 13.5f;
     [SerializeField] private Vector2 gridSize = new Vector2(9, 15);
     [SerializeField] private Vector2 innerGridSize = new Vector2(9, 15);
-    [SerializeField] private int padding = 25;
     private List<GameObject> gridReps = new List<GameObject>();
     [SerializeField] private GameObject gridRep;
     private Grid grid;
@@ -142,6 +141,15 @@ public class GridManager : MonoBehaviour
         midpoint.x = (grid.GetSize().x-1) / 2;
         midpoint.y = (grid.GetSize().y-1) / 2;
         return midpoint;
+    }
+
+    public GameObject GetGridRep(Vector2 position)
+    {
+        int arrayIndex = (int)position.y * (int)innerGridSize.y + (int)position.x;
+        GameObject returnObject = gridReps[arrayIndex];
+        if (returnObject)
+            return returnObject;
+        return null;
     }
 }
 

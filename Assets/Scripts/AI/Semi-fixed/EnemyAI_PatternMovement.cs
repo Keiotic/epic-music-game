@@ -53,14 +53,14 @@ public class EnemyAI_PatternMovement : EnemyAI
             if(stepsUntilFire_ <= 0)
             {
                 projectileSource.FireProjectileAttack(projectileAttack);
-                stepsUntilFire_ = stepsUntilFire;
+                stepsUntilFire_ = stepsUntilFire + pauseStepsBeforeFire;
             }
             else if (stepsUntilFire == 1)
             {
                 TelegraphAttack();
             }
         }
-        stepsUntilFire_--;
+        stepsUntilFire_ --;
     }
 
  

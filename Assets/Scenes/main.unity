@@ -5366,6 +5366,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5381,6 +5382,26 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AssetsPPU: 10
+  m_RefResolutionX: 640
+  m_RefResolutionY: 360
+  m_UpscaleRT: 1
+  m_PixelSnapping: 1
+  m_CropFrameX: 0
+  m_CropFrameY: 0
+  m_StretchFill: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -15636,10 +15657,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 022aa62b187f0864ea06ea7333fbe831, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSquareSize: 13.5
+  gridSquareSize: 15.5
   gridSize: {x: 35, y: 29}
   innerGridSize: {x: 9, y: 9}
-  padding: 25
   gridRep: {fileID: 1666227143542635250, guid: e54edfddb5a92e64783a8a6d3e1fcd7a, type: 3}
 --- !u!114 &1941933491
 MonoBehaviour:

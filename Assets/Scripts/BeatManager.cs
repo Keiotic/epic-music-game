@@ -72,7 +72,6 @@ public class BeatManager : MonoBehaviour
     }
 
 
-    TimingClass cls = TimingClass.INVALID;
     void Update()
     {
         if(musicStarted)
