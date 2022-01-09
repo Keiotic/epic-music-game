@@ -15597,6 +15597,7 @@ GameObject:
   - component: {fileID: 1941933492}
   - component: {fileID: 1941933495}
   - component: {fileID: 1941933496}
+  - component: {fileID: 1941933497}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: GameManager
@@ -15849,6 +15850,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c74382631d9f304ebac7c71db5cb82d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1941933497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941933487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d53274a00b39981449ad4aae87d7fb1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resetTiles: []
+  returnColor: {r: 1, g: 1, b: 1, a: 0.29803923}
+  returnSpeed: 1.5
 --- !u!1 &1977410105
 GameObject:
   m_ObjectHideFlags: 0

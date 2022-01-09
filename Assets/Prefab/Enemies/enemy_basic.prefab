@@ -15,8 +15,9 @@ GameObject:
   - component: {fileID: 7123133600449173340}
   - component: {fileID: 3798389252365816472}
   - component: {fileID: 278667059582383370}
+  - component: {fileID: -7168415574288236074}
   m_Layer: 9
-  m_Name: Badboi
+  m_Name: enemy_basic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -193,7 +194,16 @@ MonoBehaviour:
     pitch: 0
     pitchRange: 0
   movementvectors:
-  - {x: 1, y: 1}
-  - {x: 0, y: 0}
-  - {x: -1, y: 1}
-  - {x: 0, y: 0}
+  - {x: 0, y: 1}
+--- !u!114 &-7168415574288236074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586875687927246860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9d333edc179e9a428464e3077234c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

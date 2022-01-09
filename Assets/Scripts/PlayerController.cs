@@ -115,7 +115,6 @@ public class PlayerController : MonoBehaviour
         projectileSource.FireProjectileAttack(primaryAttack);
         projectileSource.PlayFiringSound(primaryAttack.audio, primaryAttack.volume, primaryAttack.pitch, primaryAttack.pitchRange);
         Vector2 gridPos = gridEntity.GetPosition() - GridManager.current.GetGridOffset();
-        GameObject torment = GridManager.current.GetGridRep(gridPos);
-        torment.GetComponent<SpriteRenderer>().color = Color.red;
+        GridEffects.current.CreateColorBurst(gridPos, Color.red);
     }
 }

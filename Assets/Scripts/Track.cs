@@ -15,6 +15,7 @@ public class Track : ScriptableObject
 
     [SerializeField] private List<BeatEvent> beatEvents;
 
+    [SerializeField] private Color standardColor;
 
     public Track(float bpm, int beatsTillStart, int[] ignoredBeats, AudioClip audio, List<BeatEvent> beatEvents)
     {
@@ -48,5 +49,10 @@ public class Track : ScriptableObject
     public List<BeatEvent> GetBeatEvents ()
     {
         return beatEvents;
+    }
+
+    public Color GetStandardColor ()
+    {
+        return standardColor;
     }
 }
